@@ -1,0 +1,51 @@
+[id="header"]
+	//layout
+	width: 100%
+	background: darken(white,4)
+	padding: 1.25em 1.0em
+	//position
+	top: 0px
+	position: sticky
+	//container
+	display: flex
+	flex-direction: row
+	align-items: center
+	justify-content: space-between
+	flex-wrap: wrap
+
+	.header-title
+		flex: auto 1 0
+		text-align: center
+		margin-right: 24px //FIXME: magic number
+	
+	.header-nav
+		flex-basis: 100%
+		//transition
+		transition-property: height
+		transition-delay: .5s
+		transition-timing-function: linear
+		//margin
+		margin-top: 12px
+
+		.menu
+			display: flex
+			flex-direction: column			
+			&-label
+				margin-bottom: 0.25em
+			&-content
+				padding-left: 0.5em				
+				cursor: pointer
+				width: fit-content
+				border-bottom: 1px solid transparent
+				transition: border-color 0 ease-out 1.0s
+				&:hover,&.is-active
+					border-bottom: 1px solid darken(white,40)
+			&-icon
+				vertical-align: middle
+
+
+
+
+
+
+		

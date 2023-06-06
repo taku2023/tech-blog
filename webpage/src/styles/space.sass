@@ -1,0 +1,12 @@
+$padding-unit: 8px
+$margin-unit: 8px
+
+@for $i from 1 through 10
+	.mt-#{$i}
+		margin-top: calc($i * $margin-unit)
+	.mb-#{$i}
+		margin-bottom: calc($i * $margin-unit)
+	.ml-#{$i}
+		margin-left: calc($i * $margin-unit)
+	.mr-#{$i}
+		margin-right: calc($i * $margin-unit)
