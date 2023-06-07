@@ -1,0 +1,18 @@
+{
+  "thumbnails": [
+    {
+      "title": "My Clean Architecture",
+      "tags": ["clean architecture", "kotlin", "Android"],
+      "minutes": 5,
+      "postAt": "2022-01-01 12:00:00Z+09:00"
+    },
+    {
+      "title": "My Clean Architecture with Functional Programming",
+      "tags": ["clean architecture", "kotlin"],
+      "minutes": 5,
+      "postAt": "2022-01-01 12:00:00Z+09:00"
+    }
+  ],
+  "search": [
+  ]
+}

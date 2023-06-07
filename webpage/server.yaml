@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  version: 1.0.0
+paths:
+  /articles:
+    get:
+      summary: Get a list of articles
+      tags: [Article]
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+servers:
+  - url: https://catcoder.com
+    description: Stage Server
+  - url: http://localhost:80/v1
+    description: Dev Server
+
+components:
+  schemas:
+    Article:
+      type: object
+      properties:
+        limit:
+          type: number
+          description: articles
+        articles:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+      example:
+        limit: 3
+        articles:
+          - title: Sample 1
+          - title: Sample 2
+          - title: Sample 3

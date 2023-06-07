@@ -1,0 +1,36 @@
+@import "@/styles/color.sass"
+
+.searchbox
+	//layout
+	display: flex
+	flex-direction: row
+	padding: .5em 
+	//design
+	border: 1px solid transparent
+	border-radius: 4px
+	background-color: $bg-dark
+	.input		
+		flex-grow: 1
+		outline-style: none
+		border: none
+		background: transparent
+		caret-color: white
+		color: white
+		text-indent: .5em
+	.btn-close
+		color: white
+
+.search-list
+	//layout
+	display: flex
+	flex-direction: column
+	&-item
+		background: white
+		padding: .5em
+		text-align: left
+		&:first-child
+			margin-top: 4px
+		&:hover,&:focus
+			background-color: $bg-dark
+			color: white	
+			font-weight: bolder			
