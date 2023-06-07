@@ -1,36 +1,36 @@
-import { search } from "@/data/api/articles";
-import { useEffect, useRef, useState } from "react";
-import "./SearchBox.sass";
+import { search } from "@/data/api/articles"
+import { useEffect, useRef, useState } from "react"
+import "./SearchBox.sass"
 
 const SearchBox = () => {
   const zero: Readonly<{ limit: number; articles: { title: string }[] }> = {
     limit: 0,
     articles: [],
-  };
+  }
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState("")
   const [result, setResult] = useState<{
-    limit: number;
-    articles: { title: string }[];
-  }>(zero);
-  const input = useRef<HTMLInputElement>(null);
+    limit: number
+    articles: { title: string }[]
+  }>(zero)
+  const input = useRef<HTMLInputElement>(null)
 
   const fetch = async (text: string) => {
     if (text.length == 0) {
-      setResult(zero);
+      setResult(zero)
     } else {
-      const result = await search(text);
-      setResult(result);
+      const result = await search(text)
+      setResult(result)
     }
-  };
+  }
 
   useEffect(() => {
-    input.current?.focus();
-  }, []);
+    input.current?.focus()
+  }, [])
 
   useEffect(() => {
-    fetch(text);
-  }, [text]);
+    fetch(text)
+  }, [text])
 
   return (
     <>
@@ -40,7 +40,7 @@ const SearchBox = () => {
           value={text}
           className="input"
           onChange={(e) => {
-            setText(e.target.value);
+            setText(e.target.value)
           }}
         ></input>
         <span className="btn-close" onClick={(_) => setText("")}>
@@ -61,13 +61,13 @@ const SearchBox = () => {
                 <p className="search-list-item" key={i}>
                   {article.title}
                 </p>
-              );
+              )
             })}
           </>
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default SearchBox;
+export default SearchBox

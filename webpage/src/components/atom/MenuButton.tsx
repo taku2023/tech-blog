@@ -1,5 +1,5 @@
-import { MouseEventHandler } from "react";
-import "./MenuButton.sass";
+import { MouseEventHandler } from "react"
+import "./MenuButton.sass"
 /**
  * MenuButton
  *
@@ -7,14 +7,14 @@ import "./MenuButton.sass";
  * @returns
  */
 type Props = {
-  isOpen: boolean;
-  onClick: MouseEventHandler<HTMLElement>;
-  className?: string;
-};
+  isOpen: boolean
+  onClick: MouseEventHandler<HTMLElement>
+  className?: string
+}
 
 const MenuButton = (props: Props) => {
   return (
-    <div className={props.className??''}>
+    <div className={props.className ?? ""}>
       <div
         className={`menu-button ${props.isOpen ? "is-open" : ""}`}
         onClick={props.onClick}
@@ -24,7 +24,7 @@ const MenuButton = (props: Props) => {
         <span className="menu-button-line"></span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MenuButton;
+export default MenuButton

@@ -11,13 +11,12 @@ html {
 
 body {
   text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   position: relative;
 
   width: 100%;
   min-height: 100vh;
-
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
   text-rendering: optimizeSpeed;
 }
 
@@ -122,14 +121,14 @@ time,
 mark,
 audio,
 video {
-  font-size: 100%;
-  font: inherit;
-  margin: 0;
-  padding: 0;
-  border: 0;
   vertical-align: baseline;
   //custom properties
-  cursor: none
+  cursor: none;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-size: 100%;
+  font: inherit;
 }
 
 /* make sure to set some focus styles for accessibility */
@@ -201,8 +200,8 @@ input[type="search"] {
 }
 
 textarea {
-  overflow: auto;
   vertical-align: top;
+  overflow: auto;
   resize: vertical;
 }
 
@@ -248,9 +247,9 @@ a:hover {
 
 /* Make images easier to work with */
 img {
-  max-width: 100%;
   display: inline-block;
   vertical-align: middle;
+  max-width: 100%;
   height: auto;
 }
 
@@ -346,8 +345,8 @@ button {
 }
 
 textarea {
-  overflow: auto;
   vertical-align: top;
+  overflow: auto;
   resize: vertical;
 }
 
@@ -365,24 +364,24 @@ table {
  * github.com/necolas/normalize.css
  */
 hr {
-  box-sizing: content-box;
-  overflow: visible;
-  background: #000;
-  border: 0;
-  height: 1px;
-  line-height: 0;
-  margin: 0;
-  padding: 0;
   page-break-after: always;
+  box-sizing: content-box;
+  margin: 0;
+  border: 0;
+  background: #000;
+  padding: 0;
   width: 100%;
+  height: 1px;
+  overflow: visible;
+  line-height: 0;
 }
 
 /**
  * 1. Correct the inheritance and scaling of font size in all browsers.
  */
 pre {
-  font-family: monospace, monospace;
   font-size: 100%;
+  font-family: monospace, monospace;
 }
 
 /**
@@ -421,10 +420,10 @@ small {
  */
 sub,
 sup {
-  font-size: 75%;
-  line-height: 0;
   position: relative;
   vertical-align: baseline;
+  font-size: 75%;
+  line-height: 0;
 }
 
 sub {
@@ -444,11 +443,11 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: inherit;
-  font-size: 100%;
-  line-height: 1;
   margin: 0;
   padding: 0;
+  font-size: 100%;
+  line-height: 1;
+  font-family: inherit;
 }
 
 /**
@@ -489,19 +488,18 @@ button::-moz-focus-inner,
 [type="button"]::-moz-focus-inner,
 [type="reset"]::-moz-focus-inner,
 [type="submit"]::-moz-focus-inner {
+  outline: 0;
   border-style: none;
   padding: 0;
-  outline: 0;
 }
 
 legend {
-  color: inherit;
-  white-space: normal;
-
   display: block;
   border: 0;
-  max-width: 100%;
   width: 100%;
+  max-width: 100%;
+  color: inherit;
+  white-space: normal;
 }
 
 fieldset {

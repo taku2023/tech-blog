@@ -1,9 +1,7 @@
-import "./Slider.sass";
+import "./Slider.sass"
 
-const Slider = ()=>{
-	return <>
-		
-	</>
+const Slider = () => {
+  return <></>
 }
 
 export default Slider

@@ -1,11 +1,11 @@
-import MenuButton from "@/components/atom/MenuButton";
-import SearchBox from "@/components/molecular/SearchBox";
-import { useState } from "react";
-import "./Header.sass";
+import MenuButton from "@/components/atom/MenuButton"
+import SearchBox from "@/components/molecular/SearchBox"
+import { useState } from "react"
+import "./Header.sass"
 
 const Header = () => {
-  type Menu = "menu" | "search";
-  const [expand, setExpand] = useState<Menu>();
+  type Menu = "menu" | "search"
+  const [expand, setExpand] = useState<Menu>()
 
   return (
     <>
@@ -48,7 +48,7 @@ const Header = () => {
         </section>
       </header>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

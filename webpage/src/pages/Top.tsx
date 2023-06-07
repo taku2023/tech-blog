@@ -1,8 +1,8 @@
-import Header from "@/components/organism/Header";
-import Thumbnail from "@/components/organism/Thumbnail";
-import data from "@/data/mock.json";
-import dayjs from "dayjs";
-import "./Top.sass";
+import Header from "@/components/organism/Header"
+import Thumbnail from "@/components/organism/Thumbnail"
+import data from "@/data/mock.json"
+import dayjs from "dayjs"
+import "./Top.sass"
 
 const Top = () => {
   return (
@@ -19,15 +19,15 @@ const Top = () => {
           </label>
           <ul className="thumbnails">
             {data.thumbnails.map((prop) => {
-              const postAt = dayjs(prop.postAt);
-              const props = { ...prop, postAt };
-              return <Thumbnail {...props} key={props.title}></Thumbnail>;
+              const postAt = dayjs(prop.postAt)
+              const props = { ...prop, postAt }
+              return <Thumbnail {...props} key={props.title}></Thumbnail>
             })}
           </ul>
         </div>
       </main>
     </>
-  );
-};
+  )
+}
 
-export default Top;
+export default Top

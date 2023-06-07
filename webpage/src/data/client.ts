@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"
 
 const client = axios.create({
   baseURL: import.meta.env.BASE_URL,
@@ -6,6 +6,6 @@ const client = axios.create({
     "Content-Type": "application/json;charset=utf-8",
   },
   responseType: "json",
-});
+})
 
-export { client };
+export { client }

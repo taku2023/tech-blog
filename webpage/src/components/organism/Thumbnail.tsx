@@ -1,12 +1,12 @@
-import { Dayjs } from "dayjs";
-import "./Thumbnail.sass";
+import { Dayjs } from "dayjs"
+import "./Thumbnail.sass"
 
 type Props = {
-  title: string;
-  tags: string[];
-  minutes: number;
-  postAt: Dayjs;
-};
+  title: string
+  tags: string[]
+  minutes: number
+  postAt: Dayjs
+}
 
 const Thumbnail = (props: Props) => {
   return (
@@ -34,7 +34,7 @@ const Thumbnail = (props: Props) => {
         </p>
       </div>
     </article>
-  );
-};
+  )
+}
 
-export default Thumbnail;
+export default Thumbnail
