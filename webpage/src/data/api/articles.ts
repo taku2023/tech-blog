@@ -13,7 +13,10 @@ type Summary = {
 
 type Article = {
   author: string
+  tags: string[]
   content: string
+  createAt: string
+  updateAt?: string
 } & Summary
 
 const search: (titleStartWith: string) => Promise<{
@@ -34,7 +37,7 @@ const search: (titleStartWith: string) => Promise<{
 }
 
 const get: (id: string) => Promise<Article> = async (id) => {
-  const { data, status: _ } = await client.get<Article>(`articles/${id}`, {})
+  const { data, status: _ } = await client.get<Article>(`articles/${id}`, {})  
   return data
 }
 

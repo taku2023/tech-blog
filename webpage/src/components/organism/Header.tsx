@@ -1,27 +1,61 @@
 import MenuButton from "@/components/atom/MenuButton"
 import SearchBox from "@/components/molecular/SearchBox"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./Header.sass"
 
-const Header = () => {
-  type Menu = "menu" | "search"
+type Menu = "menu" | "search"
+
+const useHeaderExpandState = () => {
   const [expand, setExpand] = useState<Menu>()
 
+  const reset = () => {
+    setExpand(undefined)
+  }
+
+  const clickMenu = (menu: Menu) => {
+    switch (menu) {
+      case "menu":
+        setExpand(expand == "menu" ? undefined : "menu")
+        break
+      case "search":
+        setExpand(expand == "search" ? undefined : "search")
+        break
+    }
+  }
+
+  return {
+    expand,
+    reset,
+    clickMenu,
+  }
+}
+
+type Props = {
+  expand?: Menu
+  clickMenu: (menu: Menu) => void
+}
+
+const Header = (props: Props) => {
+  //const { expand, clickMenu } = useHeaderExpandState()
   return (
     <>
       <header id="header" className="bg-light">
         <MenuButton
-          isOpen={expand == "menu"}
-          onClick={(_) => setExpand(expand == "menu" ? undefined : "menu")}
+          isOpen={props.expand == "menu"}
+          onClick={(_) => props.clickMenu("menu")}
         ></MenuButton>
         <p className="header-title title">CatCoder</p>
         <span
           className="material-symbols-outlined"
-          onClick={(_) => setExpand(expand == "search" ? undefined : "search")}
+          onClick={(_) => props.clickMenu("search")}
         >
           search
         </span>
-        <section about="menu" className="header-nav" hidden={expand != "menu"}>
+        <section
+          about="menu"
+          className="header-nav"
+          hidden={props.expand != "menu"}
+        >
           <ul className="menu">
             <label className="label menu-label">Blogs Category</label>
             <li className="menu-content">Readability</li>
@@ -41,7 +75,7 @@ const Header = () => {
         </section>
         <section
           about="search"
-          hidden={expand != "search"}
+          hidden={props.expand != "search"}
           className="header-nav"
         >
           <SearchBox></SearchBox>
@@ -51,4 +85,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export { Header as default, useHeaderExpandState }

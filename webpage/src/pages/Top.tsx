@@ -1,4 +1,3 @@
-import Header from "@/components/organism/Header"
 import Thumbnail from "@/components/organism/Thumbnail"
 import data from "@/data/mock.json"
 import dayjs from "dayjs"
@@ -8,9 +7,8 @@ import "./Top.sass"
 const Top = () => {
   return (
     <>
-      <Header></Header>
       <main className="top-container bg-accent">
-        <h1 className="headline">Write once Read everyone.</h1>
+        <h1 className="headline">Write code as everyone can understand.</h1>
         <p className="title mt-1">
           Blog about software architecture, test, readability.
         </p>
@@ -23,8 +21,8 @@ const Top = () => {
               const postAt = dayjs(prop.postAt)
               const props = { ...prop, postAt }
               return (
-                <Link to={`articles/${props.id}`}>
-                  <Thumbnail {...props} key={props.id}></Thumbnail>
+                <Link to={`articles/${props.id}`} key={props.id}>
+                  <Thumbnail {...props}></Thumbnail>
                 </Link>
               )
             })}

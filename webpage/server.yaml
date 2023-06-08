@@ -72,14 +72,25 @@ components:
           type: string
 
     Article:
-      type: object
-      properties:
-        id:
+      type: object      
+      properties:        
+        id:          
           type: string
         title:
           type: string
         author:
           type: string
+        tags:
+          type: array
+          items:
+            type: string
+        createAt:
+          type: string
+          format: datetime
+        updateAt:
+          type: string
+          format: datetime          
+          nullable: true
         content:
           type: string
           format: markdown
@@ -87,5 +98,8 @@ components:
         id: "1"
         title: Sample 1
         author: tmori
+        tags: [architecture,andorid]
+        createAt: 2022-08-24T00:00:00Z+90:00
+        updateAt: 2022-08-24T00:00:00Z+90:00
         content:
           $ref: "./article.md"

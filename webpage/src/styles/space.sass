@@ -1,15 +1,26 @@
 $padding-unit: 8px
 $margin-unit: 8px
 
-@for $i from 1 through 10
+@for $i from 0 through 10
+	$margin: calc($i * $margin-unit)
 	.mt-#{$i}
-		margin-top: calc($i * $margin-unit)
+		margin-top: $margin
 	.mb-#{$i}
-		margin-bottom: calc($i * $margin-unit)
+		margin-bottom: $margin
 	.ml-#{$i}
-		margin-left: calc($i * $margin-unit)
+		margin-left: $margin
 	.mr-#{$i}
-		margin-right: calc($i * $margin-unit)
+		margin-right: $margin
+	.my-#{$i}
+		margin-top: $margin
+		margin-bottom: $margin
+	.mx-#{$i}
+		margin-left: $margin
+		margin-right: $margin
 
+	$padding: calc($i * $padding-unit)
+	.p-#{$i}
+		padding: $padding
+	
 .mt-auto
-	margin-top: auto
+	margin-top: auto	

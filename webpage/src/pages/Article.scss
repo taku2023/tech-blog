@@ -1,2 +1,24 @@
-.article
-  
+@import "@/styles/color.sass";
+.article {
+  padding: 1rem 5%;
+
+  &-header {
+
+    background: #EEE;
+
+    .tags {
+      display: flex;
+      column-gap: 0.25em;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+      overflow-wrap: break-word;
+
+      .tag {
+        cursor: pointer;
+        font-size: 0.65em;
+      }
+    }
+  }
+}
