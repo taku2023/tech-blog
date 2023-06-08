@@ -2,6 +2,7 @@ import Header from "@/components/organism/Header"
 import Thumbnail from "@/components/organism/Thumbnail"
 import data from "@/data/mock.json"
 import dayjs from "dayjs"
+import { Link } from "react-router-dom"
 import "./Top.sass"
 
 const Top = () => {
@@ -21,7 +22,11 @@ const Top = () => {
             {data.thumbnails.map((prop) => {
               const postAt = dayjs(prop.postAt)
               const props = { ...prop, postAt }
-              return <Thumbnail {...props} key={props.title}></Thumbnail>
+              return (
+                <Link to={`articles/${props.id}`}>
+                  <Thumbnail {...props} key={props.id}></Thumbnail>
+                </Link>
+              )
             })}
           </ul>
         </div>

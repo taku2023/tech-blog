@@ -6,7 +6,8 @@ import router from "./route"
 import "material-symbols"
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  <React.StrictMode>    
     <RouterProvider router={router} />
   </React.StrictMode>
 )
+

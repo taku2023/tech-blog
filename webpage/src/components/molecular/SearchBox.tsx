@@ -3,16 +3,16 @@ import { useEffect, useRef, useState } from "react"
 import "./SearchBox.sass"
 
 const SearchBox = () => {
-  const zero: Readonly<{ limit: number; articles: { title: string }[] }> = {
+  const zero: Readonly<{
+    limit: number
+    articles: { title: string; id: string }[]
+  }> = {
     limit: 0,
     articles: [],
   }
 
   const [text, setText] = useState("")
-  const [result, setResult] = useState<{
-    limit: number
-    articles: { title: string }[]
-  }>(zero)
+  const [result, setResult] = useState(zero)
   const input = useRef<HTMLInputElement>(null)
 
   const fetch = async (text: string) => {

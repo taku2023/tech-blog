@@ -9,7 +9,7 @@ const Header = () => {
 
   return (
     <>
-      <header id="header" className="">
+      <header id="header" className="bg-light">
         <MenuButton
           isOpen={expand == "menu"}
           onClick={(_) => setExpand(expand == "menu" ? undefined : "menu")}

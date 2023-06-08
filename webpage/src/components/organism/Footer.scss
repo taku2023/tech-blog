@@ -1,0 +1,12 @@
+[id="footer"] {
+  //padding
+  padding: 8px 5%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  .footer-logo{
+    flex: 25% 0 1;
+  }  
+}

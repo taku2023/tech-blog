@@ -6,16 +6,22 @@ import { client } from "./"
  * /articles
  */
 
-type Article = {
+type Summary = {
+  id: string
   title: string
 }
 
+type Article = {
+  author: string
+  content: string
+} & Summary
+
 const search: (titleStartWith: string) => Promise<{
-  articles: Article[]
+  articles: Summary[]
   limit: number
 }> = async (titleStartWith) => {
   const { data, status: _ } = await client.get<{
-    articles: Article[]
+    articles: Summary[]
     limit: number
   }>("articles", {
     params: {
@@ -24,9 +30,12 @@ const search: (titleStartWith: string) => Promise<{
   })
 
   //:TODO filter by server
-  console.log(data)
-
   return data
 }
 
-export { search }
+const get: (id: string) => Promise<Article> = async (id) => {
+  const { data, status: _ } = await client.get<Article>(`articles/${id}`, {})
+  return data
+}
+
+export { search, get, type Article, type Summary }

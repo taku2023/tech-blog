@@ -1,4 +1,5 @@
 import { Dayjs } from "dayjs"
+import { useRoutes,useNavigation } from "react-router-dom"
 import "./Thumbnail.sass"
 
 type Props = {
@@ -9,8 +10,11 @@ type Props = {
 }
 
 const Thumbnail = (props: Props) => {
+  
   return (
-    <article className="thumbnail">
+    <article className="thumbnail" onClick={(_) => {
+      //
+    }}>
       <img src="" className="thumbnail-image"></img>
       <div className="thumbnail-title">
         <p className="body">{props.title}</p>

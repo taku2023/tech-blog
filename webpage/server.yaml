@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   title: Sample API
   version: 1.0.0
@@ -10,6 +10,41 @@ paths:
       parameters:
         - name: q
           in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  articles:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Summary"
+                  limit:
+                    type: number
+                example:
+                  limit: 3
+                  articles:
+                    - title: Sample 1
+                      id: 1
+                    - title: Sample 2
+                      id: 2
+                    - title: Sample 3
+                      id: 3
+
+  /articles/{id}:
+    get:
+      summary: Get one article with ID
+      tags: [Article]
+      parameters:
+        - name: id
+          in: path
+          required: true
           schema:
             type: string
       responses:
@@ -19,6 +54,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Article"
+
 servers:
   - url: https://catcoder.com
     description: Stage Server
@@ -27,22 +63,29 @@ servers:
 
 components:
   schemas:
+    Summary:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+
     Article:
       type: object
       properties:
-        limit:
-          type: number
-          description: articles
-        articles:
-          type: array
-          items:
-            type: object
-            properties:
-              title:
-                type: string
+        id:
+          type: string
+        title:
+          type: string
+        author:
+          type: string
+        content:
+          type: string
+          format: markdown
       example:
-        limit: 3
-        articles:
-          - title: Sample 1
-          - title: Sample 2
-          - title: Sample 3
+        id: "1"
+        title: Sample 1
+        author: tmori
+        content:
+          $ref: "./article.md"
