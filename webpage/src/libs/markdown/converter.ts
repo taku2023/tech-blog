@@ -1,18 +1,12 @@
-import { type Title } from "./marks/title"
-import MD from "markdown-it"
 import hljs from "highlight.js"
+import MD from "markdown-it"
 
 hljs.highlightAll()
-
-type Marks = Title | TypoGraphy | Image
-
-type TypoGraphy = "Italic" | "Bold"
-type Image = "image" | "image-"
 
 const md: MD = MD({
   breaks: true,
   html: true,
-  typographer:true,
+  typographer: true,
   highlight: (str, lang) => {
     if (lang && hljs.getLanguage(lang)) {
       try {

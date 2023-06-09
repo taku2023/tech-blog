@@ -1,7 +1,7 @@
-import { useLoaderData, useParams } from "react-router-dom"
+import { Article as ArticleData, get } from "@/data/api/articles"
 import md from "@/libs/markdown/converter"
-import { get, Article as ArticleData } from "@/data/api/articles"
 import { LoaderFunction } from "react-router"
+import { useLoaderData } from "react-router-dom"
 import "./Article.scss"
 
 const getArticleLoader: LoaderFunction = async ({ params }) => {

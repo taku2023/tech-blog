@@ -4,12 +4,24 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
-    "prettier"
+    "prettier",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: { ecmaVersion: "latest", sourceType: "module" },
-  plugins: ["react-refresh"],
+  plugins: ["react-refresh", "import", "unused-import"],
   rules: {
     "react-refresh/only-export-components": "warn",
+    "unused-imports/no-unused-imports": "error",
+    "no-unused-vars": "off",
+    "@typescript-slint/no-unused-vars": "off",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        vars: "all",
+        varsIgnorePattern: "^_",
+        args: "after-used",
+        argsIgnorePattern: "^_",
+      },
+    ],
   },
-};
+}

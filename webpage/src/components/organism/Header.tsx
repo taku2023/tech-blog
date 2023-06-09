@@ -1,6 +1,6 @@
 import MenuButton from "@/components/atom/MenuButton"
 import SearchBox from "@/components/molecular/SearchBox"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import "./Header.sass"
 
 type Menu = "menu" | "search"

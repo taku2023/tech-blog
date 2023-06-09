@@ -1,15 +1,56 @@
 name: sample-action-on-push
 run-name: ${{ github.actor }} is learning Github Actions
-on: 
+on:
   push:
-    branches: ["main","develop"]
-jobs: 
-  check-vite-version:
+    branches: ["main", "develop", "feature/github-action"]
+
+env:
+  AWS_REGION: ap-northeast-1
+  S3_BUCKET: takuaki-dev-techblog
+  DEPLOY_NAME: teckblog-website
+  DEPLOY_GNAME: dev
+
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
+jobs:
+  build:
+    name: Build and Package
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: webpage
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install nodejs
+        uses: actions/setup-node@v3
         with:
-          node-version: '18'
-      - run: npm install -g vitest
-      - run: vitest -v
+          node-version: "18"
+      - name: install & build
+        run: |
+          npm install
+          npm install -g vite
+          npm run build
+      #- name: test
+      #  run: npm run test
+
+  deploy:
+    needs: build
+    name: Web Hosting
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: webpage
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS Credential
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: GitHub-Action-Role
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      - run: |
+          commit_hash=`git rev-parse HEAD`
+          aws deploy create-deployment --application-name ${{ env.DEPLOY_NAME }} --deployment-group-name ${{ env.DEPLOY_GNAME }} --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures

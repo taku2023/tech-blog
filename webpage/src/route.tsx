@@ -1,7 +1,6 @@
-import Top from "@/pages/Top"
 import Article, { getArticleLoader } from "@/pages/Article"
+import Top from "@/pages/Top"
 import { createBrowserRouter } from "react-router-dom"
-import { get } from "./data/api/articles"
 import HeaderLayout from "./components/template/HeaderLayout"
 
 const router = createBrowserRouter([
