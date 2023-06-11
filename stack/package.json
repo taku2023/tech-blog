@@ -1,6 +1,10 @@
 {
   "name": "stack",
   "version": "0.1.0",
+  "author": {
+    "name": "takuaki mori",
+    "email": "chocomintcocktail@gmail.com"
+  },
   "bin": {
     "stack": "bin/stack.js"
   },
