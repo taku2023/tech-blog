@@ -1,13 +1,9 @@
 import * as cdk from "aws-cdk-lib";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
-import {
-  CloudFrontWebDistribution,
-  PriceClass,
-  ViewerCertificate,
-  ViewerProtocolPolicy,
-} from "aws-cdk-lib/aws-cloudfront";
+import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
+import { PriceClass } from "aws-cdk-lib/aws-cloudfront";
+import * as cforigin from "aws-cdk-lib/aws-cloudfront-origins";
 import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
-
 import { Bucket } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
@@ -16,7 +12,7 @@ export class DeployStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
     const { accountId, region } = new cdk.ScopedAws(this);
-    console.log(accountId)
+    console.log(accountId);
     const domainName = this.node.tryGetContext("domainName");
     /**
      * API Server
@@ -55,32 +51,26 @@ export class DeployStack extends cdk.Stack {
       }
     );
 
-    const distribution = new CloudFrontWebDistribution(
-      this,
-      "CloudFrontWebDist",
-      {
-        priceClass: PriceClass.PRICE_CLASS_100,
-        enabled: true,
-        originConfigs: [
-          {
-            s3OriginSource: {
-              s3BucketSource: sourceBucket,
-            },
-            behaviors: [
-              {
-                isDefaultBehavior: true,
-                viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-              },
-            ],
-          },
-        ],
-        viewerCertificate: ViewerCertificate.fromAcmCertificate(certification),
-        viewerProtocolPolicy: ViewerProtocolPolicy.HTTPS_ONLY,
-        defaultRootObject: "index.html",
-
-        //geoRestriction:GeoRestriction.denylist()
-      }
-    );
+    const distribution = new cloudfront.Distribution(this, "CloudFrontDist", {
+      enabled: true,
+      httpVersion: cloudfront.HttpVersion.HTTP2,
+      priceClass: PriceClass.PRICE_CLASS_100,
+      domainNames: [domainName],
+      defaultBehavior: {
+        origin: new cforigin.S3Origin(sourceBucket, {
+          originShieldRegion: region,
+          originAccessIdentity: new cloudfront.OriginAccessIdentity(
+            this,
+            "CloudFrontOriginAccessIdentity"
+          ),
+        }),
+        compress: true,
+        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+      },
+      certificate: certification,
+      enableIpv6: true,
+      defaultRootObject: "index.html",
+    });
 
     //CloudFrontにルーティング設定
     new cdk.aws_route53.ARecord(this, "AliasRecordSet", {
