@@ -13,6 +13,26 @@
 	height: 1.25em
 	vertical-align: middle
 
+.author
+	.tags
+		
+		//layout
+		display: flex
+		flex-direction: row
+		flex-wrap: wrap
+		column-gap: .25em
+		row-gap: .3em
+		.tag
+			//design
+			padding: .25em
+			background: lighten($accent-color,15)
+			border-radius: .25em
+			&:hover
+				background-color: $accent-color
+
+	&-profile
+		text-indent: 1.0em
+
 .thumbnails
 	display: flex
 	flex-direction: row

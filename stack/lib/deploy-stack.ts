@@ -12,21 +12,7 @@ export class DeployStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
     const { accountId, region } = new cdk.ScopedAws(this);
-    console.log(accountId);
     const domainName = this.node.tryGetContext("domainName");
-    /**
-     * API Server
-     * APIGateway -> Lambda -> DynamoDB
-     *               Lambda -> Github(Article Fetch)
-     *
-     * Hosting Server
-     * CF -> S3 (Geo routeing+Route53 HostZone)
-     * CF -> Route53 -> ALB(+ACM) -> EC2
-     *
-     * Article Hosting
-     * Github
-     */
-
     /**
      * source bucket S3
      */

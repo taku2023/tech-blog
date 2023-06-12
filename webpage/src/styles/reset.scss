@@ -27,8 +27,7 @@ body {
   box-sizing: border-box;
 }
 
-a{
-
+a {
 }
 /**
  * CSS Reset Tweaks
@@ -120,8 +119,6 @@ mark,
 audio,
 video {
   vertical-align: baseline;
-  //custom properties
-  cursor: none;
   margin: 0;
   border: 0;
   padding: 0;
@@ -235,9 +232,6 @@ audio:not([controls]) {
   display: none;
 }
 
-a{
-  text-decoration: none;
-}
 /**
  * Improve readability when focused and also mouse hovered in all browsers.
  */

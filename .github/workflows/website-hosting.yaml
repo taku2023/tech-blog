@@ -1,5 +1,5 @@
-name: sample-action-on-push
-run-name: ${{ github.actor }} is learning Github Actions
+name: website-hosting
+run-name: Build+Test ./webpage and push to S3 (static hosting)
 on:
   push:
     branches: ["main"]

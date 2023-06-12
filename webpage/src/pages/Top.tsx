@@ -7,14 +7,36 @@ import "./Top.sass"
 const Top = () => {
   return (
     <>
-      <main className="top-container bg-accent">
-        <h1 className="headline">Write code as everyone can understand.</h1>
-        <p className="title mt-1">
-          Blog about software architecture, test, readability.
+      <main className="top-container">
+        <h1 className="headline my-4">Hi! I'm Takuaki! Motivated developer.</h1>
+        <p className="title my-4">
+          Keen about software architecture, test, readability.
         </p>
+        <div className="author">
+          <label className="subtitle">
+            <span className="vertical-line"></span> Who am I?
+          </label>
+          <img src="" className="circle"></img>
+          <p className="p-1">
+            I am freelance frontend + backend software developer, with knowledge
+            of
+            <span className="tags body my-1">
+              <span className="tag">React</span>
+              <span className="tag">Vue</span>
+              <span className="tag">TypeScript</span>
+              <span className="tag">CSS/SASS</span>
+              <span className="tag">AWS</span>
+              <span className="tag">Android</span>
+              <span className="tag">Kotlin</span>
+              <span className="tag">Go</span>
+              <span className="tag">Rust</span>
+            </span>
+            If you interested, see <a className="link">about me.</a>
+          </p>
+        </div>
         <div className="mt-4">
           <label className="subtitle">
-            <span className="vertical-line"></span> Weekly contents
+            <span className="vertical-line"></span> Latest Blogs
           </label>
           <ul className="thumbnails">
             {data.thumbnails.map((prop) => {
