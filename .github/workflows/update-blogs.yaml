@@ -2,7 +2,7 @@ name: update-blogs
 run-name: update blogs
 on:
   push:
-    branches: ["main"]
+    branches: ["blog"]
 env:
   AWS_REGION: ap-northeast-1
   S3_BUCKET: takuaki-blog-content
@@ -16,9 +16,6 @@ jobs:
   update:
     name: Update Blog
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: blog
     steps:
       - name: Checkout
         uses: actions/checkout@v3
