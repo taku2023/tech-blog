@@ -70,10 +70,10 @@ tribution.fromDistributionAttributes(this, "CloudFrontDist", {
       //privateDnsEnabled: true,
     });
 
-    const securitySericeManagerEndpoint = vpc.addInterfaceEndpoint(
-      "SSMEndpoint",
+    const secretManagerEndpoint = vpc.addInterfaceEndpoint(
+      "SecretManagerEndpoint",
       {
-        service: InterfaceVpcEndpointAwsService.SSM,
+        service: InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
         subnets: {
           subnetGroupName: "private-subnet-gp",
         },
@@ -86,36 +86,16 @@ tribution.fromDistributionAttributes(this, "CloudFrontDist", {
       code: Code.fromAsset(path.join(__dirname, "../../lambda/api"), {
         bundling: {
           image: Runtime.GO_1_X.bundlingImage,
-          //TODO: use docker sample @see[https://github.com/thomaspoignant/cdk-golang-lambda-deployment/blob/main/infra-cdk/lib/go-lambda-stack.ts]
-          /*local: {
-            tryBundle(outputDir: string) {
-              console.log(outputDir);
-              try {
-                spawnSync("go version");
-              } catch {
-                return false;
-              }
-              spawnSync(
-                `powershell $env:GOOS="linux"; $env:GOARCH="amd64"; $env:CGO_ENABLED="0" ; go build -o ${path.join(
-                  outputDir,
-                  "Handler"
-                )} entry.go`
-              );
-              return true;
-            },
-          },*/
-          environment:{
-            CGO_ENABLED: '0',
-            GOOS: 'linux',
-            GOARCH: 'amd64'
+          environment: {
+            CGO_ENABLED: "0",
+            GOOS: "linux",
+            GOARCH: "amd64",
           },
-          user: 'root',
+          user: "root",
           command: [
             "bash",
-            "-c",[
-              'make vendor',
-              'make lambda-build'
-            ].join(' && ')
+            "-c",
+            ["make vendor", "make lambda-build"].join(" && "),
           ],
         },
       }),
@@ -188,7 +168,7 @@ tribution.fromDistributionAttributes(this, "CloudFrontDist", {
      * Read SSM
      */
     const readSSMPolicy = new PolicyStatement({
-      actions: ["secretmanager:GetSecretValue"],
+      actions: ["secretsmanager:GetSecretValue"],
       resources: [dbSecret.secretArn],
     });
     lambdaFunction.addToRolePolicy(readSSMPolicy);

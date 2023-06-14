@@ -5,25 +5,26 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
-	//"os"
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 )
 
-func MyConnSQL() *sql.DB {
+func Conn() (*sql.DB, error) {
 	// env
-	endpoint := "proxy.proxy-cyvufdqsaec6.ap-northeast-1.rds.amazonaws.com" // os.Getenv("endpoint")
-	username := "admin" // os.Getenv("username")
-	secretName := "rds-secret" // os.Getenv("secret")
+	endpoint := os.Getenv("endpoint")
+	username := os.Getenv("username")
+	secretName := os.Getenv("secret")
 	region := "ap-northeast-1"
+	log.Printf("endpoint:%s, username:%s, secretName:%s", endpoint, username, secretName)
 
 	config, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(region))
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	// Create Secrets Manager client
@@ -36,9 +37,7 @@ func MyConnSQL() *sql.DB {
 
 	result, err := svc.GetSecretValue(context.TODO(), input)
 	if err != nil {
-		// For a list of exceptions thrown, see
-		// https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
-		log.Fatal(err.Error())
+		return nil, err
 	}
 
 	// Decrypts secret using the associated KMS key.
@@ -46,12 +45,15 @@ func MyConnSQL() *sql.DB {
 	fmt.Println("secret " + secretString)
 
 	dns := fmt.Sprintf("%s:%s@/%s", username, secretString, endpoint)
-	fmt.Printf("endpoint:%s  dns:%s",endpoint,dns)
+	fmt.Printf("endpoint:%s  dns:%s", endpoint, dns)
 
 	conn, err := sql.Open("mysql", dns)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	defer conn.Close()
-	return conn
+	if err := conn.Ping(); err != nil {
+		conn.Close()
+		return nil, err
+	}
+	return conn, nil
 }
