@@ -10,7 +10,7 @@ const deploy = new DeployStack(app, "DeployStack", {
     account: process.env.CDK_DEFAULT_ACCOUNT,
     region: process.env.CDK_DEFAULT_REGION,
   },
-  stackName: "DevStack",
+  stackName: "DeployStack",
 });
 
 const api = new APIStack(app, "APIStack", {
@@ -20,3 +20,5 @@ const api = new APIStack(app, "APIStack", {
   },
   stackName: "ApiStack",
 });
+
+//api.addDependency(deploy, "share cloudfront distribution");

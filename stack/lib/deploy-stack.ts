@@ -6,7 +6,6 @@ import * as cforigin from "aws-cdk-lib/aws-cloudfront-origins";
 import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
 import { Bucket } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class DeployStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -67,10 +66,14 @@ export class DeployStack extends cdk.Stack {
       ),
     });
 
-    //s3クロススタック参照のためのエクスポート
-    new cdk.CfnOutput(this, "StaticWebsiteBucketOutput", {
-      value: sourceBucket.bucketArn,
-      exportName: "StaticWebsiteBucketArn",
-    });
+    //cloudfrontのエクスポート（動的リクエストをRestApiと紐づける）
+    /*new cdk.CfnOutput(this,"CloudFrontIDOutput",{
+      exportName: "CloudFrontID",
+      value: distribution.distributionId
+    })
+    new cdk.CfnOutput(this,"CloudFrontDomainOutput",{
+      exportName: "CloudFrontDomain",
+      value: distribution.domainName
+    })*/
   }
 }
