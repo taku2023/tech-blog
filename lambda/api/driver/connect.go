@@ -3,6 +3,7 @@ package driver
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -19,6 +20,7 @@ func Conn() (*sql.DB, error) {
 	endpoint := os.Getenv("endpoint")
 	username := os.Getenv("username")
 	secretName := os.Getenv("secret")
+	dbName := os.Getenv("dbname")
 	region := "ap-northeast-1"
 	log.Printf("endpoint:%s, username:%s, secretName:%s", endpoint, username, secretName)
 
@@ -42,11 +44,16 @@ func Conn() (*sql.DB, error) {
 
 	// Decrypts secret using the associated KMS key.
 	var secretString string = *result.SecretString
+	var jsonMap map[string]any
+	json.Unmarshal([]byte(secretString), &jsonMap)
+	password := jsonMap["password"]
+	//dbName := jsonMap["dbInstanceIdentifier"]
+
 	fmt.Println("secret " + secretString)
 
-	dns := fmt.Sprintf("%s:%s@/%s", username, secretString, endpoint)
-	fmt.Printf("endpoint:%s  dns:%s", endpoint, dns)
-
+	//user:password@tcp(your-database-instance-name:port-number)/dbname
+	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", username, password, endpoint, "3306", dbName)
+	fmt.Printf("dns:%s", dns)
 	conn, err := sql.Open("mysql", dns)
 	if err != nil {
 		return nil, err

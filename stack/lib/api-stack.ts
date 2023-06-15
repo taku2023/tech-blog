@@ -131,12 +131,15 @@ tribution.fromDistributionAttributes(this, "CloudFrontDist", {
       username: "admin",
     });
 
+    const databaseName = "blog_dev";
+
     const dbInstance = new DatabaseInstance(this, "rds", {
       engine: DatabaseInstanceEngine.mysql({
         version: MysqlEngineVersion.VER_8_0_28,
       }),
       credentials: Credentials.fromSecret(dbSecret),
       vpc,
+      databaseName,
       vpcSubnets: {
         subnetGroupName: "private-subnet-gp",
       },
@@ -148,6 +151,7 @@ tribution.fromDistributionAttributes(this, "CloudFrontDist", {
     proxySG.addIngressRule(Peer.anyIpv4(), Port.tcp(3306));
     const rdsProxy = dbInstance.addProxy("PrivateRDSProxy", {
       vpc,
+      requireTLS: false, //TODO: true when prod
       vpcSubnets: {
         subnetGroupName: "private-subnet-gp",
       },
@@ -175,6 +179,7 @@ tribution.fromDistributionAttributes(this, "CloudFrontDist", {
     lambdaFunction.addEnvironment("endpoint", rdsProxy.endpoint);
     lambdaFunction.addEnvironment("secret", dbSecret.secretName);
     lambdaFunction.addEnvironment("username", "admin");
+    lambdaFunction.addEnvironment("dbname", databaseName);
   }
 }
 
