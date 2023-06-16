@@ -10,9 +10,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "deploy:dev": "cdk deploy --context mode=develop",
+    "deploy:relaese": "cdk deploy --context mode=release"
   },
   "devDependencies": {
     "@types/babel__traverse": "7.18.2",

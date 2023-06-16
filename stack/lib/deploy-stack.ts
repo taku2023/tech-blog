@@ -6,12 +6,13 @@ import * as cforigin from "aws-cdk-lib/aws-cloudfront-origins";
 import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
 import { Bucket } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
+import { appContext } from "../bin/config";
 
 export class DeployStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
     const { accountId, region } = new cdk.ScopedAws(this);
-    const domainName = this.node.tryGetContext("domainName");
+    const { domainName } = appContext(this);
     /**
      * source bucket S3
      */
