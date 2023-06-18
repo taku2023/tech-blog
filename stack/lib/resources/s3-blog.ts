@@ -1,32 +1,36 @@
 import { RemovalPolicy } from "aws-cdk-lib";
-import { Bucket, NotificationKeyFilter } from "aws-cdk-lib/aws-s3";
+import { Bucket, IBucket, NotificationKeyFilter } from "aws-cdk-lib/aws-s3";
 import { SqsDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { Queue } from "aws-cdk-lib/aws-sqs";
 import { Construct } from "constructs";
 
-export interface NotifyBucketProps  {
+export interface NotifyBucketProps {
   blog_filter?: NotificationKeyFilter;
 }
 
 export class NotifyBlogBucket extends Construct {
-  public readonly bucketName: string;
+  public readonly bucket: IBucket;
   public readonly queue: Queue;
 
   constructor(scope: Construct, id: string, props?: NotifyBucketProps) {
     super(scope, id);
     const s3Bcuket = new Bucket(this, "bucket", {
-      publicReadAccess: true,
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    this.queue = new Queue(this, "queue", {
-      fifo: true,
-    });
+    this.queue = new Queue(this, "queue");
 
     const filter: NotificationKeyFilter = props?.blog_filter ?? {
       prefix: "blogs/",
       suffix: ".md",
     };
+
+    /*s3Bcuket.addToResourcePolicy(
+      new PolicyStatement({
+        actions: ["SNS:Publish"],
+        resources: [this.queue.queueArn],
+      })
+    );*/
 
     //creation notify
     s3Bcuket.addObjectCreatedNotification(
@@ -40,6 +44,6 @@ export class NotifyBlogBucket extends Construct {
       filter
     );
 
-    this.bucketName = s3Bcuket.bucketName;
+    this.bucket = s3Bcuket;
   }
 }

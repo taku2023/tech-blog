@@ -7,16 +7,18 @@ import {
   MachineImage,
   UserData,
 } from "aws-cdk-lib/aws-ec2";
-import { ManagedPolicy, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
+import {
+  CfnInstanceProfile,
+  ManagedPolicy,
+  Role,
+  ServicePrincipal,
+} from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 //import {} from "aws-cdk-lib/aws-man"
 
-interface Props {
-  vpc: IVpc;
-}
 
 export class BastionHost extends Construct {
-  constructor(scope: Construct, id: string, { vpc }: Props) {
+  constructor(scope: Construct, id: string, vpc : IVpc) {
     super(scope, id);
 
     /*const securityGroup = new SecurityGroup(this, "SSM_SecurityGroup", {
@@ -35,6 +37,10 @@ export class BastionHost extends Construct {
           "service-role/AmazonEC2RoleforSSM"
         ),
       ],
+    });
+
+    new CfnInstanceProfile(this, `InstanceProfileForEC2`, {
+      roles: [role.roleName],
     });
 
     //ssm is pre installed on amazon linux 2

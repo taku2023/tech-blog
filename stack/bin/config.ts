@@ -9,6 +9,10 @@ type Stage = {
   rds: {
     databaseName: string;
   };
+  ssm: {
+    htmlBucket: string;
+    blogBucket: string;
+  };
 };
 
 type AppProps = {
@@ -30,6 +34,10 @@ export const appContext = (app: Construct): AppProps => {
     },
     rds: {
       databaseName: `blog_${mode}`,
+    },
+    ssm: {
+      htmlBucket: "webBucketParam",
+      blogBucket: "blogBucketParam",
     },
   };
 };

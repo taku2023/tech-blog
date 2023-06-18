@@ -4,21 +4,21 @@ import {
   DnsValidatedCertificate,
 } from "aws-cdk-lib/aws-certificatemanager";
 import {
-  CloudFrontWebDistribution,
   Distribution,
   HttpVersion,
+  IDistribution,
   OriginAccessIdentity,
   OriginRequestPolicy,
-  PriceClass,
   ViewerProtocolPolicy,
 } from "aws-cdk-lib/aws-cloudfront";
 import { RestApiOrigin, S3Origin } from "aws-cdk-lib/aws-cloudfront-origins";
-import { HostedZone } from "aws-cdk-lib/aws-route53";
+import { IHostedZone } from "aws-cdk-lib/aws-route53";
 import { IBucket } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
 import { appContext } from "../../bin/config";
 
 interface OriginSourceProps {
+  hostedZone: IHostedZone;
   htmlSourceBucket: IBucket;
   blogBucket: IBucket;
   restApi: RestApi;
@@ -26,7 +26,13 @@ interface OriginSourceProps {
 }
 
 export class WebFront extends Construct {
-  constructor(scope: Construct, id: string, props: OriginSourceProps) {
+  public readonly distribution: IDistribution;
+
+  constructor(
+    scope: Construct,
+    id: string,
+    { hostedZone, htmlSourceBucket, blogBucket, restApi }: OriginSourceProps
+  ) {
     super(scope, id);
     const {
       domainName,
@@ -34,9 +40,6 @@ export class WebFront extends Construct {
       cloudflont: { priceClass },
     } = appContext(this);
 
-    const hostedZone = HostedZone.fromLookup(this, "HostZone", {
-      domainName: domainName,
-    });
     //acm
     //ACM設定（cloudfront）
     const certification = new DnsValidatedCertificate(
@@ -50,19 +53,17 @@ export class WebFront extends Construct {
       }
     );
 
-    CloudFrontWebDistribution;
-    const distribution = new Distribution(this, "CloudFrontDist", {
+    this.distribution = new Distribution(this, "CloudFrontDist", {
       enabled: true,
       httpVersion: HttpVersion.HTTP2,
-      priceClass: PriceClass.PRICE_CLASS_100,
+      priceClass,
       domainNames: [domainName],
       defaultBehavior: {
-        origin: new S3Origin(props.htmlSourceBucket, {
+        origin: new S3Origin(htmlSourceBucket, {
           originShieldRegion: region,
           originAccessIdentity: new OriginAccessIdentity(
             this,
-            "CloudFrontOriginAccessIdentity",
-            {}
+            "CloudFrontOriginAccessIdentity"
           ),
         }),
         compress: true,
@@ -70,7 +71,7 @@ export class WebFront extends Construct {
       },
       additionalBehaviors: {
         blogs: {
-          origin: new S3Origin(props.blogBucket, {
+          origin: new S3Origin(blogBucket, {            
             originPath: "blog",
             originAccessIdentity: new OriginAccessIdentity(
               this,
@@ -79,16 +80,14 @@ export class WebFront extends Construct {
           }),
           compress: true,
         },
-        api: {          
-          origin: new RestApiOrigin(props.restApi,{            
-          }),
-          originRequestPolicy: OriginRequestPolicy.CORS_S3_ORIGIN,          
+        api: {
+          origin: new RestApiOrigin(restApi),
+          originRequestPolicy: OriginRequestPolicy.CORS_S3_ORIGIN,
           compress: true,
         },
       },
       certificate: certification,
       enableIpv6: true,
-      defaultRootObject: "index.html",
     });
   }
 }

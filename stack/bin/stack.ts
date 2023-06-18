@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import * as cdk from "aws-cdk-lib";
 import { APIStack } from "../lib/api-stack";
-import { DeployStack } from "../lib/deploy-stack";
 import { VPCStack } from "../lib/vpc-stack";
+import { WebStack } from "../lib/web-stack";
 
 const app = new cdk.App({
   autoSynth: true,
@@ -16,16 +16,32 @@ const stage = new cdk.Stage(app, mode, {
   },
 });
 
-const { vpc } = new VPCStack(stage, "VPCStack", {
+const vpcStack = new VPCStack(stage, "VPCStack", {
   stackName: "VPCStack",
 });
 
-const deploy = new DeployStack(stage, "DeployStack", {
-  stackName: "DeployStack",
-});
+const apiStack = new APIStack(
+  stage,
+  "APIStack",
+  { vpc: vpcStack.vpc },
+  {
+    stackName: "ApiStack",
+  }
+);
 
-const api = new APIStack(stage, "APIStack", vpc, {
-  stackName: "ApiStack",
-});
-
-//api.addDependency(deploy, "share cloudfront distribution");
+const webStack = new WebStack(
+  stage,
+  "WebStack",
+  {
+    vpc: vpcStack.vpc,
+    restApi: apiStack.restApi,
+    proxy: apiStack.proxy,
+  },
+  {
+    stackName: "WebStack",
+  }
+);
+/*
+apiStack.addDependency(vpcStack);
+webStack.addDependency(apiStack);
+*/
