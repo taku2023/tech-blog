@@ -2,12 +2,11 @@ name: update-blogs
 run-name: update blogs
 on:
   push:
-    branches: ["blog"]
+    branches: ["develop"]
 env:
   AWS_REGION: ap-northeast-1
-  S3_BUCKET: takuaki-blog-content
-  PUSH_S3_ROLE_ARN: ${{ secrets.AWS_ASSUME_ROLE_ARN }}
-    
+  GITHUB_ACTION_ROLE_ARN: ${{ secrets.AWS_ASSUME_ROLE_ARN }}
+
 permissions:
   contents: "read"
   id-token: "write"
@@ -24,9 +23,11 @@ jobs:
         with:
           aws-region: ${{ env.AWS_REGION }}
           role-session-name: GitHubCopyBlog
-          role-to-assume: ${{ env.PUSH_S3_ROLE_ARN }}
+          role-to-assume: ${{ env.GITHUB_ACTION_ROLE_ARN }}
+      - uses: "marvinpinto/action-inject-ssm-secrets@latest"
+        with:
+          ssm_parameter: "/tech-blog/buckets/blog-bucket"
+          env_variable_name: "blog_bucket"
       - name: update to s3
         run: |
-          aws s3 sync blog s3://${{ env.S3_BUCKET }} --delete
-
-        
+          aws s3 sync blog s3://${{ env.BLOG_BUCKET }} --delete

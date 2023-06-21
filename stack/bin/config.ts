@@ -42,8 +42,8 @@ export const appContext = (app: Construct): AppProps => {
       iamAuthentication: mode == 'dev'
     },
     ssm: {
-      htmlBucket: "webBucketParam",
-      blogBucket: "blogBucketParam",
+      htmlBucket: "/tech-blog/buckets/source-bucket",
+      blogBucket: "/tech-blog/buckets/blog-bucket",
     },
   };
 };

@@ -2,12 +2,11 @@ name: website-hosting
 run-name: Build+Test ./webpage and push to S3 (static hosting)
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "develop"]
 
 env:
   AWS_REGION: ap-northeast-1
-  S3_BUCKET: moritakuaki-teckblog
-  PUSH_S3_ROLE_ARN: ${{ secrets.AWS_ASSUME_ROLE_ARN }}
+  GITHUB_ACTION_ROLE_ARN: ${{ secrets.AWS_ASSUME_ROLE_ARN }}
 
 # These permissions are needed to interact with GitHub's OIDC Token endpoint.
 permissions:
@@ -58,7 +57,11 @@ jobs:
         with:
           aws-region: ${{ env.AWS_REGION }}
           role-session-name: GitHubMyRepo
-          role-to-assume: ${{ env.PUSH_S3_ROLE_ARN }}
+          role-to-assume: ${{ env.GITHUB_ACTION_ROLE_ARN }}
+      - uses: "marvinpinto/action-inject-ssm-secrets@latest"
+        with:
+          ssm_parameter: "/tech-blog/buckets/source-bucket"
+          env_variable_name: "source_bucket"
       - name: push to S3
         run: |
-          aws s3 cp dist s3://${{ env.S3_BUCKET}} --recursive
+          aws s3 cp dist s3://${{ env.SOURCE_BUCKET }} --recursive
