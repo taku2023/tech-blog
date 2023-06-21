@@ -4,11 +4,13 @@ import {
   DnsValidatedCertificate,
 } from "aws-cdk-lib/aws-certificatemanager";
 import {
+  AllowedMethods,
+  CachePolicy,
+  CachedMethods,
   Distribution,
   HttpVersion,
   IDistribution,
   OriginAccessIdentity,
-  OriginRequestPolicy,
   ViewerProtocolPolicy,
 } from "aws-cdk-lib/aws-cloudfront";
 import { RestApiOrigin, S3Origin } from "aws-cdk-lib/aws-cloudfront-origins";
@@ -63,31 +65,40 @@ export class WebFront extends Construct {
           originShieldRegion: region,
           originAccessIdentity: new OriginAccessIdentity(
             this,
-            "CloudFrontOriginAccessIdentity"
+            "CloudFrontOriginAccessIdentity",
+            {
+              comment: "Allow cloudfront to react react source bucket",
+            }
           ),
         }),
         compress: true,
+        cachePolicy: CachePolicy.CACHING_OPTIMIZED,
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        allowedMethods: AllowedMethods.ALLOW_GET_HEAD,
+        cachedMethods: CachedMethods.CACHE_GET_HEAD,
       },
       additionalBehaviors: {
-        blogs: {
-          origin: new S3Origin(blogBucket, {            
-            originPath: "blog",
+        "/blogs/*": {
+          origin: new S3Origin(blogBucket, {
             originAccessIdentity: new OriginAccessIdentity(
               this,
-              "CloudFrontOriginAccessIdentityForBlog"
+              "CloudFrontOriginAccessIdentityForBlog",
+              {
+                comment: "Allow cloudfront to react blog bucket",
+              }
             ),
           }),
           compress: true,
+          allowedMethods: AllowedMethods.ALLOW_GET_HEAD,
         },
-        api: {
+        "/api/*": {
           origin: new RestApiOrigin(restApi),
-          originRequestPolicy: OriginRequestPolicy.CORS_S3_ORIGIN,
           compress: true,
+          allowedMethods: AllowedMethods.ALLOW_ALL,
         },
       },
       certificate: certification,
-      enableIpv6: true,
+      defaultRootObject: "index.html",
     });
   }
 }
