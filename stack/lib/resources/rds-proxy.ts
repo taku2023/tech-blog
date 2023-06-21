@@ -36,8 +36,8 @@ export class RDSWithProxy extends Construct {
     const { rds } = appContext(this);
     this.databaseName = rds.databaseName;
 
-    this.dbSecret = new DatabaseSecret(this, "rds-secret", {
-      username: "admin",
+    this.dbSecret = new DatabaseSecret(this, "RDSSecret", {
+      username: "admin",      
     });
 
     const dbInstance = new DatabaseInstance(this, "rds", {
@@ -49,12 +49,12 @@ export class RDSWithProxy extends Construct {
       databaseName: this.databaseName,
       vpcSubnets: props.subnets,
       instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MICRO),
-      removalPolicy: RemovalPolicy.DESTROY,
+      iamAuthentication: rds.iamAuthentication,
+      removalPolicy: RemovalPolicy.DESTROY,      
     });
 
     const proxySG = new SecurityGroup(this, "RDSProxySG", props);
     proxySG.addIngressRule(Peer.anyIpv4(), Port.tcp(3306));
-
     this.proxy = dbInstance.addProxy("RDSProxy", {
       vpc: props.vpc,
       requireTLS: false, //TODO: true when prod

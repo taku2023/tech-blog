@@ -8,21 +8,20 @@ export class LambdaAPIProxy extends Construct {
 
   constructor(scope: Construct, id: string, vpc: IVpc) {
     super(scope, id);
-    this.lambda = new Function(this, "handler", {
+    this.lambda = new Function(this, "LambdaApiProxy", {
       runtime: Runtime.GO_1_X,
       code: Code.fromAsset(path.join(__dirname, "../../../lambda/api"), {
         bundling: {
           image: Runtime.GO_1_X.bundlingImage,
-          environment: {
-            CGO_ENABLED: "0",
-            GOOS: "linux",
-            GOARCH: "amd64",
-          },
           user: "root",
           command: [
             "bash",
             "-c",
-            ["make vendor", "make lambda-build"].join(" && "),
+            [
+              "cd /asset-input",
+              "go build -o main main.go",
+              "mv /asset-input/main /asset-output",
+            ].join(" && "),
           ],
         },
       }),

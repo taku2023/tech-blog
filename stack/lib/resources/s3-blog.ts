@@ -1,48 +1,39 @@
 import { RemovalPolicy } from "aws-cdk-lib";
-import { Bucket, IBucket, NotificationKeyFilter } from "aws-cdk-lib/aws-s3";
-import { SqsDestination } from "aws-cdk-lib/aws-s3-notifications";
-import { Queue } from "aws-cdk-lib/aws-sqs";
+import { IFunction } from "aws-cdk-lib/aws-lambda";
+import { Bucket, EventType, IBucket } from "aws-cdk-lib/aws-s3";
+import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { Construct } from "constructs";
 
-export interface NotifyBucketProps {
-  blog_filter?: NotificationKeyFilter;
+interface SharedResources {
+  target: IFunction;
 }
 
 export class NotifyBlogBucket extends Construct {
   public readonly bucket: IBucket;
-  public readonly queue: Queue;
+  //public readonly queue: Queue;
 
-  constructor(scope: Construct, id: string, props?: NotifyBucketProps) {
+  constructor(scope: Construct, id: string, props: SharedResources) {
     super(scope, id);
-    const s3Bcuket = new Bucket(this, "bucket", {
+    const s3Bcuket = new Bucket(this, "BlogBucket", {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    this.queue = new Queue(this, "queue");
-
-    const filter: NotificationKeyFilter = props?.blog_filter ?? {
-      prefix: "blogs/",
-      suffix: ".md",
-    };
-
-    /*s3Bcuket.addToResourcePolicy(
-      new PolicyStatement({
-        actions: ["SNS:Publish"],
-        resources: [this.queue.queueArn],
-      })
-    );*/
-
+    props.target;
+    s3Bcuket.addObjectCreatedNotification(new LambdaDestination(props.target));
+    s3Bcuket.addObjectRemovedNotification(new LambdaDestination(props.target));
+    s3Bcuket.grantRead(props.target)
+    /*this.queue = new Queue(this, "NotifyQueue",{      
+    });
+    
     //creation notify
     s3Bcuket.addObjectCreatedNotification(
       new SqsDestination(this.queue),
-      filter
     );
 
     //deletion notify
     s3Bcuket.addObjectRemovedNotification(
       new SqsDestination(this.queue),
-      filter
-    );
+    );*/
 
     this.bucket = s3Bcuket;
   }

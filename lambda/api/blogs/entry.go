@@ -1,4 +1,4 @@
-package articles
+package blogs
 
 import (
 	"log"
@@ -6,12 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/taku2023/tech-blog/driver"
 )
-
-/*func Search(c *gin.Context) {
-	queries := c.QueryMap()
-	title, hasTitle := queries["title"]
-	category,hasCategory := queries["category"]
-}*/
 
 func Get(c *gin.Context) {
 	id := c.Param("id")
@@ -21,9 +15,8 @@ func Get(c *gin.Context) {
 		return
 	}
 	defer conn.Close()
-
 	var title string
-	if err := conn.QueryRow("SELECT title FROM articles WHERE id = ? LIMIT 1", id).Scan(&title); err != nil {
+	if err := conn.QueryRow("SELECT title from blogs WHERE id = ? LIMIT 1", id).Scan(&title); err != nil {
 		log.Printf("error query %s", err.Error())
 		c.JSON(400, gin.H{
 			"message": err.Error(),

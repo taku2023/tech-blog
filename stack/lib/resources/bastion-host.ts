@@ -1,10 +1,14 @@
 import { aws_ec2 } from "aws-cdk-lib";
 import {
   IVpc,
+  Instance,
   InstanceClass,
   InstanceSize,
   InstanceType,
   MachineImage,
+  Peer,
+  SecurityGroup,
+  SubnetType,
   UserData,
 } from "aws-cdk-lib/aws-ec2";
 import {
@@ -13,33 +17,29 @@ import {
   Role,
   ServicePrincipal,
 } from "aws-cdk-lib/aws-iam";
+import { DatabaseInstance } from "aws-cdk-lib/aws-rds";
 import { Construct } from "constructs";
-//import {} from "aws-cdk-lib/aws-man"
-
 
 export class BastionHost extends Construct {
-  constructor(scope: Construct, id: string, vpc : IVpc) {
+  public readonly ec2: Instance;
+  //private readonly vpc: IVpc;
+
+  constructor(scope: Construct, id: string, vpc: IVpc) {
     super(scope, id);
 
     /*const securityGroup = new SecurityGroup(this, "SSM_SecurityGroup", {
       vpc,
-      allowAllOutbound: true,
+      allowAllOutbound: true,    
     });*/
-    const role = new Role(this, "EC2RoleForAccessSSM", {
-      assumedBy: new ServicePrincipal("ec2.amazonaws.com", {
-        /**condition */
-      }),
+
+    const role = new Role(this, "EC2AccessSSMRole", {
+      assumedBy: new ServicePrincipal("ec2.amazonaws.com"),
       managedPolicies: [
-        ManagedPolicy.fromAwsManagedPolicyName(
-          "service-role/AmazonEC2ContainerServiceforEC2Role"
-        ),
-        ManagedPolicy.fromAwsManagedPolicyName(
-          "service-role/AmazonEC2RoleforSSM"
-        ),
+        ManagedPolicy.fromAwsManagedPolicyName("AmazonSSMManagedInstanceCore"),
       ],
     });
 
-    new CfnInstanceProfile(this, `InstanceProfileForEC2`, {
+    new CfnInstanceProfile(this, `SSMIntanceProfile`, {
       roles: [role.roleName],
     });
 
@@ -49,18 +49,23 @@ export class BastionHost extends Construct {
     userData.addCommands(
       "sudo systemctl status amazon-ssm-agent",
       "sudo systemctl enable amazon-ssm-agent",
-      "sudo systemctl start amazon-ssm-agent"
+      "sudo systemctl start amazon-ssm-agent",
+      "sudo yum install mysql"
     );
 
-    const ec2 = new aws_ec2.Instance(this, "BastionHostEC2", {
+    this.ec2 = new Instance(this, "BastionHostEC2", {
       instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
       vpc,
+      vpcSubnets: {
+        subnetType: SubnetType.PRIVATE_ISOLATED,
+      },
       machineImage: MachineImage.latestAmazonLinux({
         generation: aws_ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
         userData,
       }),
-      //securityGroup,
       role,
     });
+
+    //this.vpc = vpc;
   }
 }
