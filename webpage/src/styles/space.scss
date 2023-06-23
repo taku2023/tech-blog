@@ -1,0 +1,66 @@
+@use "./variable" as v;
+
+$short-direction: (
+  "t": "top",
+  "b": "bottom",
+  "l": "left",
+  "r": "right",
+);
+
+@for $i from 0 through 10 {
+  $margin: calc($i * v.$margin-unit);
+  $padding: calc($i * v.$padding-unit);
+
+  @each $dir, $name in $short-direction {
+    .m#{$dir}-#{$i} {
+      margin-#{$name}: $margin;
+    }
+    .p#{$dir}-#{$i} {
+      padding-#{$name}: $padding;
+    }
+  }
+
+  .my-#{$i} {
+    margin-top: $margin;
+    margin-bottom: $margin;
+  }
+  .mx-#{$i} {
+    margin-right: $margin;
+    margin-left: $margin;
+  }
+  .m-#{$i} {
+    margin: $margin;
+  }
+  .py-#{$i} {
+    padding-top: $padding;
+    padding-bottom: $padding;
+  }
+  .px-#{$i} {
+    padding-right: $padding;
+    padding-left: $padding;
+  }
+  .p-#{$i} {
+    padding: $padding;
+  }
+} //end for
+
+.mt-auto {
+  margin-top: auto;
+}
+.mb-auto {
+  margin-bottom: auto;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.mr-auto {
+  margin-right: auto;
+}
+
+.pt-auto {
+  padding-top: auto;
+}
+
+.pb-auto {
+  padding-bottom: auto;
+}

@@ -1,4 +1,4 @@
-@import "@/styles/color.sass";
+@use "@/styles/theme" as t;
 
 [id="footer"] {
   display: flex;
@@ -9,6 +9,10 @@
   justify-content: space-between;
   //padding
   padding: 16px 5% 8px;
+
+  @include t.themify {
+    background-color: t.themed("section-color");
+  }
 
   .contact,
   .about {
@@ -23,7 +27,9 @@
   }
 
   hr {
-    background-color: darken($bg-color, 10);
+    @include t.themify {
+      background-color: t.themed("border-divider-color");
+    }
   }
 
   .author {
@@ -32,7 +38,5 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    &-sns-links {
-    }
   }
 }

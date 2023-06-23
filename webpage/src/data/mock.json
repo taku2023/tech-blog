@@ -3,16 +3,26 @@
     {
       "title": "My Clean Architecture",
       "id": "1",
-      "tags": ["clean architecture", "kotlin", "Android"],
+      "categories": ["clean architecture", "kotlin", "Android"],
       "minutes": 5,
-      "postAt": "2022-01-01 12:00:00Z+09:00"
+      "postAt": "2022-01-01 12:00:00Z+09:00",
+      "imageSrc": "https://bulma.io/images/placeholders/128x128.png"
     },
     {
       "title": "My Clean Architecture with Functional Programming",
       "id": "2",
-      "tags": ["clean architecture", "kotlin"],
+      "categories": ["clean architecture", "kotlin"],
       "minutes": 5,
-      "postAt": "2022-01-01 12:00:00Z+09:00"
+      "postAt": "2022-01-01 12:00:00Z+09:00",
+      "imageSrc": "https://bulma.io/images/placeholders/128x128.png"
+    },
+    {
+      "title": "My Clean Architecture with Functional Programming",
+      "id": "2",
+      "categories": ["clean architecture", "kotlin"],
+      "minutes": 5,
+      "postAt": "2022-01-01 12:00:00Z+09:00",
+      "imageSrc": "https://bulma.io/images/placeholders/128x128.png"
     }
   ]
 }

@@ -102,4 +102,4 @@ components:
         createAt: 2022-08-24T00:00:00Z+90:00
         updateAt: 2022-08-24T00:00:00Z+90:00
         content:
-          $ref: "./article.md"
+          $ref: "../blog/article.md"

@@ -97,8 +97,7 @@ export class ResourceStack extends Stack {
      * source bucket S3
      */
     const sourceBucket = new Bucket(this, "StaticWebSite", {
-      removalPolicy: RemovalPolicy.DESTROY,
-      publicReadAccess: false,
+      removalPolicy: RemovalPolicy.DESTROY,  
       autoDeleteObjects: true,
     });
 

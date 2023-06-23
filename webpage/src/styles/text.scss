@@ -1,0 +1,74 @@
+@use "_variable" as v;
+@use "responsible" as r;
+@use "theme" as t;
+
+.headline {
+  color: v.$headline-light;
+  font-weight: 800; //like code..
+  font-size: v.$headline;
+  line-height: 1.2;
+  font-family: Chivo, sans-serif;
+  letter-spacing: -0.02em;
+
+  @include t.themify {
+    color: t.themed("headline-color");
+  }
+  @include r.modify {
+    font-size: r.size("headline");
+  }
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  font-family: Abel, sans-serif;
+  @include t.themify {
+    color: t.themed("title-color");
+  }
+}
+
+.subtitle {
+  font-weight: 500;
+  font-size: 1.2rem;
+  @include t.themify {
+    color: t.themed("subtitle-color");
+  }
+}
+
+.label {
+  font-weight: 300;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  @include t.themify {
+    color: t.themed("label-color");
+  }
+}
+.body {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  @include t.themify {
+    color: t.themed("body-color");
+  }
+}
+.caption {
+  font-weight: 500;
+  font-size: 0.75em;
+  line-height: 1;
+  font-family: Abel, sans-serif;
+  letter-spacing: 0.05em;
+  @include t.themify {
+    color: t.themed("body-color");
+  }
+}
+
+//uitls
+.text-wrap {
+  overflow-x: clip;
+  hyphens: auto;
+  word-break: break-all;
+}
+.text-center {
+  text-align: center;
+}

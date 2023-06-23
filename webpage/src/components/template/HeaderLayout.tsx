@@ -8,7 +8,7 @@ const HeaderLayout = () => {
   return (
     <>
       <Header clickMenu={clickMenu} expand={expand}/>
-      <main
+      <main className="py-8"
         onClick={(_) => {
           console.log("click outside")
           reset()

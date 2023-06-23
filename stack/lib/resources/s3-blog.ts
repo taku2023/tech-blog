@@ -18,7 +18,6 @@ export class NotifyBlogBucket extends Construct {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    props.target;
     s3Bcuket.addObjectCreatedNotification(new LambdaDestination(props.target));
     s3Bcuket.addObjectRemovedNotification(new LambdaDestination(props.target));
     s3Bcuket.grantRead(props.target)

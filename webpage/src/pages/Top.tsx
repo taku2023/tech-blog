@@ -1,57 +1,56 @@
+import { Avatar } from "@/components/atom/Avatar"
 import Thumbnail from "@/components/organism/Thumbnail"
 import data from "@/data/mock.json"
 import dayjs from "dayjs"
 import { Link } from "react-router-dom"
-import "./Top.sass"
+import "./Top.scss"
 
 const Top = () => {
   return (
     <>
-      <main className="top-container">
-        <h1 className="headline my-4">Hi! I'm Takuaki! Motivated developer.</h1>
-        <p className="title my-4">
-          Keen about software architecture, test, readability.
-        </p>
-        <div className="author">
-          <label className="subtitle">
-            <span className="vertical-line"></span> Who am I?
-          </label>
-          <img src="" className="circle"></img>
-          <p className="p-1">
-            I am freelance frontend + backend software developer, with knowledge
-            of
-            <span className="tags body my-1">
-              <span className="tag">React</span>
-              <span className="tag">Vue</span>
-              <span className="tag">TypeScript</span>
-              <span className="tag">CSS/SASS</span>
-              <span className="tag">AWS</span>
-              <span className="tag">Android</span>
-              <span className="tag">Kotlin</span>
-              <span className="tag">Go</span>
-              <span className="tag">Rust</span>
-            </span>
-            If you interested, see <a className="link">about me.</a>
+      <main className="top layout-top">
+        <h1 className="headline">
+          Hello, I am Taku. Curious enginner working as frontend dev.
+        </h1>
+        <div className="p-1 my-6">
+          <TopProfile></TopProfile>
+          <p className="body p-1 my-4">
+            Hello, I am frontend developer curious about readability,
+            testability, architecure. I have been working in Japan for 8 years
+            as enginner and tech consultant. For more information, go{" "}
+            <Link to="/about-me">About me</Link>
           </p>
         </div>
         <div className="mt-4">
-          <label className="subtitle">
-            <span className="vertical-line"></span> Latest Blogs
-          </label>
+          <label className="subtitle">Latest Blogs</label>
           <ul className="thumbnails">
             {data.thumbnails.map((prop) => {
               const postAt = dayjs(prop.postAt)
               const props = { ...prop, postAt }
-              return (
-                <Link to={`articles/${props.id}`} key={props.id}>
-                  <Thumbnail {...props}></Thumbnail>
-                </Link>
-              )
+              return <Thumbnail {...props} key={props.id}></Thumbnail>
             })}
           </ul>
         </div>
       </main>
     </>
+  )
+}
+
+const TopProfile = () => {
+  return (
+    <div className="top-profile">
+      <div className="top-profile-image">
+        <Avatar></Avatar>
+      </div>
+      <div className="top-profile-description">
+        <p className="title">Takuaki Mori</p>
+        <p className="top-profile-description label mt-1 text-wrap">
+          I love to follow SOLID principal, write clean code
+          <br></br>
+          Vue/React/Typescript/AWS/Android/Nodejs/Go/Kotlin/Elixir
+        </p>
+      </div>
+    </div>
   )
 }
 

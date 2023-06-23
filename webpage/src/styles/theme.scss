@@ -1,0 +1,31 @@
+@use "_variable" as v;
+
+///themify mixin
+@mixin themify {
+  @each $theme, $map in v.$themes {
+    //Apply for these rule
+    //1.top level #theme.theme-{name}
+    //2.same leve .theme-{name}
+    #theme.theme-#{$theme} &,
+    &.theme-#{$theme} {
+      //if only we can pass variables to @content !!
+      //hakey way to solve it
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get(v.$themes, $theme), $key);
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}

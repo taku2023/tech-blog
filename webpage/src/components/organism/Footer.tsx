@@ -1,10 +1,10 @@
-import "./Footer.scss"
 import pic from "@/static/github-mark.svg"
+import "./Footer.scss"
 
 const Footer = () => {
   return (
     <>
-      <footer id="footer" className="bg-light">
+      <footer id="footer">
         <div className="contact">
           <p className="body mb-1">Contact Me</p>
           <label className="label">Offer Jobs</label>

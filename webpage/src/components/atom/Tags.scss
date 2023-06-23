@@ -1,0 +1,28 @@
+@use "@/styles/theme" as t;
+
+.tags {
+  //layout
+  display: flex;
+  column-gap: 0.25em;
+  row-gap: 0.3em;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  
+
+  .tag {
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    @include t.themify {
+      background-color: t.themed("tag-color");
+
+      &:hover, &:focus{
+        background-color: t.themed("tag-color-active")
+      }
+    }
+
+    &-profile {
+      text-indent: 1em;
+    }
+  }
+}

@@ -5,6 +5,8 @@ import { defineConfig } from "vite"
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: [{ find: "@/", replacement: `${__dirname}/src/` }],
+    alias: [
+      { find: "@/", replacement: `${__dirname}/src/` },
+    ],
   },
 })

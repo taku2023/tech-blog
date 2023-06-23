@@ -1,0 +1,20 @@
+$accent-color: #946fff;
+$bg-color: #eee;
+$bg-dark: #111;
+
+$text-color: hsl(0, 0, 4);
+$text-link: lightblue;
+
+.bg-light {
+  background-color: $bg-color;
+}
+.bg-accent {
+  background-color: $accent-color;
+}
+.bg-dark {
+  background-color: $bg-dark;
+}
+.bg-white {
+  background-color: white;
+}
+

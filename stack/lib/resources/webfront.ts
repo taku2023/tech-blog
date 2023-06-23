@@ -89,7 +89,10 @@ export class WebFront extends Construct {
             ),
           }),
           compress: true,
+          cachePolicy: CachePolicy.CACHING_OPTIMIZED,
           allowedMethods: AllowedMethods.ALLOW_GET_HEAD,
+          viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+          cachedMethods: CachedMethods.CACHE_GET_HEAD
         },
         "/api/*": {
           origin: new RestApiOrigin(restApi),

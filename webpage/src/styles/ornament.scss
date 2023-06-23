@@ -1,0 +1,44 @@
+@use "./variable" as v;
+@use "./theme" as t;
+
+$border-width: 1px !default;
+
+.has-shadow {
+  box-shadow: hsla(0, 0, 12, 0.2) 0 4px 4px 2px;
+}
+
+///icon util
+.icon.material-symbols-outlined {
+  vertical-align: text-bottom;
+  &.is-small {
+    font-size: 18px;
+  }
+}
+
+.icon {
+  &.is-small {
+    width: 18px;
+  }
+}
+
+///border
+.border-round {
+  border-radius: 999px;
+}
+
+@for $i from 1 through 10 {
+  .border-radius-#{$i} {
+    border-radius: calc($i * v.$border-radius-unit);
+  }
+}
+
+.border {
+  border-width: $border-width;
+  border-style: solid;
+  @include t.themify {
+    border-color: t.themed("border-color");
+    &-active {
+      border-color: t.themed("border-color-active");
+    }
+  }
+}

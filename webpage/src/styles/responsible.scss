@@ -1,15 +1,40 @@
-$mobile: 540px;
-$tablet: 920px;
-$pc: 1023px;
+@use "_variable" as v;
 
-@mixin tablet {
-  @media screen and (min-width: $mobile) {
+@function get-min($size-name: "tablet") {
+  @return map-get(v.$responsive, $size-name);
+}
+
+@mixin modify {
+  @each $size-name, $map in v.$sizes {
+    $size-map: () !global;
+    @each $key, $submap in $map {
+      $value: map-get(map-get(v.$sizes, $size-name), $key);
+      $size-map: map-merge(
+        $size-map,
+        (
+          $key: $value,
+        )
+      ) !global;
+      @media (min-width: get-min($size-name)) {
+        @content;
+      }
+      $size-map: null !global;
+    }
+  }
+}
+
+@function size($key) {
+  @return map-get($size-map, $key);
+}
+
+@mixin is-($name) {
+  @media (min-width: get-min($name)) {
     @content;
   }
 }
 
-@mixin pc {
-  @media screen and (min-width: $tablet) {
+@mixin within($lg, $sm) {
+  @media (min-width: get-min($lg)) and (max-width: get-min($sm)) {
     @content;
   }
 }

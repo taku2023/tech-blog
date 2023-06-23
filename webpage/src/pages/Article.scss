@@ -1,10 +1,9 @@
-@import "@/styles/color.sass";
+@import "@/styles/color";
 .article {
   padding: 1rem 5%;
 
   &-header {
-
-    background: #EEE;
+    background: #eee;
 
     .tags {
       display: flex;

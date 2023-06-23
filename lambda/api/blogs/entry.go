@@ -1,8 +1,7 @@
 package blogs
 
 import (
-	"log"
-
+	"log"	
 	"github.com/gin-gonic/gin"
 	"github.com/taku2023/tech-blog/driver"
 )

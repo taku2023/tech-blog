@@ -1,0 +1,32 @@
+@use "@/styles/_variable" as *;
+@use "@/styles/responsible" as *;
+@use "@/styles/space" as *;
+
+.top {
+  &.layout-top {
+    width: 100%;
+    @extend .px-4;
+    margin: auto;
+    max-width: $tablet;
+  }
+  &-profile {
+    display: flex;
+    column-gap: 1rem;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .thumbnails {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+
+    @include is-(mini) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+    @include is-(pc) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}

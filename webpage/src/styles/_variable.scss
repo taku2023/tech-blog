@@ -1,0 +1,140 @@
+$--azure-50: rgb(249 249 250);
+$--azure-100: rgb(234 236 239);
+$--azure-200: rgb(218 223 226);
+$--azure-300: rgb(201 207 213);
+$--azure-400: rgb(178 187 195);
+$--azure-500: rgb(149 161 173);
+$--azure-600: rgb(119 134 148);
+$--azure-700: rgb(92 110 128);
+$--azure-800: rgb(71 91 111);
+$--azure-900: rgb(42 65 88);
+$--azure-950: rgb(13 40 66);
+
+$--slate-50: #f8fafc;
+$--slate-100: #f1f5f9;
+$--slate-200: #e2e8f0;
+$--slate-300: #cbd5e1;
+$--slate-400: #94a3b8;
+$--slate-500: #64748b;
+$--slate-600: #475569;
+$--slate-700: #334155;
+$--slate-800: #1e293b;
+$--slate-900: #0f172a;
+$--slate-950: #020617;
+
+$--purple-50: rgb(254, 247, 254);
+$--purple-100: rgb(253 229 252);
+$--purple-200: rgb(251 209 249);
+$--purple-300: rgb(249 186 247);
+$--purple-400: rgb(247 153 243);
+$--purple-500: rgb(243 104 237);
+$--purple-600: rgb(225 46 217); //active
+$--purple-700: rgb(185 38 179);
+$--purple-800: rgb(154 32 148);
+$--purple-900: rgb(110 23 107);
+$--purple-950: rgb(69 14 67);
+
+$--indigo-50: #eef2ff;
+$--indigo-100: #e0e7ff;
+$--indigo-200: #c7d2fe;
+$--indigo-300: #a5b4fc;
+$--indigo-400: #818cf8;
+$--indigo-500: #6366f1;
+$--indigo-600: #4f46e5;
+$--indigo-700: #4338ca;
+$--indigo-800: #3730a3;
+$--indigo-900: #312e81;
+$--indigo-950: #1e1b4b;
+
+$body-light: $--slate-800 !default;
+$headline-light: $--azure-900 !default;
+$label-light: $--slate-800 !default;
+$border-light: $--slate-400 !default;
+$border-active-light: $--purple-600 !default;
+$border-divider-light: $--azure-200 !default;
+$background-light: $--slate-50 !default;
+$section-light: $--slate-100 !default;
+$button-light: $--indigo-400 !default;
+$tag-light: $--indigo-200 !default;
+$tag-active-light: $--indigo-300 !default;
+
+$body-dark: $--slate-200 !default;
+$headline-dark: $--azure-200 !default;
+$label-dark: $--slate-300 !default;
+$border-dark: $--slate-700 !default;
+$border-active-dark: $--purple-400 !default;
+$border-divider-dark: $--azure-700 !default;
+$background-dark: $--azure-900 !default;
+$section-dark: $--slate-900 !default;
+$button-dark: $--indigo-300 !default;
+$tag-dark: $--indigo-500 !default;
+$tag-active-dark: $--purple-700 !default;
+
+//text size
+$headline: 2.5rem !default;
+$title: 1.5rem !default;
+$label: 0.85rem !default;
+$body: 1rem !default;
+$caption: 0.75rem !default;
+
+//space
+$margin-unit: 4px !default;
+$padding-unit: 4px !default;
+
+//border-radius
+$border-radius-unit: 4px !default;
+
+//themes
+$themes: (
+  light: (
+    body-color: $body-light,
+    headline-color: $headline-light,
+    label-color: $label-light,
+    background-color: $background-light,
+    section-color: $section-light,
+    border-color: $border-light,
+    border-color-active: $border-active-light,
+    border-divider-color: $border-divider-light,
+    button-color: $button-light,
+    tag-color: $tag-light,
+    tag-color-active: $tag-active-light,
+  ),
+  dark: (
+    body-color: $body-dark,
+    headline-color: $headline-dark,
+    label-color: $label-dark,
+    background-color: $background-dark,
+    section-color: $section-dark,
+    border-color: $border-dark,
+    border-color-active: $border-active-dark,
+    border-divider-color: $border-divider-dark,
+    button-color: $button-dark,
+    tag-color: $tag-dark,
+    tag-color-active: $tag-active-dark,
+  ),
+) !default;
+
+//responsive
+$mobile: 500px !default;
+$mini: 660px !default;
+$tablet: 798px !default;
+$pc: 1023px !default;
+
+$sizes: (
+  mobile: (
+    body: $body,
+  ),
+  tablet: (
+    body: calc(1 * $body),
+  ),
+  pc: (
+    body: calc(1 * $body),
+  ),
+) !default;
+
+$responsive: (
+  mobile: $mobile,
+  mini: $mini,
+  tablet: $tablet,
+  pc: $pc,
+) !default;

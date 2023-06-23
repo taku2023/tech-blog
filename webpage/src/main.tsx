@@ -1,13 +1,13 @@
-import "@/styles/all.sass"
+import "@/styles/all.scss"
+import "material-symbols"
 import React from "react"
 import ReactDOM from "react-dom/client"
 import { RouterProvider } from "react-router-dom"
 import router from "./route"
-import "material-symbols"
-
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>    
-    <RouterProvider router={router} />
+  <React.StrictMode>
+    <div id="theme" className="theme-light">
+      <RouterProvider router={router} />
+    </div>
   </React.StrictMode>
 )
-

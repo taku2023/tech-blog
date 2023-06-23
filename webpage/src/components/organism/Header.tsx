@@ -39,12 +39,12 @@ const Header = (props: Props) => {
   //const { expand, clickMenu } = useHeaderExpandState()
   return (
     <>
-      <header id="header" className="bg-light">
+      <header id="header" className="bg-white">
         <MenuButton
           isOpen={props.expand == "menu"}
           onClick={(_) => props.clickMenu("menu")}
         ></MenuButton>
-        <p className="header-title title">CatCoder</p>
+        {/*<p className="header-title title">Tech Blog</p>*/}
         <span
           className="material-symbols-outlined"
           onClick={(_) => props.clickMenu("search")}
@@ -86,3 +86,4 @@ const Header = (props: Props) => {
 }
 
 export { Header as default, useHeaderExpandState }
+

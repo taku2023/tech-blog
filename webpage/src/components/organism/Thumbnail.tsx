@@ -1,9 +1,11 @@
+import Tags from "@/components/atom/Tags"
 import { Dayjs } from "dayjs"
-import "./Thumbnail.sass"
+import "./Thumbnail.scss"
 
 type Props = {
   title: string
-  tags: string[]
+  categories: string[]
+  imageSrc: string
   minutes: number
   postAt: Dayjs
 }
@@ -11,31 +13,25 @@ type Props = {
 const Thumbnail = (props: Props) => {
   return (
     <article
-      className="thumbnail"
+      className="thumbnail is-clickable"
       onClick={(_) => {
         //
       }}
     >
-      <img src="" className="thumbnail-image"></img>
+      <img
+        src={
+          props.imageSrc ?? "https://bulma.io/images/placeholders/128x128.png"
+        }
+        className="thumbnail-image"
+      ></img>
       <div className="thumbnail-title">
-        <p className="body">{props.title}</p>
-        <div className="tags">
-          {props.tags.map((tag) => (
-            <span className="tag" key={tag}>
-              #{tag}
-            </span>
-          ))}
-        </div>
-        <p className="thumbnail-title-footer mt-auto">
-          <span className="caption ">
-            {/*<span className="material-symbols-outlined icon is-small">
-              timer
-          </span>*/}
-            {props.minutes} minutes
-          </span>
+        <p className="subtitle text-wrap">{props.title}</p>
+        <p className="thumbnail-title-footer mt-2">
           <span className="caption">
-            Update {props.postAt.format("YY/MM/DD")}
+            <span className="icon material-symbols-outlined">lock</span>
+            {props.minutes}min
           </span>
+          <Tags tags={props.categories}></Tags>
         </p>
       </div>
     </article>
