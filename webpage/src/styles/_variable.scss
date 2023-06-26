@@ -48,7 +48,11 @@ $--indigo-950: #1e1b4b;
 
 $body-light: $--slate-800 !default;
 $headline-light: $--azure-900 !default;
-$label-light: $--slate-800 !default;
+$title-light: $--slate-800 !default;
+$subtitle-light: $--slate-600 !default;
+$label-light: $--slate-700 !default;
+$link-light: $--indigo-700 !default;
+$link-hover-light: $--indigo-600 !default;
 $border-light: $--slate-400 !default;
 $border-active-light: $--purple-600 !default;
 $border-divider-light: $--azure-200 !default;
@@ -57,18 +61,30 @@ $section-light: $--slate-100 !default;
 $button-light: $--indigo-400 !default;
 $tag-light: $--indigo-200 !default;
 $tag-active-light: $--indigo-300 !default;
+$icon-light: $--slate-800 !default;
+$icon-hover-light: $--purple-600 !default;
+$icon-hover-background-light: $--slate-100 !default;
+$shadow-light: rgba($--slate-600, 0.2) !default;
 
 $body-dark: $--slate-200 !default;
 $headline-dark: $--azure-200 !default;
+$title-dark: $--slate-200 !default;
+$subtitle-dark: $--slate-400 !default;
 $label-dark: $--slate-300 !default;
+$link-dark: $--indigo-300 !default;
+$link-hover-dark: $--indigo-400 !default;
 $border-dark: $--slate-700 !default;
 $border-active-dark: $--purple-400 !default;
 $border-divider-dark: $--azure-700 !default;
-$background-dark: $--azure-900 !default;
+$background-dark: $--slate-950 !default;
 $section-dark: $--slate-900 !default;
 $button-dark: $--indigo-300 !default;
 $tag-dark: $--indigo-500 !default;
 $tag-active-dark: $--purple-700 !default;
+$icon-dark: $--slate-200 !default;
+$icon-hover-dark: $--purple-400 !default;
+$icon-hover-background-dark: $--slate-900 !default;
+$shadow-dark: rgba($--slate-400, 0.1) !default;
 
 //text size
 $headline: 2.5rem !default;
@@ -89,7 +105,10 @@ $themes: (
   light: (
     body-color: $body-light,
     headline-color: $headline-light,
+    title-color: $title-light,
+    subtitle-color: $subtitle-light,
     label-color: $label-light,
+    link-color: $link-light,
     background-color: $background-light,
     section-color: $section-light,
     border-color: $border-light,
@@ -98,11 +117,18 @@ $themes: (
     button-color: $button-light,
     tag-color: $tag-light,
     tag-color-active: $tag-active-light,
+    icon-color: $icon-light,
+    icon-color-hover: $icon-hover-light,
+    icon-background-color-hover: $icon-hover-background-light,
+    shadow-color: $shadow-light,
   ),
   dark: (
     body-color: $body-dark,
     headline-color: $headline-dark,
+    title-color: $title-dark,
+    subtitle-color: $subtitle-dark,
     label-color: $label-dark,
+    link-color: $link-dark,
     background-color: $background-dark,
     section-color: $section-dark,
     border-color: $border-dark,
@@ -111,12 +137,16 @@ $themes: (
     button-color: $button-dark,
     tag-color: $tag-dark,
     tag-color-active: $tag-active-dark,
+    icon-color: $icon-dark,
+    icon-color-hover: $icon-hover-dark,
+    icon-background-color-hover: $icon-hover-background-dark,
+    shadow-color: $shadow-dark,
   ),
 ) !default;
 
 //responsive
-$mobile: 500px !default;
-$mini: 660px !default;
+$mobile: 0px !default;
+$mini: 570px !default;
 $tablet: 798px !default;
 $pc: 1023px !default;
 
@@ -133,8 +163,23 @@ $sizes: (
 ) !default;
 
 $responsive: (
-  mobile: $mobile,
-  mini: $mini,
-  tablet: $tablet,
-  pc: $pc,
+  mobile: (
+    min: $mobile,
+    max: calc($mini - 1px),
+  ),
+  mini: (
+    min: $mini,
+    max: calc($tablet - 1px),
+  ),
+  tablet: (
+    min: $tablet,
+    max: calc($pc - 1px),
+  ),
+  pc: (
+    min: $pc,
+    max: 9999px,
+  ),
 ) !default;
+
+//z-index
+$z-header: 100;

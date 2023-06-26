@@ -3,11 +3,13 @@ import "material-symbols"
 import React from "react"
 import ReactDOM from "react-dom/client"
 import { RouterProvider } from "react-router-dom"
+import { ThemeProvider } from "./hooks/useThemeProvider"
 import router from "./route"
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <div id="theme" className="theme-light">
+    <ThemeProvider>
       <RouterProvider router={router} />
-    </div>
+    </ThemeProvider>
   </React.StrictMode>
 )

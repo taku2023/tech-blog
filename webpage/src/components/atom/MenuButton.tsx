@@ -9,21 +9,21 @@ import "./MenuButton.sass"
 type Props = {
   isOpen: boolean
   onClick: MouseEventHandler<HTMLElement>
-  className?: string
 }
 
 const MenuButton = (props: Props) => {
   return (
-    <div className={props.className ?? ""}>
-      <div
+      /*<div
         className={`menu-button ${props.isOpen ? "is-open" : ""}`}
         onClick={props.onClick}
       >
         <span className="menu-button-line"></span>
         <span className="menu-button-line"></span>
         <span className="menu-button-line"></span>
-      </div>
-    </div>
+    </div>*/
+    <>
+      <span className="material-symbols-outlined">menu</span>
+    </>
   )
 }
 

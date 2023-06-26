@@ -1,89 +1,119 @@
-import MenuButton from "@/components/atom/MenuButton"
-import SearchBox from "@/components/molecular/SearchBox"
-import { useState } from "react"
-import "./Header.sass"
+import { PopupMenu } from "@/components/atom/PopupMenu"
+import Tags from "@/components/atom/Tags"
+import { useTheme } from "@/hooks/useThemeProvider"
+import { useEffect, useRef, useState } from "react"
+import "./Header.scss"
 
-type Menu = "menu" | "search"
+const Header = () => {
+  const { theme, setTheme } = useTheme()
+  const [open, expand] = useState(false)
 
-const useHeaderExpandState = () => {
-  const [expand, setExpand] = useState<Menu>()
-
-  const reset = () => {
-    setExpand(undefined)
+  const changeTheme = () => {
+    setTheme(theme == "light" ? "dark" : "light")
   }
 
-  const clickMenu = (menu: Menu) => {
-    switch (menu) {
-      case "menu":
-        setExpand(expand == "menu" ? undefined : "menu")
-        break
-      case "search":
-        setExpand(expand == "search" ? undefined : "search")
-        break
+  const toggleMenu = (_: any) => {
+    expand(!open)
+  }
+
+  const header = useRef<HTMLHeadElement>(null)
+  const [menus, setMenus] = useState<{ contact: boolean; blog: boolean }>({
+    contact: false,
+    blog: false,
+  })
+
+  useEffect(() => {
+    const handleOnClickOutside = (ev: Event) => {
+      const target = ev.target
+      if (
+        target instanceof Node &&
+        (!header?.current?.contains(target) ?? false)
+      ) {
+        ev.preventDefault()
+        expand(false)
+        setMenus({ contact: false, blog: false })
+      }
     }
-  }
 
-  return {
-    expand,
-    reset,
-    clickMenu,
-  }
-}
+    document.addEventListener("mousedown", handleOnClickOutside)
 
-type Props = {
-  expand?: Menu
-  clickMenu: (menu: Menu) => void
-}
+    return () => {
+      document.removeEventListener("mousedown", handleOnClickOutside)
+    }
+  }, [header])
 
-const Header = (props: Props) => {
-  //const { expand, clickMenu } = useHeaderExpandState()
   return (
     <>
-      <header id="header" className="bg-white">
-        <MenuButton
-          isOpen={props.expand == "menu"}
-          onClick={(_) => props.clickMenu("menu")}
-        ></MenuButton>
-        {/*<p className="header-title title">Tech Blog</p>*/}
-        <span
-          className="material-symbols-outlined"
-          onClick={(_) => props.clickMenu("search")}
-        >
-          search
-        </span>
-        <section
-          about="menu"
-          className="header-nav"
-          hidden={props.expand != "menu"}
-        >
-          <ul className="menu">
-            <label className="label menu-label">Blogs Category</label>
-            <li className="menu-content">Readability</li>
-            <li className="menu-content">Architecture</li>
-            <li className="menu-content">Test</li>
-          </ul>
-          <ul className="menu mt-1">
-            <label className="label menu-label">Contacts</label>
-            <li className="menu-content">Job Offer</li>
-            <li className="menu-content">
-              Give me Coffee
-              <span className="material-symbols-outlined menu-icon">
-                coffee
+      <header id="header" className="header is-background" ref={header}>
+        <nav className="header-nav">
+          <p className="header-nav-title title">Taku.dev</p>
+          <span className="is-tablet body ml-4">
+            <span className="is-relative">
+              Contact
+              <span
+                className="icon material-symbols-outlined is-clickable"
+                onClick={(_) =>
+                  setMenus({ blog: false, contact: !menus.contact })
+                }
+              >
+                {menus.contact ? "expand_less" : "expand_more"}
               </span>
-            </li>
-          </ul>
-        </section>
+              <PopupMenu isOpen={menus.contact}>
+                <ul className="body">
+                  <li>About me</li>
+                  <li>Job Offer</li>
+                </ul>
+              </PopupMenu>
+            </span>
+            <span className="is-relative">
+              Blogs
+              <span
+                className="icon material-symbols-outlined is-clickable"
+                onClick={(_) => setMenus({ contact: false, blog: !menus.blog })}
+              >
+                {menus.blog ? "expand_less" : "expand_more"}
+              </span>
+              <PopupMenu isOpen={menus.blog}>
+                <>
+                  <p className="label">You can search </p>
+                  <Tags tags={["nodeJs", "Rust"]}></Tags>
+                </>
+              </PopupMenu>
+            </span>
+          </span>
+          <span className="icon material-symbols-outlined is-clickable ml-auto">
+            search
+          </span>
+          <span
+            className="icon material-symbols-outlined is-clickable"
+            onClick={(_) => changeTheme()}
+          >{`${theme}_mode`}</span>
+          <span
+            className="icon material-symbols-outlined is-clickable not-tablet"
+            onClick={toggleMenu}
+          >
+            {open ? "close" : "menu"}
+          </span>
+        </nav>
         <section
-          about="search"
-          hidden={props.expand != "search"}
-          className="header-nav"
+          className="header-menu px-4 pt-2 pb-4 not-tablet"
+          hidden={!open}
         >
-          <SearchBox></SearchBox>
+          <div>
+            <label className="label">Blog category</label>
+            <Tags tags={["nodeJs", "Rust"]}></Tags>
+          </div>
+          <div className="mt-1">
+            <label className="label">Contacts</label>
+            <ul className="body text-indent">
+              <li>About me</li>
+              <li>Job Offer</li>
+            </ul>
+          </div>
         </section>
       </header>
     </>
   )
 }
 
-export { Header as default, useHeaderExpandState }
-
+export { Header as default }

@@ -4,26 +4,15 @@
 $border-width: 1px !default;
 
 .has-shadow {
-  box-shadow: hsla(0, 0, 12, 0.2) 0 4px 4px 2px;
-}
-
-///icon util
-.icon.material-symbols-outlined {
-  vertical-align: text-bottom;
-  &.is-small {
-    font-size: 18px;
-  }
-}
-
-.icon {
-  &.is-small {
-    width: 18px;
+  //box-shadow: hsla(0, 0%, 14%, 0.2) 0 4px 4px 2px !important;
+  @include t.themify{
+    box-shadow: t.themed('shadow-color') 0 4px 4px 2px !important;
   }
 }
 
 ///border
 .border-round {
-  border-radius: 999px;
+  border-radius: 999px !important;
 }
 
 @for $i from 1 through 10 {
@@ -40,5 +29,37 @@ $border-width: 1px !default;
     &-active {
       border-color: t.themed("border-color-active");
     }
+  }
+}
+
+
+
+///icon
+.icon.material-symbols-outlined {
+  vertical-align: text-bottom;
+  &.is-clickable {
+    $tapsize: 0.25em;
+    border: 0px solid transparent;
+    @extend .border-round;
+    //expand tap region (+tapsize)
+    padding: $tapsize;
+    margin:  calc(-1 * $tapsize) 0;
+
+    @include t.themify {
+      color: t.themed("icon-color");
+      &:hover {
+        background-color: t.themed("icon-background-color-hover");
+        color: t.themed("icon-color-hover");
+      }
+    }
+  }
+  &.is-small {
+    font-size: 18px;
+  }
+}
+
+.icon {
+  &.is-small {
+    width: 18px;
   }
 }

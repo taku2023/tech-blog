@@ -2,18 +2,16 @@
 @use "@/styles/ornament";
 @use "@/styles/anim";
 
-.thumbnail {	
-	&:hover{
-		@extend .has-shadow;
-	}
-
+.thumbnail {
   //layout
   display: flex;
   flex-direction: column;
+  &:hover {
+    @extend .has-shadow;
+  }
 
   &-image {
     aspect-ratio: 3/2;
-		@extend %image-scale;
   }
 
   &-title {
@@ -29,9 +27,13 @@
       flex-direction: row;
       justify-content: space-between;
 
-			.caption{
-				flex: auto 1 0;
-			}
+      .caption {
+        flex: auto 1 0;
+      }
+      //TODO:fix unimplicit classname
+      .tags {
+        justify-content: flex-end;
+      }
     }
   }
 }

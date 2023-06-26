@@ -1,19 +1,12 @@
-import Header, { useHeaderExpandState } from "@/components/organism/Header"
 import Footer from "@/components/organism/Footer"
+import Header from "@/components/organism/Header"
 import { Outlet } from "react-router-dom"
 
 const HeaderLayout = () => {
-  const { expand,clickMenu,reset } = useHeaderExpandState()
-
   return (
     <>
-      <Header clickMenu={clickMenu} expand={expand}/>
-      <main className="py-8"
-        onClick={(_) => {
-          console.log("click outside")
-          reset()
-        }}
-      >
+      <Header />
+      <main className="is-background">
         <Outlet />
       </main>
       <Footer></Footer>

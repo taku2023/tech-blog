@@ -1,6 +1,6 @@
 @use "_variable" as v;
 
-@function get-min($size-name: "tablet") {
+@function get-size($size-name: mobile) {
   @return map-get(v.$responsive, $size-name);
 }
 
@@ -15,7 +15,7 @@
           $key: $value,
         )
       ) !global;
-      @media (min-width: get-min($size-name)) {
+      @media (min-width: map-get(get-size($size-name),min)) {
         @content;
       }
       $size-map: null !global;
@@ -28,13 +28,28 @@
 }
 
 @mixin is-($name) {
-  @media (min-width: get-min($name)) {
+  @media (min-width: map-get(get-size($name),min)) {
     @content;
   }
 }
 
-@mixin within($lg, $sm) {
-  @media (min-width: get-min($lg)) and (max-width: get-min($sm)) {
+@mixin within($name) {
+  @media (min-width: map-get(get-size($name),min)) and (max-width: map-get(get-size($name),max)) {
     @content;
+  }
+}
+
+@each $name, $size in v.$responsive {
+  .is-#{$name} {
+    @media (max-width: calc(map-get(get-size($name),min) - 1px)) {
+      display: none !important;
+    }
+  }
+  //exclusive is-#{$name}
+  //shorthand logical not .is-#{$name}
+  .not-#{$name} {
+    @media (min-width: map-get(get-size($name),min)) {
+      display: none !important;
+    }
   }
 }

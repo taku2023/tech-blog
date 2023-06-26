@@ -13,54 +13,54 @@ $short-direction: (
 
   @each $dir, $name in $short-direction {
     .m#{$dir}-#{$i} {
-      margin-#{$name}: $margin;
+      margin-#{$name}: $margin !important;
     }
     .p#{$dir}-#{$i} {
-      padding-#{$name}: $padding;
+      padding-#{$name}: $padding !important;
     }
   }
 
   .my-#{$i} {
-    margin-top: $margin;
-    margin-bottom: $margin;
+    margin-top: $margin !important;
+    margin-bottom: $margin !important;
   }
   .mx-#{$i} {
-    margin-right: $margin;
-    margin-left: $margin;
+    margin-right: $margin !important;
+    margin-left: $margin M !important;
   }
   .m-#{$i} {
-    margin: $margin;
+    margin: $margin !important;
   }
   .py-#{$i} {
-    padding-top: $padding;
-    padding-bottom: $padding;
+    padding-top: $padding !important;
+    padding-bottom: $padding !important;
   }
   .px-#{$i} {
-    padding-right: $padding;
-    padding-left: $padding;
+    padding-right: $padding !important;
+    padding-left: $padding !important;
   }
   .p-#{$i} {
-    padding: $padding;
+    padding: $padding !important;
   }
 } //end for
 
 .mt-auto {
-  margin-top: auto;
+  margin-top: auto !important;
 }
 .mb-auto {
-  margin-bottom: auto;
+  margin-bottom: auto !important;
 }
 .ml-auto {
-  margin-left: auto;
+  margin-left: auto !important;
 }
 .mr-auto {
-  margin-right: auto;
+  margin-right: auto !important;
 }
 
 .pt-auto {
-  padding-top: auto;
+  padding-top: auto !important;
 }
 
 .pb-auto {
-  padding-bottom: auto;
+  padding-bottom: auto !important;
 }

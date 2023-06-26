@@ -8,7 +8,7 @@ import "./Top.scss"
 const Top = () => {
   return (
     <>
-      <main className="top layout-top">
+      <div className="top layout-top py-8">
         <h1 className="headline">
           Hello, I am Taku. Curious enginner working as frontend dev.
         </h1>
@@ -18,7 +18,9 @@ const Top = () => {
             Hello, I am frontend developer curious about readability,
             testability, architecure. I have been working in Japan for 8 years
             as enginner and tech consultant. For more information, go{" "}
-            <Link to="/about-me">About me</Link>
+            <Link to="/about-me" className="link">
+              About me
+            </Link>
           </p>
         </div>
         <div className="mt-4">
@@ -31,7 +33,7 @@ const Top = () => {
             })}
           </ul>
         </div>
-      </main>
+      </div>
     </>
   )
 }
@@ -45,8 +47,9 @@ const TopProfile = () => {
       <div className="top-profile-description">
         <p className="title">Takuaki Mori</p>
         <p className="top-profile-description label mt-1 text-wrap">
-          I love to follow SOLID principal, write clean code
-          <br></br>
+          <p className="is-mini">
+            I love to follow SOLID principal, write clean code.
+          </p>
           Vue/React/Typescript/AWS/Android/Nodejs/Go/Kotlin/Elixir
         </p>
       </div>

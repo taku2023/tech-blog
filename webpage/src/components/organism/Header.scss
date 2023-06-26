@@ -1,0 +1,66 @@
+@use "@/styles/_variable.scss" as *;
+@use "@/styles/color.scss" as *;
+@use "@/styles/theme" as t;
+@use "@/styles/ornament" as *;
+
+.header {
+  position: sticky;
+  top: 0px;
+  z-index: $z-header;
+  //backdrop-filter: blur(5px);
+  @include t.themify {
+    //background-color: rgba($color: t.themed("background-color"), $alpha: 0.95);
+    background-color: t.themed("background-color");
+  }
+
+  /*&::before {
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    @include t.themify {
+      background-color: t.themed("background-color");
+    }
+		filter: blur(10px);
+    width: 100%;
+    height: 100%;
+    content: "";
+  }*/
+
+  &-nav {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.75em;
+    padding: 1em 1.25em;
+    //design
+		align-items: center;
+  }
+
+  &-menu {
+		&[hidden]{
+			display: none;
+		}
+
+    display: block;
+    position: absolute;
+    //transition: height 1s linear;
+    background-color: inherit;
+    width: 100%;
+    overflow-y: hidden;
+    @extend .has-shadow;
+
+    .label + & {
+      margin-top: 1rem;
+    }
+
+    /*&.is-open {
+      height: max-content;
+    }*/
+
+    /*@include t.themify {
+      //border-color: t.themed('border-color');
+			border-width: 1px;
+			border-color: t.themed("border-color") ;
+			border-style: solid none;
+    }*/
+  }
+}

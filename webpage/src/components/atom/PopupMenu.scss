@@ -1,0 +1,11 @@
+@use "@/styles/color" as *;
+
+.popup {
+  position: absolute;
+  left: 0;
+  border: 1px solid transparent;
+  border-radius: 0 0 4px 4px;
+  @extend .is-background;
+  width: max-content;
+  max-width: 300px;
+}
