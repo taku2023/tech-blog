@@ -5,8 +5,8 @@ $border-width: 1px !default;
 
 .has-shadow {
   //box-shadow: hsla(0, 0%, 14%, 0.2) 0 4px 4px 2px !important;
-  @include t.themify{
-    box-shadow: t.themed('shadow-color') 0 4px 4px 2px !important;
+  @include t.themify {
+    box-shadow: t.themed("shadow-color") 0 4px 4px 2px !important;
   }
 }
 
@@ -32,18 +32,16 @@ $border-width: 1px !default;
   }
 }
 
-
-
 ///icon
-.icon.material-symbols-outlined {
+.icon {
   vertical-align: text-bottom;
   &.is-clickable {
     $tapsize: 0.25em;
     border: 0px solid transparent;
     @extend .border-round;
+    margin: calc(-1 * $tapsize) 0;
     //expand tap region (+tapsize)
     padding: $tapsize;
-    margin:  calc(-1 * $tapsize) 0;
 
     @include t.themify {
       color: t.themed("icon-color");
@@ -54,12 +52,9 @@ $border-width: 1px !default;
     }
   }
   &.is-small {
-    font-size: 18px;
-  }
-}
-
-.icon {
-  &.is-small {
-    width: 18px;
+    width: 24px;
+    &.material-symbols-outlined {
+      font-size: 24x;
+    }
   }
 }

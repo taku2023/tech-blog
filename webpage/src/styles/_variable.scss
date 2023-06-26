@@ -57,6 +57,7 @@ $border-light: $--slate-400 !default;
 $border-active-light: $--purple-600 !default;
 $border-divider-light: $--azure-200 !default;
 $background-light: $--slate-50 !default;
+$input-background-light: $--slate-100 !default;
 $section-light: $--slate-100 !default;
 $button-light: $--indigo-400 !default;
 $tag-light: $--indigo-200 !default;
@@ -65,6 +66,7 @@ $icon-light: $--slate-800 !default;
 $icon-hover-light: $--purple-600 !default;
 $icon-hover-background-light: $--slate-100 !default;
 $shadow-light: rgba($--slate-600, 0.2) !default;
+$modal-background-light: rgba($--slate-900, 0.8) !default;
 
 $body-dark: $--slate-200 !default;
 $headline-dark: $--azure-200 !default;
@@ -77,6 +79,7 @@ $border-dark: $--slate-700 !default;
 $border-active-dark: $--purple-400 !default;
 $border-divider-dark: $--azure-700 !default;
 $background-dark: $--slate-950 !default;
+$input-background-dark: $--slate-700 !default;
 $section-dark: $--slate-900 !default;
 $button-dark: $--indigo-300 !default;
 $tag-dark: $--indigo-500 !default;
@@ -85,6 +88,7 @@ $icon-dark: $--slate-200 !default;
 $icon-hover-dark: $--purple-400 !default;
 $icon-hover-background-dark: $--slate-900 !default;
 $shadow-dark: rgba($--slate-400, 0.1) !default;
+$modal-background-dark: rgba($--slate-100, 0.8) !default;
 
 //text size
 $headline: 2.5rem !default;
@@ -110,6 +114,7 @@ $themes: (
     label-color: $label-light,
     link-color: $link-light,
     background-color: $background-light,
+    input-background-color: $input-background-light,
     section-color: $section-light,
     border-color: $border-light,
     border-color-active: $border-active-light,
@@ -121,6 +126,7 @@ $themes: (
     icon-color-hover: $icon-hover-light,
     icon-background-color-hover: $icon-hover-background-light,
     shadow-color: $shadow-light,
+    modal-background-color: $modal-background-light,
   ),
   dark: (
     body-color: $body-dark,
@@ -130,6 +136,7 @@ $themes: (
     label-color: $label-dark,
     link-color: $link-dark,
     background-color: $background-dark,
+    input-background-color: $input-background-dark,    
     section-color: $section-dark,
     border-color: $border-dark,
     border-color-active: $border-active-dark,
@@ -141,6 +148,7 @@ $themes: (
     icon-color-hover: $icon-hover-dark,
     icon-background-color-hover: $icon-hover-background-dark,
     shadow-color: $shadow-dark,
+    modal-background-color: $modal-background-dark,
   ),
 ) !default;
 
@@ -183,3 +191,4 @@ $responsive: (
 
 //z-index
 $z-header: 100;
+$z-modal: 500;

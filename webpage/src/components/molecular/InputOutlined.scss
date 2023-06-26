@@ -1,0 +1,28 @@
+@use "@/styles/_variable" as v;
+@use "@/styles/theme" as t;
+
+.input-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  @include t.themify {
+    border: 1px solid t.themed("border-color");
+    background-color: t.themed("input-background-color");
+
+    &:focus {
+      border-color: t.themed("border-color-active");
+    }
+  }
+
+  .input {
+    flex: auto 1 0;
+    outline-style: none;
+    border-style: none;
+    background-color: transparent;
+    padding: 0.5em;
+    color: black;
+    text-indent: 0.25em;
+  }
+}

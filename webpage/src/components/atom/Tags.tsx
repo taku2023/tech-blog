@@ -6,11 +6,15 @@ interface Props {
 
 const Tags = (props: Props) => {
   return (
-    <div className="tags">
-      {props.tags.map((value) => {
-        return <span className="tag label">{value}</span>
+    <span className="tags">
+      {props.tags.map((value, i) => {
+        return (
+          <span className="tag label" key={i}>
+            {value}
+          </span>
+        )
       })}
-    </div>
+    </span>
   )
 }
 

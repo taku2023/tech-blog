@@ -1,8 +1,10 @@
 import { PopupMenu } from "@/components/atom/PopupMenu"
 import Tags from "@/components/atom/Tags"
+import ModalLayout from "@/components/template/ModalLayout"
 import { useTheme } from "@/hooks/useThemeProvider"
 import { useEffect, useRef, useState } from "react"
 import "./Header.scss"
+import SearchBox from "../molecular/SearchBox"
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
@@ -21,6 +23,8 @@ const Header = () => {
     contact: false,
     blog: false,
   })
+
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     const handleOnClickOutside = (ev: Event) => {
@@ -81,7 +85,10 @@ const Header = () => {
               </PopupMenu>
             </span>
           </span>
-          <span className="icon material-symbols-outlined is-clickable ml-auto">
+          <span
+            className="icon material-symbols-outlined is-clickable ml-auto"
+            onClick={() => setShowModal(true)}
+          >
             search
           </span>
           <span
@@ -112,6 +119,11 @@ const Header = () => {
           </div>
         </section>
       </header>
+      <ModalLayout state={[showModal, setShowModal]}>
+        <>
+              <SearchBox></SearchBox>
+        </>
+      </ModalLayout>
     </>
   )
 }

@@ -28,8 +28,8 @@ const Footer = () => {
             <span className="caption">&copy;Takuaki Mori</span>
           </div>
           <div className="author-sns-links">
-            <a href="https://github.com/taku2023" className="">
-              <img src={pic} className="icon is-small"></img>
+            <a href="https://github.com/taku2023" >
+              <img src={pic} className="icon is-small is-clickable"></img>
             </a>
           </div>
         </div>

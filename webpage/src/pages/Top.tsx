@@ -47,9 +47,10 @@ const TopProfile = () => {
       <div className="top-profile-description">
         <p className="title">Takuaki Mori</p>
         <p className="top-profile-description label mt-1 text-wrap">
-          <p className="is-mini">
+          <span className="is-mini">
             I love to follow SOLID principal, write clean code.
-          </p>
+            <br />
+          </span>
           Vue/React/Typescript/AWS/Android/Nodejs/Go/Kotlin/Elixir
         </p>
       </div>

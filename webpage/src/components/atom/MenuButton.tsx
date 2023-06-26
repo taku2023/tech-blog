@@ -1,4 +1,3 @@
-import { MouseEventHandler } from "react"
 import "./MenuButton.sass"
 /**
  * MenuButton
@@ -6,14 +5,14 @@ import "./MenuButton.sass"
  * @param props
  * @returns
  */
-type Props = {
+/*type Props = {
   isOpen: boolean
   onClick: MouseEventHandler<HTMLElement>
-}
+}*/
 
-const MenuButton = (props: Props) => {
+const MenuButton = () => {
   return (
-      /*<div
+    /*<div
         className={`menu-button ${props.isOpen ? "is-open" : ""}`}
         onClick={props.onClick}
       >

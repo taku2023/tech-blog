@@ -25,8 +25,6 @@ interface Props {
 export const ThemeProvider = ({ children }: Props) => {
   const [theme, setTheme] = useState<Theme>('light')
 
-
-  
   return (
     <ThemeContext.Provider value={{ theme,setTheme }}>
       <div id="theme" className={`theme-${theme}`}>

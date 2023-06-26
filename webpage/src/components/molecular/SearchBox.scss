@@ -1,0 +1,36 @@
+@use "@/styles/_variable" as v;
+@use "@/styles/theme" as t;
+
+.searchbox {
+  //layout
+  display: flex;
+  flex-direction: row;
+	
+  //design
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 0.5em;
+  //background-color: $bg-dark
+  .input {
+    flex-grow: 1;
+    outline-style: none;
+    border: none;
+    text-indent: 0.5em;
+		padding: .5em;
+    .btn-close {
+    }
+  }
+}
+
+.search-list {
+  //layout
+  display: flex;
+  flex-direction: column;
+  &-item {
+    padding: 0.5em;
+    text-align: left;
+    &:first-child {
+      margin-top: 4px;
+    }
+  }
+}
