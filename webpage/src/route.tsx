@@ -1,7 +1,8 @@
-import Article, { getArticleLoader } from "@/pages/Article"
+import HeaderLayout from "@/components/template/HeaderLayout"
+import Blog, { getBlogsLoader } from "@/pages/Blog"
+import NotFound from "@/pages/NotFound"
 import Top from "@/pages/Top"
 import { createBrowserRouter } from "react-router-dom"
-import HeaderLayout from "./components/template/HeaderLayout"
 
 const router = createBrowserRouter([
   {
@@ -13,9 +14,13 @@ const router = createBrowserRouter([
         element: <Top />,
       },
       {
-        path: "/articles/:id",
-        loader: getArticleLoader,
-        element: <Article />,
+        path: "/blogs/:id",
+        loader: getBlogsLoader,
+        element: <Blog />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

@@ -6,7 +6,7 @@ const HeaderLayout = () => {
   return (
     <>
       <Header />
-      <main className="is-background">
+      <main id="main" className="is-background">
         <Outlet />
       </main>
       <Footer></Footer>

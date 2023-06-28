@@ -1,0 +1,8 @@
+[id="theme"] {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  [id="main"] {
+    flex: auto 1 0;
+  }
+}

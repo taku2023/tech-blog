@@ -1,10 +1,11 @@
 import { PopupMenu } from "@/components/atom/PopupMenu"
 import Tags from "@/components/atom/Tags"
+import SearchBox from "@/components/molecular/SearchBox"
 import ModalLayout from "@/components/template/ModalLayout"
 import { useTheme } from "@/hooks/useThemeProvider"
 import { useEffect, useRef, useState } from "react"
+import { Link } from "react-router-dom"
 import "./Header.scss"
-import SearchBox from "../molecular/SearchBox"
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
@@ -50,7 +51,11 @@ const Header = () => {
     <>
       <header id="header" className="header is-background" ref={header}>
         <nav className="header-nav">
-          <p className="header-nav-title title">Taku.dev</p>
+          <p className="header-nav-title title">
+            <Link to={"/"} style={{ textDecoration: "none" }} className="title">
+              Taku.dev
+            </Link>
+          </p>
           <span className="is-tablet body ml-4">
             <span className="is-relative">
               Contact
@@ -121,7 +126,7 @@ const Header = () => {
       </header>
       <ModalLayout state={[showModal, setShowModal]}>
         <>
-              <SearchBox></SearchBox>
+          <SearchBox></SearchBox>
         </>
       </ModalLayout>
     </>

@@ -3,12 +3,12 @@ info:
   title: Sample API
   version: 1.0.0
 paths:
-  /articles:
+  /blogs:
     get:
-      summary: Get a list of articles
-      tags: [Article]
+      summary: Get a list of blogs
+      tags: [Blogs]
       parameters:
-        - name: q
+        - name: search
           in: query
           required: true
           schema:
@@ -21,15 +21,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  articles:
+                  blogs:
                     type: array
                     items:
                       $ref: "#/components/schemas/Summary"
                   limit:
                     type: number
                 example:
-                  limit: 3
-                  articles:
+                  blogs:
                     - title: Sample 1
                       id: 1
                     - title: Sample 2
@@ -37,10 +36,10 @@ paths:
                     - title: Sample 3
                       id: 3
 
-  /articles/{id}:
+  /blogs/{id}:
     get:
-      summary: Get one article with ID
-      tags: [Article]
+      summary: Get one blog with ID
+      tags: [Blog]
       parameters:
         - name: id
           in: path
@@ -53,10 +52,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Article"
+                $ref: "#/components/schemas/Blog"
 
 servers:
-  - url: https://catcoder.com
+  - url: https://moritakuaki.com
     description: Stage Server
   - url: http://localhost:80/v1
     description: Dev Server
@@ -70,11 +69,19 @@ components:
           type: string
         title:
           type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        categories:
+          type: array
+          items:
+            type: string
 
-    Article:
-      type: object      
-      properties:        
-        id:          
+    Blog:
+      type: object
+      properties:
+        id:
           type: string
         title:
           type: string
@@ -89,7 +96,7 @@ components:
           format: datetime
         updateAt:
           type: string
-          format: datetime          
+          format: datetime
           nullable: true
         content:
           type: string
@@ -98,7 +105,7 @@ components:
         id: "1"
         title: Sample 1
         author: tmori
-        tags: [architecture,andorid]
+        tags: [architecture, andorid]
         createAt: 2022-08-24T00:00:00Z+90:00
         updateAt: 2022-08-24T00:00:00Z+90:00
         content:

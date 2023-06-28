@@ -1,15 +1,14 @@
 import InputOutlined from "@/components/molecular/InputOutlined"
-import { search } from "@/data/api/articles"
+import { search, type Summary } from "@/data/api/blogs"
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import "./SearchBox.scss"
 
 const SearchBox = () => {
   const zero: Readonly<{
-    limit: number
-    articles: { title: string; id: string }[]
+    blogs: Summary[]
   }> = {
-    limit: 0,
-    articles: [],
+    blogs: [],
   }
 
   const [text, setText] = useState("")
@@ -32,23 +31,20 @@ const SearchBox = () => {
     <>
       <InputOutlined state={[text, setText]}></InputOutlined>
       <div className="search-list mt-2">
-        {result.articles.length == 0 ? (
-          <>
-            <label className="label">RECENT</label>
-            <p className="search-list-item body">You should follow here.</p>
-          </>
-        ) : (
-          <>
-            <label className="label">RESULT {result.limit}</label>
-            {result.articles.map((article, i) => {
-              return (
-                <p className="search-list-item body" key={i}>
-                  {article.title}
-                </p>
-              )
-            })}
-          </>
-        )}
+        <>
+          <label className="label">RESULT: {result.blogs.length} blogs</label>
+          {result.blogs.map((blog, i) => {
+            return (
+              <Link
+                className="search-list-item body text-no-decoration"
+                key={i}
+                to={`/blogs/${blog.id}`}
+              >
+                {blog.title}
+              </Link>
+            )
+          })}
+        </>
       </div>
     </>
   )

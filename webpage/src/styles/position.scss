@@ -1,0 +1,19 @@
+.is-flex {
+  display: flex !important;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+  &.is-row {
+    flex-direction: row !important
+  }
+
+  &.is-nowrap {
+    flex-wrap: nowrap !important;
+  }
+  &.is-items-center {
+    align-items: center !important;
+  }
+  &.is-items-jcenter{
+    justify-content: center !important;
+  }
+}
