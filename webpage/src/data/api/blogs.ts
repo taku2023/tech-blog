@@ -28,8 +28,8 @@ const search: (params: { search?: string; category?: string }) => Promise<{
   return data
 }
 
-const get: (key: string) => Promise<Summary> = async (key) => {
-  const { data, status: _ } = await client.get<Summary>(`blogs/${key}`)
+const get: (key: string) => Promise<{blog:Summary}> = async (key) => {
+  const { data, status: _ } = await client.get<{blog:Summary}>(`blogs/${key}`)
   return data
 }
 

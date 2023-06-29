@@ -8,14 +8,14 @@ const getBlogsLoader: LoaderFunction = async ({ params }) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const key = params.key!!
   const content = await download(key)
-  const summary = await get(key)
+  const {blog} = await get(key)
   console.log(content)
-  return { summary, content }
+  return { blog, content }
 }
 
 const BlogPage = () => {
-  const { summary, content } = useLoaderData() as {
-    summary: Summary
+  const { blog, content } = useLoaderData() as {
+    blog: Summary
     content: string
   }
 
@@ -24,9 +24,9 @@ const BlogPage = () => {
     <>
       <article className="article">
         <section className="article-header p-1">
-          <h1 className="title">{summary.title}</h1>
+          <h1 className="title">{blog.title}</h1>
           <div className="tags">
-            {summary.keywords.map((tag) => {
+            {blog.keywords.map((tag) => {
               return (
                 <span className="tag" key={tag}>
                   #{tag}

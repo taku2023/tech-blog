@@ -73,13 +73,13 @@ export class WebFront extends Construct {
       priceClass,
       domainNames: [domainName],
       //when access denied, redirect to / root path , because CSR
-      /*errorResponses:[
+      errorResponses:[
         {
           httpStatus: 403,
           responsePagePath: "/",
           responseHttpStatus: 200
         }
-      ],*/
+      ],
       defaultBehavior: {
         origin: new S3Origin(htmlSourceBucket, {
           originAccessIdentity: new OriginAccessIdentity(
