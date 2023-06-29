@@ -9,7 +9,7 @@ const client = axios.create({
 })
 
 const downloadClient = axios.create({
-  baseURL: import.meta.env.BASE_URL + "/__blogs__",
+  baseURL: import.meta.env.VITE_BASE_URL + "/__blogs__",
   headers: {
     "Content-Type": "text/markdown",
   },

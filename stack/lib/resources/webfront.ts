@@ -12,8 +12,9 @@ import {
   IDistribution,
   LambdaEdgeEventType,
   OriginAccessIdentity,
+  OriginRequestPolicy,
   ViewerProtocolPolicy,
-  experimental,
+  experimental
 } from "aws-cdk-lib/aws-cloudfront";
 import { RestApiOrigin, S3Origin } from "aws-cdk-lib/aws-cloudfront-origins";
 import { Code, Runtime } from "aws-cdk-lib/aws-lambda";
@@ -34,6 +35,7 @@ interface OriginSourceProps {
 export class WebFront extends Construct {
   public readonly distribution: IDistribution;
 
+  
   constructor(
     scope: Construct,
     id: string,
@@ -41,9 +43,8 @@ export class WebFront extends Construct {
   ) {
     super(scope, id);
     const {
-      domainName,
-      region,
-      cloudflont: { priceClass },
+      domainName,     
+      cloudflont: { priceClass,cachePolicy },
     } = appContext(this);
 
     //acm(certificate domain)
@@ -71,19 +72,26 @@ export class WebFront extends Construct {
       httpVersion: HttpVersion.HTTP2,
       priceClass,
       domainNames: [domainName],
+      //when access denied, redirect to / root path , because CSR
+      /*errorResponses:[
+        {
+          httpStatus: 403,
+          responsePagePath: "/",
+          responseHttpStatus: 200
+        }
+      ],*/
       defaultBehavior: {
         origin: new S3Origin(htmlSourceBucket, {
-          originShieldRegion: region,
           originAccessIdentity: new OriginAccessIdentity(
             this,
             "CloudFrontOriginAccessIdentity",
             {
-              comment: "Allow cloudfront to react react source bucket",
+              comment: "Allow cloudfront to react react source bucket",              
             }
           ),
-        }),
+        }),        
         compress: true,
-        cachePolicy: CachePolicy.CACHING_OPTIMIZED,
+        cachePolicy,
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         allowedMethods: AllowedMethods.ALLOW_GET_HEAD,
         cachedMethods: CachedMethods.CACHE_GET_HEAD,
@@ -106,15 +114,18 @@ export class WebFront extends Construct {
             }
           ],
           compress: true,
-          cachePolicy: CachePolicy.CACHING_OPTIMIZED,
+          cachePolicy,
           allowedMethods: AllowedMethods.ALLOW_GET_HEAD,
           viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+          originRequestPolicy: OriginRequestPolicy.CORS_S3_ORIGIN,
           cachedMethods: CachedMethods.CACHE_GET_HEAD
         },
         "/__api__/*": {
           origin: new RestApiOrigin(restApi),
           compress: true,
           allowedMethods: AllowedMethods.ALLOW_ALL,
+          originRequestPolicy: OriginRequestPolicy.ALL_VIEWER,
+          cachePolicy: CachePolicy.CACHING_DISABLED, //recommended for api gateway
           edgeLambdas: [
             {
               functionVersion: edge.currentVersion,
@@ -124,7 +135,7 @@ export class WebFront extends Construct {
         },
       },
       certificate: certification,
-      defaultRootObject: "index.html",
+      defaultRootObject: "index.html",      
     });
   }
 }

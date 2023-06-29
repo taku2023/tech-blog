@@ -7,43 +7,39 @@ import { client, downloadClient } from "."
  */
 
 type Summary = {
-  id: string
+  object_key: string
   title: string
   categories: string[]
   keywords: string[]
+  create_at: string
+  update_at: string
+  viewer: number
 }
 
-type Blog = {
-  author: string
-  tags: string[]
-  content: string
-  createAt: string
-  updateAt?: string
-} & Summary
-
-const search: (titleStartWith: string) => Promise<{
+const search: (params: { search?: string; category?: string }) => Promise<{
   blogs: Summary[]
-}> = async (keyWordInclude) => {
+}> = async (params) => {
   const { data, status: _ } = await client.get<{
     blogs: Summary[]
   }>("blogs", {
-    params: {
-      search: keyWordInclude,
-    },
+    params,
   })
 
   return data
 }
 
-const get: (id: string) => Promise<Summary> = async (id) => {
-  const { data, status: _ } = await client.get<Summary>(`blogs/${id}`)
+const get: (key: string) => Promise<Summary> = async (key) => {
+  const { data, status: _ } = await client.get<Summary>(`blogs/${key}`)
   return data
 }
 
 //simple get markdown file from s3(cached by cloudfront)
-const download: (filename: string) => Promise<string> = async (filename) => {
-  const { data, status: _ } = await downloadClient.get<string>(filename)
+const download: (key: string, suffix?: string) => Promise<string> = async (
+  key,
+  suffix = ".md"
+) => {
+  const { data, status: _ } = await downloadClient.get<string>(key + suffix)
   return data
 }
 
-export { download, get, search, type Blog, type Summary }
+export { download, get, search, type Summary }

@@ -18,7 +18,7 @@ const Top = () => {
             Hello, I am frontend developer curious about readability,
             testability, architecure. I have been working in Japan for 8 years
             as enginner and tech consultant. For more information, go{" "}
-            <Link to="/about-me" className="link">
+            <Link to={`about-me`} className="link">
               About me
             </Link>
           </p>

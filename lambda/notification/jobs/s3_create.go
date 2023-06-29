@@ -34,7 +34,7 @@ func Extract(reader io.ReadCloser) (*Summary, error) {
 	reCategories := regexp.MustCompile(`categories:\s*\[(.*?)\]`)
 	reKeywords := regexp.MustCompile(`keywords:\s*\[(.*?)\]`)
 	reDate := regexp.MustCompile(`date:\s*"(.*?)"`)
-
+	
 	summary := Summary{
 		Title:      reTitle.FindStringSubmatch(contents)[1],
 		Categories: strings.Split(reCategories.FindStringSubmatch(contents)[1], ","),
@@ -57,10 +57,13 @@ func S3Post(record events.S3EventRecord, reader io.ReadCloser) error {
 	}
 	defer db.Close()
 
+	object_key,_,_ := strings.Cut(record.S3.Object.Key,".")
+	
+
 	if _, err := db.Exec(`
-		INSERT INTO blogs (id,title,categories,keywords) VALUES (?,?,?,?) 
-		WHERE NOT EXISTS (SELECT * FROM blogs WHERE id = ? ) `,
-		record.S3.Object.Key, summary.Title, strings.Join(summary.Categories, ","), strings.Join(summary.Keywords, ","), record.S3.Object.Key); err != nil {
+		INSERT INTO blogs (object_key,title,categories,keywords,create_at) VALUES (?,?,?,?,?) 
+		WHERE NOT EXISTS (SELECT * FROM blogs WHERE object_key = ? ) `,
+		object_key, summary.Title, strings.Join(summary.Categories, ","), strings.Join(summary.Keywords, ","), summary.Date,record.S3.Object.Key); err != nil {
 		return err
 	}
 
@@ -80,7 +83,7 @@ func S3Put(record events.S3EventRecord, reader io.ReadCloser) error {
 	}
 	defer db.Close()
 
-	if _, err := db.Exec(`UPDATE blogs SET title = ?, categories = ?, keywords = ? WHERE id = ?`, summary.Title, strings.Join(summary.Categories, ","), strings.Join(summary.Keywords, ","), record.S3.Object.Key); err != nil {
+	if _, err := db.Exec(`UPDATE blogs SET title = ?, categories = ?, keywords = ? update_at = ? WHERE object_key = ?`, summary.Title, strings.Join(summary.Categories, ","), strings.Join(summary.Keywords, ","),summary.Date, record.S3.Object.Key); err != nil {
 		return err
 	}
 
@@ -98,13 +101,14 @@ func S3UPSert(record events.S3EventRecord, reader io.ReadCloser) error {
 		return err
 	}
 	defer db.Close()
-	id := record.S3.Object.Key
+	object_key,_,_ := strings.Cut(record.S3.Object.Key,".")
 	title := summary.Title
 	categories := strings.Join(summary.Categories, ",")
 	keywords := strings.Join(summary.Keywords, ",")
+	datetime := summary.Date
 	if _, err := db.Exec(`
-	INSERT INTO blogs (id,title,categories,keywords) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE title = ?, categories = ?, keywords = ?`,
-		id, title, categories, keywords, title, categories, keywords); err != nil {
+	INSERT INTO blogs (object_key,title,categories,keywords,create_at) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE title = ?, categories = ?, keywords = ?, update_at = ?`,
+		object_key, title, categories, keywords, datetime, title, categories, keywords,datetime); err != nil {
 		return err
 	}
 	return nil

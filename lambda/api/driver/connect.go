@@ -52,7 +52,7 @@ func Conn() (*sql.DB, error) {
 	fmt.Println("secret " + secretString)
 
 	//user:password@tcp(your-database-instance-name:port-number)/dbname
-	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", username, password, endpoint, "3306", dbName)
+	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", username, password, endpoint, "3306", dbName)
 	fmt.Printf("dns:%s", dns)
 	conn, err := sql.Open("mysql", dns)
 	if err != nil {

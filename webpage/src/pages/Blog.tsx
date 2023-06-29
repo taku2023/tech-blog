@@ -2,12 +2,14 @@ import { Summary, download, get } from "@/data/api/blogs"
 import md from "@/libs/markdown/converter"
 import { LoaderFunction } from "react-router"
 import { useLoaderData } from "react-router-dom"
-import "./Article.scss"
+import "./Blog.scss"
 
 const getBlogsLoader: LoaderFunction = async ({ params }) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const content = await download(params.id!)
-  const summary = await get(params.id!)
+  const key = params.key!!
+  const content = await download(key)
+  const summary = await get(key)
+  console.log(content)
   return { summary, content }
 }
 

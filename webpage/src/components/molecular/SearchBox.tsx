@@ -18,7 +18,7 @@ const SearchBox = () => {
     if (text.length == 0) {
       setResult(zero)
     } else {
-      const result = await search(text)
+      const result = await search({search: text})
       setResult(result)
     }
   }
@@ -38,9 +38,9 @@ const SearchBox = () => {
               <Link
                 className="search-list-item body text-no-decoration"
                 key={i}
-                to={`/blogs/${blog.id}`}
+                to={`blogs/${blog.object_key}`}
               >
-                {blog.title}
+                {blog.title} | {blog.object_key}
               </Link>
             )
           })}

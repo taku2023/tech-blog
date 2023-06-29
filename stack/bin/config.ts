@@ -1,17 +1,21 @@
 import { ScopedAws } from "aws-cdk-lib";
-import { PriceClass } from "aws-cdk-lib/aws-cloudfront";
+import { Cors } from "aws-cdk-lib/aws-apigateway";
+import { CachePolicy, ICachePolicy, PriceClass } from "aws-cdk-lib/aws-cloudfront";
 import { Construct } from "constructs";
 
 type Stage = {
   mode: "dev" | "prod";
   cloudflont: {
     priceClass: PriceClass;
+    cachePolicy: ICachePolicy
   };
   rds: {
     databaseName: string;
     iamAuthentication?:boolean
   };
-  queue: {};
+  gateway:{
+    allowOrigins: string[] 
+  },
   ssm: {
     htmlBucket: string;
     blogBucket: string;
@@ -27,19 +31,23 @@ type AppProps = {
 export const appContext = (app: Construct): AppProps => {
   const mode = app.node.getContext("mode") as 'dev'|'prod';
   const { accountId, region } = new ScopedAws(app);
+  const domainName = 'moritakuaki.com'
 
   return {
     mode,
-    domainName: "moritakuaki.com",
+    domainName,
     region,
     accountId,
     cloudflont: {
       priceClass: PriceClass.PRICE_CLASS_100,
+      cachePolicy: mode == 'dev' ? CachePolicy.CACHING_DISABLED: CachePolicy.CACHING_OPTIMIZED
     },
-    queue: {},
     rds: {
       databaseName: `blog_${mode}`,
       iamAuthentication: mode == 'dev'
+    },
+    gateway:{
+      allowOrigins: mode == 'dev' ? Cors.ALL_ORIGINS : [domainName]
     },
     ssm: {
       htmlBucket: "/tech-blog/buckets/source-bucket",

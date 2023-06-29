@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-"fmt"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/stretchr/testify/assert"
 	"github.com/taku2023/tech-blog/api"
@@ -14,7 +14,7 @@ import (
 
 //use db in  docker-compose.yml
 func mockDBDriver() (*sql.DB, error) {
-	dns := "root:password@tcp(localhost:3306)/blog_dev"
+	dns := "root:password@tcp(localhost:3306)/blog_dev?parseTime=true"
 	conn, err := sql.Open("mysql", dns)
 	if err != nil {
 		return nil, err
@@ -29,15 +29,16 @@ func mockDBDriver() (*sql.DB, error) {
 func TestGetBlog(t *testing.T) {
 	r := ginRouter(api.MockClient(mockDBDriver))
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/blogs/1", nil)
+	req, _ := http.NewRequest("GET", "/blogs/How-to-test-golang", nil)
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, 200, w.Code)
-	var data struct {
-		Title string `json:"title"`
+	var blog struct {
+		Blog api.Blog `json:"blog"`
 	}
-	json.Unmarshal(w.Body.Bytes(), &data)
-	assert.Equal(t, "How to test golang?", data.Title)
+	json.Unmarshal(w.Body.Bytes(), &blog)
+
+	assert.Equal(t, "How to test golang?", blog.Blog.Title)
 }
 
 func TestSearchBlog(t *testing.T) {
@@ -49,7 +50,6 @@ func TestSearchBlog(t *testing.T) {
 	var data struct {
 		Blogs []api.Blog `json:"blogs"`
 	}
-	fmt.Print(w.Body.String())
 	json.Unmarshal(w.Body.Bytes(), &data)
 	assert.Equal(t, "How to test golang?", data.Blogs[0].Title)
 }

@@ -1,5 +1,5 @@
 import { RemovalPolicy, Stack, StackProps } from "aws-cdk-lib";
-import { Cors, EndpointType, LambdaRestApi } from "aws-cdk-lib/aws-apigateway";
+import { EndpointType, LambdaRestApi } from "aws-cdk-lib/aws-apigateway";
 import { IVpc, SubnetType } from "aws-cdk-lib/aws-ec2";
 //import { GoFunction } from "aws-cdk-lib/aws-lambda";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
@@ -32,7 +32,7 @@ export class ResourceStack extends Stack {
     props?: StackProps
   ) {
     super(scope, id, props);
-    const { domainName, ssm } = appContext(this);
+    const { domainName, ssm,gateway } = appContext(this);
 
     /**
      * RDS
@@ -87,8 +87,8 @@ export class ResourceStack extends Stack {
         types: [EndpointType.EDGE],
       },
       defaultCorsPreflightOptions: {
-        allowOrigins: Cors.ALL_ORIGINS,
-      },
+        allowOrigins: gateway.allowOrigins
+      },      
       handler: apiProxyHandler,
       deploy: true,
     });
@@ -98,7 +98,7 @@ export class ResourceStack extends Stack {
      */
     const sourceBucket = new Bucket(this, "StaticWebSite", {
       removalPolicy: RemovalPolicy.DESTROY,  
-      autoDeleteObjects: true,
+      autoDeleteObjects: true
     });
 
     /**

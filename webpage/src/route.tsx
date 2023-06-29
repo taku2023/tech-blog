@@ -1,4 +1,5 @@
 import HeaderLayout from "@/components/template/HeaderLayout"
+import About from "@/pages/About"
 import Blog, { getBlogsLoader } from "@/pages/Blog"
 import NotFound from "@/pages/NotFound"
 import Top from "@/pages/Top"
@@ -14,9 +15,13 @@ const router = createBrowserRouter([
         element: <Top />,
       },
       {
-        path: "/blogs/:id",
+        path: "blogs/:key",
         loader: getBlogsLoader,
         element: <Blog />,
+      },
+      {
+        path: "about-me",
+        element: <About />,
       },
       {
         path: "*",

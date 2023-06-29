@@ -15,10 +15,12 @@ var ginLambda *ginadapter.GinLambda
 
 func ginRouter(client api.Api) *gin.Engine {
 	r := gin.Default()
-	r.GET("/blogs/:id", client.GetBlog)
-	r.GET("/blogs",client.SearchBlogs)
-	r.GET("/ping",func(ctx *gin.Context) {
-		ctx.JSON(200,gin.H{
+	//blogs title is unique(it should be)
+	r.GET("/blogs/:key", client.GetBlog)
+	// blogs?search={text}&category={category?}
+	r.GET("/blogs", client.SearchBlogs)
+	r.GET("/ping", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{
 			"message": "hello",
 		})
 	})

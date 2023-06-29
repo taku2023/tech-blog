@@ -1,8 +1,7 @@
-USE blog_dev;
+use blog_dev;
 
-DROP TABLE IF EXISTS blogs;
-CREATE TABLE blogs (
-	id VARCHAR(32) NOT NULL, title VARCHAR(64) NOT NULL,categories TEXT NOT NULL, keywords TEXT, PRIMARY KEY (id)
-);
+drop table if exists blogs;
+create table blogs(object_key varchar(255) not null primary key,title varchar(255) not null, categories text not null,keywords text,create_at datetime not null,update_at datetime,viewer int default 0 not null);
 
-INSERT INTO blogs (id,title,categories,keywords) values ("1","How to test golang?","golang,test","aws,lambda,test");
+insert into blogs (title,object_key,categories,keywords,create_at,update_at) values ("How to test golang?","How-to-test-golang.md","golang,test","aws,lambda,test","2022-12-31 00:00:00","2023-06-20 10:00:00");
+insert into blogs (title,object_key,categories,keywords,create_at) values ("Android Clean Artitecture","Android-Clean-Architecture.md","android,clean architecture","clean architecture","2023-05-11 21:00:00");
