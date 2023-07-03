@@ -14,7 +14,7 @@ const InputOutlined = ({ callback }: Props) => {
   /**
    * detect input end if 700ms 
    */
-  const handle = (e: Event) => {
+  const handle = (_: Event) => {
     if (emitFn) clearTimeout(emitFn)
     emitFn = setTimeout(() => {
       callback(inputRef?.current?.value)
