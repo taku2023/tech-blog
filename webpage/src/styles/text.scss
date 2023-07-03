@@ -1,5 +1,5 @@
 @use "_variable" as v;
-@use "responsible" as r;
+@use "responsive" as r;
 @use "theme" as t;
 
 .headline {
@@ -29,7 +29,7 @@
 }
 
 .subtitle {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.2rem;
   line-height: 1.25;
 
@@ -46,6 +46,7 @@
     color: t.themed("label-color");
   }
 }
+//use normal text
 .body {
   font-weight: 400;
   font-size: 1rem;
@@ -54,6 +55,16 @@
     color: t.themed("body-color");
   }
 }
+//use with body, when you distinguish them
+.subbody {
+  font-weight: 500;
+  font-size: 0.90rem;
+  line-height: 1.25;
+  @include t.themify {
+    color: t.themed("subbody-color");
+  }
+}
+
 .caption {
   font-weight: 500;
   font-size: 0.75em;
@@ -79,6 +90,6 @@
   text-indent: 0.5em;
 }
 
-.text-no-decoration{
+.text-no-decoration {
   text-decoration: none;
 }

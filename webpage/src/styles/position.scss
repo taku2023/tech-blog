@@ -4,7 +4,7 @@
   flex-wrap: wrap;
 
   &.is-row {
-    flex-direction: row !important
+    flex-direction: row !important;
   }
 
   &.is-nowrap {
@@ -13,7 +13,7 @@
   &.is-items-center {
     align-items: center !important;
   }
-  &.is-items-jcenter{
+  &.is-items-jcenter {
     justify-content: center !important;
   }
 }

@@ -1,10 +1,6 @@
 @use "variable";
 @use "theme" as t;
 
-.icon {
-  //@include t.
-}
-
 .is-background {
   @include t.themify {
     background-color: t.themed("background-color");

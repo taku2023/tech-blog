@@ -8,11 +8,11 @@ import "./Top.scss"
 const Top = () => {
   return (
     <>
-      <div className="top layout-top py-8">
+      <div className="top top-layout py-8">
         <h1 className="headline">
           Hello, I am Taku. Curious enginner working as frontend dev.
         </h1>
-        <div className="p-1 my-6">
+        <div className="p-1 my-8">
           <TopProfile></TopProfile>
           <p className="body p-1 my-4">
             Hello, I am frontend developer curious about readability,
@@ -51,7 +51,7 @@ const TopProfile = () => {
             I love to follow SOLID principal, write clean code.
             <br />
           </span>
-          Vue/React/Typescript/AWS/Android/Nodejs/Go/Kotlin/Elixir
+          Vue/Typescript/AWS/Android/Nodejs/Go/Kotlin
         </p>
       </div>
     </div>

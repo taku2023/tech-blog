@@ -1,11 +1,11 @@
 @use "@/styles/_variable" as *;
-@use "@/styles/responsible" as *;
+@use "@/styles/responsive" as *;
 @use "@/styles/space" as *;
 
 .top {
-  &.layout-top {
+  &-layout {
     width: 100%;
-    @extend .px-4;
+    @extend .px-6;
     margin: auto;
     max-width: $tablet;
   }
@@ -24,7 +24,7 @@
 
     @include is-(mini) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
+    }
     @include is-(pc) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }

@@ -1,6 +1,6 @@
 import InputOutlined from "@/components/molecular/InputOutlined"
 import { search, type Summary } from "@/data/api/blogs"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import "./SearchBox.scss"
 
@@ -11,25 +11,22 @@ const SearchBox = () => {
     blogs: [],
   }
 
-  const [text, setText] = useState("")
   const [result, setResult] = useState(zero)
 
-  const fetch = async (text: string) => {
-    if (text.length == 0) {
+  const fetch = async (text?: string) => {
+    if (!text) {
+      return
+    } else if (text.length == 0) {
       setResult(zero)
     } else {
-      const result = await search({search: text})
+      const result = await search({ search: text })
       setResult(result)
     }
   }
 
-  useEffect(() => {
-    fetch(text)
-  }, [text])
-
   return (
     <>
-      <InputOutlined state={[text, setText]}></InputOutlined>
+      <InputOutlined callback={fetch}></InputOutlined>
       <div className="search-list mt-2">
         <>
           <label className="label">RESULT: {result.blogs.length} blogs</label>

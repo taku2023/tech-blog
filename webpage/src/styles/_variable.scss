@@ -47,6 +47,7 @@ $--indigo-900: #312e81;
 $--indigo-950: #1e1b4b;
 
 $body-light: $--slate-800 !default;
+$subbody-light: $--slate-800 !default;
 $headline-light: $--azure-900 !default;
 $title-light: $--slate-800 !default;
 $subtitle-light: $--slate-600 !default;
@@ -58,7 +59,7 @@ $border-active-light: $--purple-600 !default;
 $border-divider-light: $--azure-200 !default;
 $background-light: $--slate-50 !default;
 $input-background-light: $--slate-100 !default;
-$section-light: $--slate-100 !default;
+$section-light: $--azure-100 !default;
 $button-light: $--indigo-400 !default;
 $tag-light: $--indigo-200 !default;
 $tag-active-light: $--indigo-300 !default;
@@ -66,9 +67,12 @@ $icon-light: $--slate-800 !default;
 $icon-hover-light: $--purple-600 !default;
 $icon-hover-background-light: $--slate-100 !default;
 $shadow-light: rgba($--slate-600, 0.2) !default;
-$modal-background-light: rgba($--slate-900, 0.8) !default;
+$modal-background-light: rgba($--slate-900, 0.86) !default;
+$tab-active-light: $--slate-800 !default;
+$tab-light: $--slate-500 !default;
 
 $body-dark: $--slate-200 !default;
+$subbody-dark: $--slate-200 !default;
 $headline-dark: $--azure-200 !default;
 $title-dark: $--slate-200 !default;
 $subtitle-dark: $--slate-400 !default;
@@ -80,7 +84,7 @@ $border-active-dark: $--purple-400 !default;
 $border-divider-dark: $--azure-700 !default;
 $background-dark: $--slate-950 !default;
 $input-background-dark: $--slate-700 !default;
-$section-dark: $--slate-900 !default;
+$section-dark: $--slate-800 !default;
 $button-dark: $--indigo-300 !default;
 $tag-dark: $--indigo-500 !default;
 $tag-active-dark: $--purple-700 !default;
@@ -88,18 +92,21 @@ $icon-dark: $--slate-200 !default;
 $icon-hover-dark: $--purple-400 !default;
 $icon-hover-background-dark: $--slate-900 !default;
 $shadow-dark: rgba($--slate-400, 0.1) !default;
-$modal-background-dark: rgba($--slate-100, 0.8) !default;
+$modal-background-dark: rgba($--slate-700, 0.9) !default;
+$tab-active-dark: $--slate-100 !default;
+$tab-dark: $--slate-700 !default;
 
 //text size
 $headline: 2.5rem !default;
 $title: 1.5rem !default;
 $label: 0.85rem !default;
 $body: 1rem !default;
+$subbody: 0.85rem !default;
 $caption: 0.75rem !default;
 
 //space
 $margin-unit: 4px !default;
-$padding-unit: 4px !default;
+$padding-unit: 0.25em !default;
 
 //border-radius
 $border-radius-unit: 4px !default;
@@ -108,6 +115,7 @@ $border-radius-unit: 4px !default;
 $themes: (
   light: (
     body-color: $body-light,
+    subbody-color: $subbody-light,
     headline-color: $headline-light,
     title-color: $title-light,
     subtitle-color: $subtitle-light,
@@ -127,16 +135,19 @@ $themes: (
     icon-background-color-hover: $icon-hover-background-light,
     shadow-color: $shadow-light,
     modal-background-color: $modal-background-light,
+    tab-color-active: $tab-active-light,
+    tab-color: $tab-light,
   ),
   dark: (
     body-color: $body-dark,
+    subbody-color: $subbody-dark,
     headline-color: $headline-dark,
     title-color: $title-dark,
     subtitle-color: $subtitle-dark,
     label-color: $label-dark,
     link-color: $link-dark,
     background-color: $background-dark,
-    input-background-color: $input-background-dark,    
+    input-background-color: $input-background-dark,
     section-color: $section-dark,
     border-color: $border-dark,
     border-color-active: $border-active-dark,
@@ -149,6 +160,8 @@ $themes: (
     icon-background-color-hover: $icon-hover-background-dark,
     shadow-color: $shadow-dark,
     modal-background-color: $modal-background-dark,
+    tab-color-active: $tab-active-dark,
+    tab-color: $tab-dark,
   ),
 ) !default;
 

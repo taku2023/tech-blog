@@ -1,0 +1,44 @@
+@use "theme" as t;
+@use "_variable" as v;
+@use "text" as *;
+
+$tab-border-bottom-width: 5px !default;
+
+.section {
+  padding: 1em;
+  @include t.themify {
+    background-color: t.themed("section-color");
+  }
+}
+
+.tabs {
+  display: flex;
+  column-gap: 2em;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+
+  &.is-left {
+    justify-content: flex-start;
+  }
+
+  .tab {
+    @include t.themify {
+      color: t.themed("tab-color");
+      &.is-active {
+        border-bottom: $tab-border-bottom-width solid
+          t.themed("border-color-active");
+        color: t.themed("tab-color-active");
+      }
+    }
+
+    //style
+    @extend .body;
+    padding: 0 0.5em;
+    line-height: 1.5;
+
+    &.is-active {
+      font-weight: bolder;
+    }
+  }
+}

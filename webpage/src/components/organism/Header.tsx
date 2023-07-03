@@ -125,9 +125,7 @@ const Header = () => {
         </section>
       </header>
       <ModalLayout state={[showModal, setShowModal]}>
-        <>
           <SearchBox></SearchBox>
-        </>
       </ModalLayout>
     </>
   )

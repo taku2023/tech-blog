@@ -1,4 +1,4 @@
-@use "./variable" as v;
+@use "./variable";
 
 $short-direction: (
   "t": "top",
@@ -7,9 +7,9 @@ $short-direction: (
   "r": "right",
 );
 
-@for $i from 0 through 10 {
-  $margin: calc($i * v.$margin-unit);
-  $padding: calc($i * v.$padding-unit);
+@for $i from 0 through 100 {
+  $margin: calc($i * variable.$margin-unit);
+  $padding: calc($i * variable.$padding-unit);
 
   @each $dir, $name in $short-direction {
     .m#{$dir}-#{$i} {
@@ -26,7 +26,7 @@ $short-direction: (
   }
   .mx-#{$i} {
     margin-right: $margin !important;
-    margin-left: $margin M !important;
+    margin-left: $margin !important;
   }
   .m-#{$i} {
     margin: $margin !important;

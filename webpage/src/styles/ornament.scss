@@ -35,16 +35,20 @@ $border-width: 1px !default;
 ///icon
 .icon {
   vertical-align: text-bottom;
+  @include t.themify {
+    color: t.themed("icon-color");
+  }
+
   &.is-clickable {
     $tapsize: 0.25em;
     border: 0px solid transparent;
     @extend .border-round;
+    //negative margin
     margin: calc(-1 * $tapsize) 0;
     //expand tap region (+tapsize)
     padding: $tapsize;
 
     @include t.themify {
-      color: t.themed("icon-color");
       &:hover {
         background-color: t.themed("icon-background-color-hover");
         color: t.themed("icon-color-hover");
@@ -57,4 +61,8 @@ $border-width: 1px !default;
       font-size: 24x;
     }
   }
+}
+
+.list-style-circle {
+  list-style: circle !important;
 }

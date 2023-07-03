@@ -1,4 +1,5 @@
 import pic from "@/static/github-mark.svg"
+import { Link } from "react-router-dom"
 import "./Footer.scss"
 
 const Footer = () => {
@@ -13,8 +14,11 @@ const Footer = () => {
         <div className="about">
           <p className="body mb-1">About Me</p>
           <span className="label">profile</span>
-          <span className="label">skills</span>
-          <span className="label">works</span>
+          <span className="label">
+            <Link to={"about-me#resume"} className="text-no-decoration">
+              resume
+            </Link>
+          </span>
         </div>
         <div>
           <span>
@@ -28,7 +32,7 @@ const Footer = () => {
             <span className="caption">&copy;Takuaki Mori</span>
           </div>
           <div className="author-sns-links">
-            <a href="https://github.com/taku2023" >
+            <a href="https://github.com/taku2023">
               <img src={pic} className="icon is-small is-clickable"></img>
             </a>
           </div>

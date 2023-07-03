@@ -1,0 +1,106 @@
+{
+  "projects": [
+    {
+      "title": "Medical note android app",
+      "description": "This project porpose is to make andorid application interact with own design system. Require highly concentrated job, and knowledge about clean architecture.",
+      "dates": {
+        "from": "2020/12",
+        "to": "2021/04"
+      },
+      "tags": ["Android", "Team Leader", "kotlin"]
+    },
+    {
+      "title": "Medical note android app",
+      "description": "This project porpose is to make andorid application interact with own design system. Require highly concentrated job, and knowledge about clean architecture.",
+      "dates": {
+        "from": "2020/12",
+        "to": "2021/04"
+      },
+      "tags": ["Android", "Team Leader", "kotlin"]
+    },
+    {
+      "title": "Medical note android app",
+      "description": "This project porpose is to make andorid application interact with own design system. Require highly concentrated job, and knowledge about clean architecture.",
+      "dates": {
+        "from": "2020/12",
+        "to": "2021/04"
+      },
+      "tags": ["Android", "Team Leader", "kotlin"]
+    },
+    {
+      "title": "Medical note android app",
+      "description": "This project porpose is to make andorid application interact with own design system. Require highly concentrated job, and knowledge about clean architecture.",
+      "dates": {
+        "from": "2020/12",
+        "to": "2021/04"
+      },
+      "tags": ["Android", "Team Leader", "kotlin"]
+    }
+  ],
+  "languages": [
+    {
+      "title": "Typescript",
+      "description": "I use typescript in Vue.js and Reactjs for 2+ year. It's more reliable than javascript thanks to it's type system, and I often create Result<L,R> type to pass result and handle error as functional programming. Now typescript has upgraded to v5, I daily check what's feature are included and how to write more effectively by these features."
+    },
+    {
+      "title": "AWS",
+      "description": "I used to use firebase for my tiny project, but consider of scalability, I switch to use AWS lately. I use mysql or dynamodb for database, use pipeline for CI/CD, apigateway and lambda for handling api calls, s3 for hosting website, ECR for deploy dynamic website, elastic cache for caching database response, ssm for storing secret data, cdk for deploy every aws resources."
+    },
+    {
+      "title": "Vue.js",
+      "description": "I love vue.js because it's more easy to learn than reactjs, and after v3, both are alike in that using hooks. "
+    },
+    {
+      "title": "kotlin",
+      "description": ""
+    }
+  ],
+  "hobiies": [
+    {
+      "title": "Music",
+      "subtitle": "I like to hear songs 80's (but I'm 30s)",
+      "list": [
+        "Simon & Garfunkel",
+        "Queen",
+        "The Beatlez",
+        "Carpenters",
+        "Christopher Cross",
+        "Journey",
+        "Oda Kazumasa",
+        "Tamaki Koji",
+        "Sada Masashi"
+      ]
+    },
+    {
+      "title": "Books",
+      "subtitle": "Mainly Tech books including Japanese book",
+      "list": [
+        "Clean Architecture",
+        "Domain-Driven Design",
+        "読みやすいコードのガイドライン",
+        "Web API The Good Parts",
+        "Building Microservices",
+        "CSS Secrets",
+        "Programming Rust",
+        "Real World Haskell",
+        "Option B",
+        "The Martians"
+      ]
+    },
+    {
+      "title": "Tech Study",
+      "subtitle": "Language & FW",
+      "list": ["Rust", "Elixir", "Haskell", "Solidjs"]
+    },
+    {
+      "title": "Comic",
+      "subtitle": "Mainly Japanese Comics",
+      "list": [
+        "One punch Man",
+        "Rurouni Kenshin",
+        "House of the Sun",
+        "Munou na Nana"
+      ]
+    }
+  ]
+}
