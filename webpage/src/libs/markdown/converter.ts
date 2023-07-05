@@ -1,5 +1,7 @@
 import hljs from "highlight.js"
 import MD from "markdown-it"
+import * as anchor from "markdown-it-anchor"
+import * as toc from "markdown-it-table-of-contents"
 
 hljs.highlightAll()
 
@@ -7,6 +9,7 @@ const md: MD = MD({
   breaks: true,
   html: true,
   typographer: true,
+  linkify: true,
   highlight: (str, lang) => {
     if (lang && hljs.getLanguage(lang)) {
       try {
@@ -25,4 +28,8 @@ const md: MD = MD({
     )
   },
 })
+
+md.use(anchor.default)
+md.use(toc)
+
 export default md

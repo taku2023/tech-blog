@@ -53,3 +53,20 @@ func TestSearchBlog(t *testing.T) {
 	json.Unmarshal(w.Body.Bytes(), &data)
 	assert.Equal(t, "How to test golang?", data.Blogs[0].Title)
 }
+
+func TestCategories(t *testing.T) {
+	r := ginRouter(api.MockClient(mockDBDriver))
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("GET", "/categories", nil)
+	r.ServeHTTP(w, req)
+	assert.Equal(t, 200, w.Code)
+	var data struct {
+		Categories []string `json:"categories"`
+	}
+	json.Unmarshal(w.Body.Bytes(), &data)
+
+	expect := []string{
+		"android", "clean architecture", "golang", "test",
+	}
+	assert.Equal(t, expect, data.Categories)
+}

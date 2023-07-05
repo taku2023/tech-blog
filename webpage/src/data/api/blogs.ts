@@ -28,8 +28,17 @@ const search: (params: { search?: string; category?: string }) => Promise<{
   return data
 }
 
-const get: (key: string) => Promise<{blog:Summary}> = async (key) => {
-  const { data, status: _ } = await client.get<{blog:Summary}>(`blogs/${key}`)
+const get: (key: string) => Promise<{ blog: Summary }> = async (key) => {
+  const { data, status: _ } = await client.get<{ blog: Summary }>(
+    `blogs/${key}`
+  )
+  return data
+}
+
+const getCategories: () => Promise<{ categories: string[] }> = async () => {
+  const { data, status } = await client.get<{ categories: string[] }>(
+    `categories`
+  )
   return data
 }
 
@@ -42,4 +51,4 @@ const download: (key: string, suffix?: string) => Promise<string> = async (
   return data
 }
 
-export { download, get, search, type Summary }
+export { download, get, getCategories, search, type Summary }

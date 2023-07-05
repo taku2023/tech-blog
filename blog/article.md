@@ -2,26 +2,17 @@
 title: "How to Advanced Webpack 5 - Setup Tutorial"
 description: "A step by step tutorial on how to set up an advanced Webpack 5 application. It comes with Babel 7, development and production build, automations, and source maps ..."
 date: "2020-10-30T14:55:46+02:00"
-categories: ["JavaScript", "Webpack", "Babel"]
-keywords: ["webpack advanced", "webpack 4 tutorial"]
-hashtags: ["#Webpack"]
+categories: "JavaScript", "Webpack", "Babel"
+keywords: "webpack advanced", "webpack 4 tutorial"
 banner: "./images/banner.jpg"
-contribute: ""
-author: ""
 ---
-
-<Sponsorship />
-
-<LinkCollection label="This tutorial is part 3 of 3 in 'Webpack Advanced Setup'-series." links={[{ prefix: "Part 1:", label: "How to set up Webpack 5", url: "/webpack-setup-tutorial/" }, { prefix: "Part 2:", label: "How to set up Webpack 5 with Babel", url: "/webpack-babel-setup-tutorial/" }]} />
 
 The previous tutorials have shown you how to set up a basic web application with Webpack 5. So far, Webpack is only used to bundle all your JavaScript files, to transpile new JavaScript features via Babel, and to serve your bundle in development mode via Webpack's Development Server. Basically that's everything that's needed to get started with creating your first web application.
 
 However, Webpack comes with so much more to explore. For instance, eventually you may want to take your project to production. That's when Webpack can help you to build a production ready bundle which comes with all the optimizations for your source code. In this tutorial, you will learn more about Webpack and how to configure it to your needs. If you don't have a basic Webpack application at your hands, you can take [this one](https://github.com/rwieruch/minimal-webpack-babel-setup) from the previous tutorials. The final advanced Webpack setup can be found on [GitHub](https://github.com/rwieruch/webpack-advanced-setup) as well.
 
 # Table of Contents
-
-<TableOfContents {...props} />
-
+[[toc]]
 # Webpack's Development and Production Build
 
 Essentially there are two modes to build your JavaScript application: development and production. You have used the development mode previously to get started with Webpack Dev Server in a local development environment. You can make changes to your source code, Webpack bundles it again, and Webpack Dev Server shows you the recent development build in your browser.

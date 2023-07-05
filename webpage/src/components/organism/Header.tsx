@@ -1,15 +1,15 @@
 import { PopupMenu } from "@/components/atom/PopupMenu"
-import Tags from "@/components/atom/Tags"
 import SearchBox from "@/components/molecular/SearchBox"
 import ModalLayout from "@/components/template/ModalLayout"
 import { useTheme } from "@/hooks/useThemeProvider"
 import { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import "./Header.scss"
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
   const [open, expand] = useState(false)
+  const nav = useNavigate()
 
   const changeTheme = () => {
     setTheme(theme == "light" ? "dark" : "light")
@@ -19,37 +19,40 @@ const Header = () => {
     expand(!open)
   }
 
-  const header = useRef<HTMLHeadElement>(null)
-  const [menus, setMenus] = useState<{ contact: boolean; blog: boolean }>({
+  const toggleIcon = useRef<HTMLSpanElement>(null)
+
+  const [menus, setMenus] = useState<{ contact: boolean }>({
     contact: false,
-    blog: false,
   })
 
   const [showModal, setShowModal] = useState(false)
 
+  /**
+   * detect click outside of toggleIcon
+   */
   useEffect(() => {
-    const handleOnClickOutside = (ev: Event) => {
+    const handleOnClick = (ev: Event) => {
       const target = ev.target
       if (
         target instanceof Node &&
-        (!header?.current?.contains(target) ?? false)
+        (!toggleIcon?.current?.contains(target) ?? false)
       ) {
         ev.preventDefault()
         expand(false)
-        setMenus({ contact: false, blog: false })
+        setMenus({ contact: false })
       }
     }
 
-    document.addEventListener("mousedown", handleOnClickOutside)
+    document.addEventListener("mousedown", handleOnClick)
 
     return () => {
-      document.removeEventListener("mousedown", handleOnClickOutside)
+      document.removeEventListener("mousedown", handleOnClick)
     }
-  }, [header])
+  }, [toggleIcon])
 
   return (
     <>
-      <header id="header" className="header is-background" ref={header}>
+      <header id="header" className="header is-background">
         <nav className="header-nav">
           <p className="header-nav-title title">
             <Link to={"/"} style={{ textDecoration: "none" }} className="title">
@@ -61,32 +64,27 @@ const Header = () => {
               Contact
               <span
                 className="icon material-symbols-outlined is-clickable"
-                onClick={(_) =>
-                  setMenus({ blog: false, contact: !menus.contact })
-                }
+                ref={toggleIcon}
+                onClick={(e) => {
+                  e.preventDefault()
+                  setMenus({ contact: !menus.contact })
+                }}
               >
                 {menus.contact ? "expand_less" : "expand_more"}
               </span>
               <PopupMenu isOpen={menus.contact}>
-                <ul className="body">
-                  <li>About me</li>
-                  <li>Job Offer</li>
+                <ul>
+                  <li>
+                    <Link className="body text-no-decoration" to={"about-me"}>
+                      About me
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="body text-no-decoration" to={"job-offer"}>
+                      Job Offer
+                    </Link>
+                  </li>
                 </ul>
-              </PopupMenu>
-            </span>
-            <span className="is-relative">
-              Blogs
-              <span
-                className="icon material-symbols-outlined is-clickable"
-                onClick={(_) => setMenus({ contact: false, blog: !menus.blog })}
-              >
-                {menus.blog ? "expand_less" : "expand_more"}
-              </span>
-              <PopupMenu isOpen={menus.blog}>
-                <>
-                  <p className="label">You can search </p>
-                  <Tags tags={["nodeJs", "Rust"]}></Tags>
-                </>
               </PopupMenu>
             </span>
           </span>
@@ -111,21 +109,21 @@ const Header = () => {
           className="header-menu px-4 pt-2 pb-4 not-tablet"
           hidden={!open}
         >
-          <div>
-            <label className="label">Blog category</label>
-            <Tags tags={["nodeJs", "Rust"]}></Tags>
-          </div>
           <div className="mt-1">
             <label className="label">Contacts</label>
-            <ul className="body text-indent">
-              <li>About me</li>
+            <ul>
+              <li>
+                <Link to={"about-me"} className="text-no-decoration body">
+                  About me
+                </Link>
+              </li>
               <li>Job Offer</li>
             </ul>
           </div>
         </section>
       </header>
       <ModalLayout state={[showModal, setShowModal]}>
-          <SearchBox></SearchBox>
+        <SearchBox></SearchBox>
       </ModalLayout>
     </>
   )

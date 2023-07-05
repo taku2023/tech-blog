@@ -19,6 +19,7 @@ func ginRouter(client api.Api) *gin.Engine {
 	r.GET("/blogs/:key", client.GetBlog)
 	// blogs?search={text}&category={category?}
 	r.GET("/blogs", client.SearchBlogs)
+	r.GET("/categories", client.GetCategories)
 	r.GET("/ping", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
 			"message": "hello",

@@ -1,5 +1,5 @@
 import pic from "@/static/github-mark.svg"
-import { Link } from "react-router-dom"
+import { HashLink } from "react-router-hash-link"
 import "./Footer.scss"
 
 const Footer = () => {
@@ -13,11 +13,21 @@ const Footer = () => {
         </div>
         <div className="about">
           <p className="body mb-1">About Me</p>
-          <span className="label">profile</span>
           <span className="label">
-            <Link to={"about-me#resume"} className="text-no-decoration">
+            <HashLink
+              to={"about-me#profile"}
+              className="text-no-decoration label"
+            >
+              profile
+            </HashLink>
+          </span>
+          <span>
+            <HashLink
+              to={"about-me#resume"}              
+              className="text-no-decoration label"
+            >
               resume
-            </Link>
+            </HashLink>
           </span>
         </div>
         <div>

@@ -2,6 +2,7 @@ import "./Tags.scss"
 
 interface Props {
   tags: string[]
+  onClick?: (tag: string) => {}
 }
 
 const Tags = (props: Props) => {
@@ -9,7 +10,11 @@ const Tags = (props: Props) => {
     <span className="tags">
       {props.tags.map((value, i) => {
         return (
-          <span className="tag label" key={i}>
+          <span
+            className="tag label"
+            key={i}
+            onClick={(_) => props.onClick?.(value)}
+          >
             {value}
           </span>
         )

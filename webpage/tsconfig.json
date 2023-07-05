@@ -19,13 +19,13 @@
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    
+
     /*alias*/
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "src/types/**.d.ts"],
   "exclude": ["/node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -24,7 +24,7 @@ const About = () => {
           <li>4.Be your mentor if you are seeking for teacher online.</li>
         </ul>
       </section>
-      <div className="my-16 about-profile text-center">
+      <div className="my-16 about-profile text-center" id="profile">
         <p className="title text-center mt-4">I'm Takuaki Mori</p>
         <figure placeholder="avatar" className="my-6 text-center">
           <Avatar></Avatar>
@@ -84,13 +84,17 @@ const About = () => {
         <div className="my-6">
           <ul className="tabs is-center mb-4">
             <li
-              className={`tab ${tab == "project" ? "is-active" : ""}`}
+              className={`tab ${
+                tab == "project" ? "is-active" : ""
+              } is-clickable`}
               onClick={(_) => setTab((_) => "project")}
             >
               Project
             </li>
             <li
-              className={`tab ${tab == "language" ? "is-active" : ""}`}
+              className={`tab ${
+                tab == "language" ? "is-active" : ""
+              } is-clickable`}
               onClick={(_) => setTab((_) => "language")}
             >
               Language

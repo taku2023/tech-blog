@@ -162,3 +162,45 @@ func (client *Api) SearchBlogs(c *gin.Context) {
 		}
 	}
 }
+
+//keywords
+func (client *Api) GetCategories(c *gin.Context) {
+	conn, err := client.conn()
+	if err != nil {
+		log.Printf("error connect%s", err.Error())
+		return
+	}
+	defer conn.Close()
+
+	rows, err := conn.Query("SELECT categories FROM blogs")
+	if err != nil {
+		c.JSON(400, gin.H{
+			"message": err.Error(),
+		})
+	} else {
+		defer rows.Close()
+		//var categories []string
+		allKeys := make(map[string]bool)
+		var keys []string
+
+		for rows.Next() {
+			var categories string
+			if err := rows.Scan(&categories); err != nil {
+				c.JSON(500, gin.H{
+					"message": err.Error(),
+				})
+				return
+			}
+			for _, category := range strings.Split(categories, ",") {
+				if _, err := allKeys[category]; !err {
+					allKeys[category] = true
+					keys = append(keys, category)
+				}
+			}
+		}
+
+		c.JSON(200, gin.H{
+			"categories": keys,
+		})
+	}
+}
