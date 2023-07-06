@@ -1,11 +1,22 @@
 import { Avatar } from "@/components/atom/Avatar"
 import Thumbnail from "@/components/organism/Thumbnail"
+import { Summary, getLatestBlogs } from "@/data/api/blogs"
 import data from "@/data/mock.json"
 import dayjs from "dayjs"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import "./Top.scss"
 
 const Top = () => {
+  const [blogs, setBlogs] = useState<Summary[]>([])
+
+  useEffect(() => {
+    getLatestBlogs().then(({ blogs }) => {
+      console.log(blogs)
+      setBlogs((_) => blogs)
+    })
+  }, [])
+
   return (
     <>
       <div className="top top-layout py-8">
@@ -26,10 +37,8 @@ const Top = () => {
         <div className="mt-4">
           <label className="subtitle">Latest Blogs</label>
           <ul className="thumbnails">
-            {data.thumbnails.map((prop) => {
-              const postAt = dayjs(prop.postAt)
-              const props = { ...prop, postAt }
-              return <Thumbnail {...props} key={props.id}></Thumbnail>
+            {blogs.map((props) => {
+              return <Thumbnail dir={props.s3_dir} title={props.title} categories={props.categories} key={props.s3_dir}></Thumbnail>
             })}
           </ul>
         </div>
@@ -51,7 +60,7 @@ const TopProfile = () => {
             I love to follow SOLID principal, write clean code.
             <br />
           </span>
-          Vue/Typescript/AWS/Android/Nodejs/Go/Kotlin
+          Vue/React/Typescript/AWS/Android/Nodejs/Go/Kotlin
         </p>
       </div>
     </div>

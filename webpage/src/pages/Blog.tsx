@@ -6,28 +6,33 @@ import "./Blog.scss"
 
 const getBlogsLoader: LoaderFunction = async ({ params }) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const key = params.key!!
-  const content = await download(key)
-  return content
+  const dir = params.dir!!
+  const content = await download(dir)
+  const imgSrc = `${location.hostname}/__blogs__/${dir}/images/avatar.jpg`
+  return { content, imgSrc }
 }
 
 const BlogPage = () => {
-  const content = useLoaderData() as string
+  const { content, imgSrc } = useLoaderData() as {
+    content: string
+    imgSrc: string
+  }
 
   const [_, summary, ...body] = content.split("---")
 
-  const title = /.*title:\s+"(.*)"/.exec(summary)?.[1]
+  const title = /.*title:\s+(.*)/.exec(summary)?.[1]
   const categories =
     /.*categories:\s+\[(.*)\]/.exec(summary)?.[1]?.split(",") ?? []
   const keywords = /.*keywords:\s+\[(.*)\]/.exec(summary)?.[1]?.split(",") ?? []
-  const banner = /.*banner:\s+"(.*)"/.exec(summary)?.[1]
-  const date = /.*date:\s+"(.*)"/.exec(summary)?.[1]
+  const date = /.*date:\s+(.*)/.exec(summary)?.[1]
 
   const html = md.render(body.join())
+
   return (
     <>
       <article className="article-layout py-8">
-        <h1 className="headline">{title}</h1>
+        <img src={imgSrc} alt="image" className="article-image"></img>
+        <h1 className="headline mt-4">{title}</h1>
         <div className="tags mt-4">
           {categories.map((t) => {
             const tag = t.replaceAll('"', "")

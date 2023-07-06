@@ -1,36 +1,36 @@
 import Tags from "@/components/atom/Tags"
-import { Dayjs } from "dayjs"
+import { useNavigate } from "react-router"
 import "./Thumbnail.scss"
 
 type Props = {
+  dir: string
   title: string
   categories: string[]
-  imageSrc: string
-  minutes: number
-  postAt: Dayjs
 }
 
 const Thumbnail = (props: Props) => {
+  const imgSrc = `${location.hostname}/__blogs__/${props.dir}/images/avatar.jpg`
+  const nav = useNavigate()
+
   return (
     <article
       className="thumbnail is-clickable"
-      onClick={(_) => {
-        //
+      onClick={(e) => {
+        e.preventDefault()
+        nav(`blogs/${props.dir}`)
       }}
     >
       <img
-        src={
-          props.imageSrc ?? "https://bulma.io/images/placeholders/128x128.png"
-        }
+        src={imgSrc}
         className="thumbnail-image"
       ></img>
       <div className="thumbnail-title">
         <p className="subtitle text-wrap">{props.title}</p>
         <p className="thumbnail-title-footer mt-2">
-          <span className="caption">
+          {/*<span className="caption">
             <span className="icon material-symbols-outlined">lock</span>
             {props.minutes}min
-          </span>
+        </span>*/}
           <Tags tags={props.categories}></Tags>
         </p>
       </div>

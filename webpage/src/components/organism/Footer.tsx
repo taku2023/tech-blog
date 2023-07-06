@@ -1,4 +1,5 @@
 import pic from "@/static/github-mark.svg"
+import { Link } from "react-router-dom"
 import { HashLink } from "react-router-hash-link"
 import "./Footer.scss"
 
@@ -7,9 +8,23 @@ const Footer = () => {
     <>
       <footer id="footer">
         <div className="contact">
-          <p className="body mb-1">Contact Me</p>
-          <label className="label">Offer Jobs</label>
-          <label className="label">Support me</label>
+          <p className="body mb-1">Contact</p>
+          <label>
+            <Link
+              to={"job-offer"}
+              className="label text-no-decoration is-clickable"
+            >
+              Offer Jobs
+            </Link>
+          </label>
+          <label>
+            <a
+              href="https://buymeacoffee.com/moritakuaki"
+              className="text-no-decoration label"
+            >
+              Buy me a coffee
+            </a>
+          </label>
         </div>
         <div className="about">
           <p className="body mb-1">About Me</p>
@@ -23,7 +38,7 @@ const Footer = () => {
           </span>
           <span>
             <HashLink
-              to={"about-me#resume"}              
+              to={"about-me#resume"}
               className="text-no-decoration label"
             >
               resume
@@ -38,7 +53,9 @@ const Footer = () => {
         <hr className="my-1 bg-light"></hr>
         <div className="author">
           <div>
-            <p className="body is-bold">Freelance Engineer</p>
+            <p className="label">
+              This site is created using <a href="https://react.dev/">React</a>
+            </p>
             <span className="caption">&copy;Takuaki Mori</span>
           </div>
           <div className="author-sns-links">

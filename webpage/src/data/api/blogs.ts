@@ -1,5 +1,4 @@
 import { client, downloadClient } from "."
-
 /**
  * article API
  *
@@ -7,7 +6,7 @@ import { client, downloadClient } from "."
  */
 
 type Summary = {
-  object_key: string
+  s3_dir: string
   title: string
   categories: string[]
   keywords: string[]
@@ -42,13 +41,21 @@ const getCategories: () => Promise<{ categories: string[] }> = async () => {
   return data
 }
 
-//simple get markdown file from s3(cached by cloudfront)
-const download: (key: string, suffix?: string) => Promise<string> = async (
-  key,
-  suffix = ".md"
-) => {
-  const { data, status: _ } = await downloadClient.get<string>(key + suffix)
+const getLatestBlogs: (
+  limit?: number
+) => Promise<{ blogs: Summary[] }> = async (limit = 10) => {
+  const { data, status: _ } = await client.get<{ blogs: Summary[] }>(
+    `blogs/latest?limit=${limit}`
+  )
   return data
 }
 
-export { download, get, getCategories, search, type Summary }
+//simple get markdown file from s3(cached by cloudfront)
+const download: (dir: string) => Promise<string> = async (dir) => {
+  const { data, status: _ } = await downloadClient.get<string>(
+    `${dir}/index.md`
+  )
+  return data
+}
+
+export { download, get, getCategories, getLatestBlogs, search, type Summary }

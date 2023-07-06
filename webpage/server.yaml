@@ -26,23 +26,35 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Summary"
-                  limit:
-                    type: number
-                example:
-                  blogs:
-                    - title: Sample 1
-                      id: 1
-                    - title: Sample 2
-                      id: 2
-                    - title: Sample 3
-                      id: 3
 
-  /__api__/blogs/{title}:
+  /__api__/blogs/latest:
     get:
-      summary: Get one blog summary with title (title is unique)
+      summary: Get latest blogs less than limit
+      tags: [Blogs]
+      parameters:
+        - name: limit
+          in: query
+          type: number
+          required: false
+      responses:
+        "200":
+          description: Get
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  blogs:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Summary"
+
+  /__api__/blogs/{s3_dir}:
+    get:
+      summary: Get one blog summary with s3 directory
       tags: [Blog]
       parameters:
-        - name: title
+        - name: s3_dir
           in: path
           required: true
           schema:
@@ -59,7 +71,19 @@ paths:
                     type: string
                     $ref: "#/components/schemas/Summary"
 
-  /__blogs__/{filename}:
+  /__blogs__/images/avatar.*:
+    get:
+      summary: Get Avatar
+      responses:
+        "200":
+          description: OK
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+
+  /__blogs__/{filename}/index.md:
     get:
       summary: Get blog content
       parameters:
@@ -87,7 +111,7 @@ components:
     Summary:
       type: object
       properties:
-        object_key:
+        s3_dir:
           type: string
         title:
           type: string
@@ -106,30 +130,28 @@ components:
           type: string
           format: datetime
           nullable: true
+        viewer:
+          type: number
+          nullable: true
       example:
-        object_key: "article"
-        title: Sample 1
-        categories: ["test"]
+        s3_dir: How-to-test-android
+        title: How to test android with mockito
+        categories: [test]
         keywords: [architecture, andorid]
-        createAt: 2022-08-24T00:00:00Z+90:00
-        updateAt: 2022-08-24T00:00:00Z+90:00
+        createAt: 2022-08-24T00:00:00Z90:00
+        updateAt: 2022-08-24T00:00:00Z90:00
         viewer: 0
 
     Blog:
       type: string
       example: |
         ---
-        title:  "How to Advanced Webpack 5 - Setup Tutorial"
-        description: "A step by step tutorial on how to set up an advanced Webpack 5 application. It comes with Babel 7, development and production build, automations, and source maps ..."
-        date: "2020-10-30T14:55:46+02:00"
-        categories: ["JavaScript", "Webpack", "Babel"]
-        keywords: ["webpack advanced", "webpack 4 tutorial"]
-        hashtags: ["#Webpack"]
-        banner: "./images/banner.jpg"
-        contribute: ""
-        author: ""
+        title:  How to Advanced Webpack 5 - Setup Tutorial
+        description: A step by step tutorial on how to set up an advanced Webpack 5 application. It comes with Babel 7, development and production build, automations, and source maps ...
+        date: 2020-10-30T14:55:46+02:00
+        categories: [JavaScript, Webpack, Babel]
+        keywords: [webpack advanced, webpack 4 tutorial]
         ---
-
 
         ## Table of Contents
         [[toc]]

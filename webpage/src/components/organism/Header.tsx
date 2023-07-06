@@ -3,13 +3,13 @@ import SearchBox from "@/components/molecular/SearchBox"
 import ModalLayout from "@/components/template/ModalLayout"
 import { useTheme } from "@/hooks/useThemeProvider"
 import { useEffect, useRef, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
+import { HashLink } from "react-router-hash-link"
 import "./Header.scss"
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
   const [open, expand] = useState(false)
-  const nav = useNavigate()
 
   const changeTheme = () => {
     setTheme(theme == "light" ? "dark" : "light")
@@ -19,7 +19,9 @@ const Header = () => {
     expand(!open)
   }
 
+  const header = useRef<HTMLHeadingElement>(null)
   const toggleIcon = useRef<HTMLSpanElement>(null)
+  const panel = useRef<HTMLUListElement>(null)
 
   const [menus, setMenus] = useState<{ contact: boolean }>({
     contact: false,
@@ -35,7 +37,8 @@ const Header = () => {
       const target = ev.target
       if (
         target instanceof Node &&
-        (!toggleIcon?.current?.contains(target) ?? false)
+        //(!toggleIcon?.current?.contains(target) ?? false)&&(!panel?.current?.contains(target)??false)
+        (!header?.current?.contains(target) ?? false)
       ) {
         ev.preventDefault()
         expand(false)
@@ -52,7 +55,7 @@ const Header = () => {
 
   return (
     <>
-      <header id="header" className="header is-background">
+      <header id="header" className="header is-background" ref={header}>
         <nav className="header-nav">
           <p className="header-nav-title title">
             <Link to={"/"} style={{ textDecoration: "none" }} className="title">
@@ -73,16 +76,19 @@ const Header = () => {
                 {menus.contact ? "expand_less" : "expand_more"}
               </span>
               <PopupMenu isOpen={menus.contact}>
-                <ul>
-                  <li>
-                    <Link className="body text-no-decoration" to={"about-me"}>
-                      About me
-                    </Link>
-                  </li>
+                <ul ref={panel}>
                   <li>
                     <Link className="body text-no-decoration" to={"job-offer"}>
                       Job Offer
                     </Link>
+                  </li>
+                  <li className="mt-2">
+                    <a
+                      className="body text-no-decoration"
+                      href="https://buymeacoffee.com/moritakuaki"
+                    >
+                      Buy Coffee
+                    </a>
                   </li>
                 </ul>
               </PopupMenu>
@@ -110,14 +116,41 @@ const Header = () => {
           hidden={!open}
         >
           <div className="mt-1">
-            <label className="label">Contacts</label>
-            <ul>
+            <label className="label">About Me</label>
+            <ul className="mb-2 text-indent">
               <li>
-                <Link to={"about-me"} className="text-no-decoration body">
-                  About me
+                <HashLink
+                  to={"about-me#profile"}
+                  className="text-no-decoration body"
+                >
+                  profile
+                </HashLink>
+              </li>
+              <li>
+                <HashLink
+                  to={"about-me#resume"}
+                  className="text-no-decoration body"
+                >
+                  resume
+                </HashLink>
+              </li>
+            </ul>
+            <label className="label">Contact</label>
+            <ul className="text-indent">
+              <li></li>
+              <li>
+                <Link to={"offer-jobs"} className="text-no-decoration body">
+                  Offer Jobs
                 </Link>
               </li>
-              <li>Job Offer</li>
+              <li>
+                <a
+                  href="https://buymeacoffee.com/moritakuaki"
+                  className="text-no-decoration body"
+                >
+                  Buy me a coffee
+                </a>
+              </li>
             </ul>
           </div>
         </section>
@@ -130,3 +163,4 @@ const Header = () => {
 }
 
 export { Header as default }
+

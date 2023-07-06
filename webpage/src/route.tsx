@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         element: <Top />,
       },
       {
-        path: "blogs/:key",
+        path: "blogs/:dir",
         loader: getBlogsLoader,
         element: <Blog />,
       },
