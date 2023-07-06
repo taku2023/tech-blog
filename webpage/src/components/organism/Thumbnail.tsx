@@ -9,7 +9,7 @@ type Props = {
 }
 
 const Thumbnail = (props: Props) => {
-  const imgSrc = `${location.hostname}/__blogs__/${props.dir}/images/banner.png`
+  const imgSrc = `${location.origin}/__blogs__/${props.dir}/images/banner.png`
   const nav = useNavigate()
 
   return (
@@ -20,10 +20,7 @@ const Thumbnail = (props: Props) => {
         nav(`blogs/${props.dir}`)
       }}
     >
-      <img
-        src={imgSrc}
-        className="thumbnail-image"
-      ></img>
+      <img src={imgSrc} className="thumbnail-image"></img>
       <div className="thumbnail-title">
         <p className="subtitle text-wrap">{props.title}</p>
         <p className="thumbnail-title-footer mt-2">

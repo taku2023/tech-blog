@@ -31,10 +31,10 @@ func Extract(reader io.ReadCloser) (*Summary, error) {
 		return nil, err
 	}
 	contents := b.String()
-	reTitle := regexp.MustCompile(`title:\s*(.*?)`)
+	reTitle := regexp.MustCompile(`title:\s*(.*?)\n`)
 	reCategories := regexp.MustCompile(`categories:\s*\[(.*?)\]`)
 	reKeywords := regexp.MustCompile(`keywords:\s*\[(.*?)\]`)
-	reDate := regexp.MustCompile(`date:\s*(.*?)`)
+	reDate := regexp.MustCompile(`date:\s*(.*?)\n`)
 	
 	summary := Summary{
 		Title:      reTitle.FindStringSubmatch(contents)[1],

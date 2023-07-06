@@ -8,7 +8,7 @@ const getBlogsLoader: LoaderFunction = async ({ params }) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const dir = params.dir!!
   const content = await download(dir)
-  const imgSrc = `${location.hostname}/__blogs__/${dir}/images/banner.png`
+  const imgSrc = `${location.origin}/__blogs__/${dir}/images/banner.png`
   return { content, imgSrc }
 }
 
@@ -30,7 +30,7 @@ const BlogPage = () => {
 
   return (
     <>
-      <article className="article-layout py-8">
+      <article className="article-layout pb-8">
         <img src={imgSrc} alt="image" className="article-image"></img>
         <h1 className="headline mt-4">{title}</h1>
         <div className="tags mt-4">
