@@ -1,14 +1,11 @@
+import avatar from "@/static/avatar.jpg"
 import "./Avatar.scss"
 
-interface Props {
-  src?: string
-}
-
-export const Avatar = (props: Props) => {
+export const Avatar = () => {
   return (
     <>
       <img
-        src={props.src ?? "src/static/avatar.jpg"}
+        src={avatar}
         alt="avatar"
         className="avatar border border-round border-active"
       ></img>

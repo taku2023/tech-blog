@@ -7,9 +7,6 @@ keywords: [error handling]
 banner: ./images/banner.png
 ---
 
-## Table of Contents
-[[toc]]
-
 ## How to handle error
 this is sample page 
 

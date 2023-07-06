@@ -1,8 +1,6 @@
 import { Avatar } from "@/components/atom/Avatar"
 import Thumbnail from "@/components/organism/Thumbnail"
 import { Summary, getLatestBlogs } from "@/data/api/blogs"
-import data from "@/data/mock.json"
-import dayjs from "dayjs"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import "./Top.scss"
@@ -12,7 +10,6 @@ const Top = () => {
 
   useEffect(() => {
     getLatestBlogs().then(({ blogs }) => {
-      console.log(blogs)
       setBlogs((_) => blogs)
     })
   }, [])

@@ -1,6 +1,7 @@
 import { Avatar } from "@/components/atom/Avatar"
 import about from "@/data/about.json"
 import { useState } from "react"
+import githubMark from "@/static/github-mark.svg"
 import "./About.scss"
 
 const About = () => {
@@ -41,7 +42,7 @@ const About = () => {
             </li>
             <li>
               <img
-                src="/src/static/github-mark.svg"
+                src={githubMark}
                 className="icon is-small"
               ></img>
               <span className="label ml-2">github.com/taku2023</span>

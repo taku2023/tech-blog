@@ -1,8 +1,7 @@
-declare module "markdown-it-table-of-contents" {
-  import { PluginSimple } from "markdown-it"
-  interface Options {
-    includeLevel?: number[]
-  }
-  const toc: PluginSimple<Option>
+/*declare module "markdown-it-table-of-contents" {
+  import MarkDownIt from "markdown-it"
+  export declare function toc(MarkdownIt):void
   export = toc
-}
+}*/
+
+
