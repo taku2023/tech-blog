@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"path"
 	"regexp"
 	"strings"
 
@@ -30,10 +31,10 @@ func Extract(reader io.ReadCloser) (*Summary, error) {
 		return nil, err
 	}
 	contents := b.String()
-	reTitle := regexp.MustCompile(`title:\s*"(.*?)"`)
+	reTitle := regexp.MustCompile(`title:\s*(.*?)`)
 	reCategories := regexp.MustCompile(`categories:\s*\[(.*?)\]`)
 	reKeywords := regexp.MustCompile(`keywords:\s*\[(.*?)\]`)
-	reDate := regexp.MustCompile(`date:\s*"(.*?)"`)
+	reDate := regexp.MustCompile(`date:\s*(.*?)`)
 	
 	summary := Summary{
 		Title:      reTitle.FindStringSubmatch(contents)[1],
@@ -42,52 +43,6 @@ func Extract(reader io.ReadCloser) (*Summary, error) {
 		Keywords:   strings.Split(reKeywords.FindStringSubmatch(contents)[1], ","),
 	}
 	return &summary, nil
-}
-
-func S3Post(record events.S3EventRecord, reader io.ReadCloser) error {
-
-	summary, err := Extract(reader)
-	if err != nil {
-		return err
-	}
-
-	db, err := driver.Conn()
-	if err != nil {
-		return err
-	}
-	defer db.Close()
-
-	object_key,_,_ := strings.Cut(record.S3.Object.Key,".")
-	
-
-	if _, err := db.Exec(`
-		INSERT INTO blogs (object_key,title,categories,keywords,create_at) VALUES (?,?,?,?,?) 
-		WHERE NOT EXISTS (SELECT * FROM blogs WHERE object_key = ? ) `,
-		object_key, summary.Title, strings.Join(summary.Categories, ","), strings.Join(summary.Keywords, ","), summary.Date,record.S3.Object.Key); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func S3Put(record events.S3EventRecord, reader io.ReadCloser) error {
-
-	summary, err := Extract(reader)
-	if err != nil {
-		return err
-	}
-
-	db, err := driver.Conn()
-	if err != nil {
-		return err
-	}
-	defer db.Close()
-
-	if _, err := db.Exec(`UPDATE blogs SET title = ?, categories = ?, keywords = ? update_at = ? WHERE object_key = ?`, summary.Title, strings.Join(summary.Categories, ","), strings.Join(summary.Keywords, ","),summary.Date, record.S3.Object.Key); err != nil {
-		return err
-	}
-
-	return nil
 }
 
 func S3UPSert(record events.S3EventRecord, reader io.ReadCloser) error {
@@ -101,14 +56,14 @@ func S3UPSert(record events.S3EventRecord, reader io.ReadCloser) error {
 		return err
 	}
 	defer db.Close()
-	object_key,_,_ := strings.Cut(record.S3.Object.Key,".")
+	dir:= path.Dir(record.S3.Object.Key)
 	title := summary.Title
 	categories := strings.Join(summary.Categories, ",")
 	keywords := strings.Join(summary.Keywords, ",")
 	datetime := summary.Date
 	if _, err := db.Exec(`
-	INSERT INTO blogs (object_key,title,categories,keywords,create_at) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE title = ?, categories = ?, keywords = ?, update_at = ?`,
-		object_key, title, categories, keywords, datetime, title, categories, keywords,datetime); err != nil {
+	INSERT INTO blogs (s3_dir,title,categories,keywords,create_at) VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE title = ?, categories = ?, keywords = ?, update_at = ?`,
+		dir, title, categories, keywords, datetime, title, categories, keywords,datetime); err != nil {
 		return err
 	}
 	return nil

@@ -3,7 +3,7 @@ package jobs
 import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/taku2023/s3-notification/driver"
-	"strings"
+	"path"
 )
 
 func S3Delete(record events.S3EventRecord) error {
@@ -12,9 +12,9 @@ func S3Delete(record events.S3EventRecord) error {
 		return err
 	}
 	defer db.Close()
-	object_key,_,_ := strings.Cut(record.S3.Object.Key,".")
+	s3_dir := path.Dir(record.S3.Object.Key)
 	
-	if _, err := db.Exec("DELETE FROM blogs WHERE object_key = ?", object_key); err != nil {
+	if _, err := db.Exec("DELETE FROM blogs WHERE s3_dir = ?", s3_dir); err != nil {
 		return err
 	}
 	return nil

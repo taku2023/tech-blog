@@ -5,9 +5,6 @@ import (
 	"log"
 	"strings"
 	"time"
-
-	//"encoding/json"
-
 	"github.com/gin-gonic/gin"
 	"github.com/taku2023/tech-blog/driver"
 )
@@ -31,7 +28,7 @@ func MockClient(conn Conn) Api {
 }
 
 type Blog struct {
-	Key        string    `json:"object_key"`
+	Key        string    `json:"s3_dir"`
 	Title      string    `json:"title"`
 	Categories []string  `json:"categories"`
 	Keywords   []string  `json:"keywords"`
@@ -40,13 +37,12 @@ type Blog struct {
 	Viewer     int       `json:"viewer"`
 }
 
-func New(key string, title string, categories string, keywords string, createAt time.Time, updateAt sql.NullTime, viewr int) Blog {
+func New(key string, title string, categories string, keywords string, createAt time.Time, updateAt sql.NullTime, viewer int) Blog {
 	//updateAt := updateAt.Valid
 	update := time.Time{}
 	if updateAt.Valid {
 		update = updateAt.Time
 	}
-
 	return Blog{
 		Key:        key,
 		Title:      title,
@@ -54,12 +50,12 @@ func New(key string, title string, categories string, keywords string, createAt 
 		Keywords:   strings.Split(keywords, ","),
 		CreateAt:   createAt,
 		UpdateAt:   update,
-		Viewer:     viewr,
+		Viewer:     viewer,
 	}
 }
 
 func (client *Api) GetBlog(c *gin.Context) {
-	object_key := c.Param("key")
+	s3_dir := c.Param("dir")
 	conn, err := client.conn()
 	if err != nil {
 		log.Printf("error connect %s", err.Error())
@@ -76,25 +72,23 @@ func (client *Api) GetBlog(c *gin.Context) {
 		UpdateAt   sql.NullTime
 		Viewer     int
 	}
-	if err := conn.QueryRow("SELECT * from blogs WHERE object_key = ?", object_key).Scan(&blog.Key, &blog.Title, &blog.Categories, &blog.Keywords, &blog.CreateAt, &blog.UpdateAt, &blog.Viewer); err != nil {
-		log.Printf("error query %s", err.Error())
-		c.JSON(400, gin.H{
-			"message": err.Error(),
-		})
-	} else {
+	if err := conn.QueryRow("SELECT * from blogs WHERE s3_dir = ?", s3_dir).Scan(&blog.Key, &blog.Title, &blog.Categories, &blog.Keywords, &blog.CreateAt, &blog.UpdateAt, &blog.Viewer); err == nil {
 		blog := New(blog.Key, blog.Title, blog.Categories, blog.Keywords, blog.CreateAt, blog.UpdateAt, blog.Viewer)
 		c.JSON(200, gin.H{
 			"blog": blog,
 		})
+	} else {
+		c.JSON(400, gin.H{
+			"message": "no ",
+		})
 	}
 }
 
-//
 func (client *Api) SearchBlogs(c *gin.Context) {
 
 	search, hasSearch := c.GetQuery("search")
 	category, hasCategory := c.GetQuery("cateogry")
-	if !hasSearch && !hasCategory {
+	if (!hasSearch) && (!hasCategory) {
 		c.JSON(400, gin.H{
 			"message": "query must contain either 'search' or 'category' parameter",
 		})
@@ -163,7 +157,56 @@ func (client *Api) SearchBlogs(c *gin.Context) {
 	}
 }
 
-//keywords
+func (client *Api) GetLatestBlogs(c *gin.Context) {
+	conn, err := client.conn()
+	if err != nil {
+		log.Printf("error connect%s", err.Error())
+		return
+	}
+	defer conn.Close()
+	limit, has := c.GetQuery("limit")
+	if !has {
+		limit = "20"
+	}
+	rows, err := conn.Query("SELECT * FROM blogs ORDER BY create_at DESC limit  ?", limit)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"message": err.Error(),
+		})
+	} else {
+		defer rows.Close()
+		var blogs []Blog
+		for rows.Next() {
+			var blog struct {
+				Key        string
+				Title      string
+				Categories string
+				Keywords   string
+				CreateAt   time.Time
+				UpdateAt   sql.NullTime
+				Viewer     int
+			}
+			if err := rows.Scan(&blog.Key, &blog.Title, &blog.Categories, &blog.Keywords, &blog.CreateAt, &blog.UpdateAt, &blog.Viewer); err != nil {
+				c.JSON(500, gin.H{
+					"message": err.Error(),
+				})
+				return
+			}
+			blogs = append(blogs, New(blog.Key, blog.Title, blog.Categories, blog.Keywords, blog.CreateAt, blog.UpdateAt, blog.Viewer))
+		}
+		if len(blogs) == 0 {
+			c.JSON(404, gin.H{
+				"message": "not found",
+			})
+		} else {
+			c.JSON(200, gin.H{
+				"blogs": blogs,
+			})
+		}
+	}
+}
+
+//categories
 func (client *Api) GetCategories(c *gin.Context) {
 	conn, err := client.conn()
 	if err != nil {
