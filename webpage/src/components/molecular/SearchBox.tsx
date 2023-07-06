@@ -35,9 +35,9 @@ const SearchBox = () => {
               <Link
                 className="search-list-item body text-no-decoration"
                 key={i}
-                to={`blogs/${blog.object_key}`}
+                to={`blogs/${blog.s3_dir}`}
               >
-                {blog.title} | {blog.object_key}
+                {blog.title}
               </Link>
             )
           })}
