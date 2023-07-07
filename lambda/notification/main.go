@@ -42,6 +42,7 @@ func Handler(ctx context.Context, events events.S3Event) error {
 				log.Printf("error getting object %s", err)
 				return err
 			}
+			defer output.Body.Close()
 			if err := jobs.S3UPSert(record, output.Body); err != nil {
 				log.Printf("error post object %s", err)
 			}

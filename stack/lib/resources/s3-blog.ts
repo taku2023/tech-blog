@@ -1,6 +1,6 @@
 import { RemovalPolicy } from "aws-cdk-lib";
 import { IFunction } from "aws-cdk-lib/aws-lambda";
-import { Bucket, EventType, IBucket } from "aws-cdk-lib/aws-s3";
+import { Bucket, IBucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { Construct } from "constructs";
 
@@ -18,8 +18,12 @@ export class NotifyBlogBucket extends Construct {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    s3Bcuket.addObjectCreatedNotification(new LambdaDestination(props.target));
-    s3Bcuket.addObjectRemovedNotification(new LambdaDestination(props.target));
+    s3Bcuket.addObjectCreatedNotification(new LambdaDestination(props.target),{
+      suffix: 'md'
+    });
+    s3Bcuket.addObjectRemovedNotification(new LambdaDestination(props.target),{
+      suffix: "md"
+    });
     s3Bcuket.grantRead(props.target)
     /*this.queue = new Queue(this, "NotifyQueue",{      
     });

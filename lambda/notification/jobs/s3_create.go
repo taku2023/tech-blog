@@ -20,7 +20,7 @@ type Summary struct {
 }
 
 func Extract(reader io.ReadCloser) (*Summary, error) {
-	buffer := make([]byte, 1024)
+	buffer := make([]byte, 512)
 	if _, err := reader.Read(buffer); err != nil {
 		fmt.Printf("error read buffer %s", err.Error())
 		return nil, err
@@ -62,7 +62,7 @@ func S3UPSert(record events.S3EventRecord, reader io.ReadCloser) error {
 	keywords := strings.Join(summary.Keywords, ",")
 	datetime := summary.Date
 	if _, err := db.Exec(`
-	INSERT INTO blogs (s3_dir,title,categories,keywords,create_at) VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE title = ?, categories = ?, keywords = ?, update_at = ?`,
+	INSERT INTO blogs (s3_dir,title,categories,keywords,create_at) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE title = ?, categories = ?, keywords = ?, update_at = ?`,
 		dir, title, categories, keywords, datetime, title, categories, keywords,datetime); err != nil {
 		return err
 	}
