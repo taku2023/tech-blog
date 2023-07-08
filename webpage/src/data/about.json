@@ -1,58 +1,78 @@
 {
   "projects": [
     {
-      "title": "Medical note android app",
-      "description": "This project porpose is to make andorid application interact with own design system. Require highly concentrated job, and knowledge about clean architecture.",
+      "title": "Create and maintain android apps with Java",
+      "description": "I joined MVNO company and responsible for developing phonebook migration applications, memory reduction applications, as well as functional modifications, operations, upgrades, and refactoring of 5 to 8 existing applications at any given time. I also had experience developing a company chat application using websockets.",
       "dates": {
-        "from": "2020/12",
-        "to": "2021/04"
+        "from": "2015",
+        "to": "2018"
       },
-      "tags": ["Android", "Team Leader", "kotlin"]
+      "tags": ["Android", "Java", "Nodejs", "Architecture"]
+    },
+    {
+      "title": "PMO for major bus company",
+      "description": " Served as PMO for a major bus company's reservation system revamp. I was responsible for defining requirements for the new system, as well as managing the development schedule and system testing. The system was released as originally planned in a large-scale project that lasted approximately one and a half years.",
+      "dates": {
+        "from": "2018",
+        "to": "2020"
+      },
+      "tags": ["PMO", "Junior Consultant"]
     },
     {
       "title": "Medical note android app",
-      "description": "This project porpose is to make andorid application interact with own design system. Require highly concentrated job, and knowledge about clean architecture.",
+      "description": " developed an Android application that allows users to note their daily health condition and medications. I was also the team leader and PM for a small team.",
       "dates": {
-        "from": "2020/12",
-        "to": "2021/04"
+        "from": "2020",
+        "to": "2021"
       },
-      "tags": ["Android", "Team Leader", "kotlin"]
+      "tags": ["Android", "Team Leader", "Kotlin", "Clean Architecture"]
     },
     {
-      "title": "Medical note android app",
-      "description": "This project porpose is to make andorid application interact with own design system. Require highly concentrated job, and knowledge about clean architecture.",
+      "title": "planned and execution of new project",
+      "description": "Responsible for ongoing development of new internal business ideas, market needs research, UIUX improvements, and implementation of SPA web applications with Vue.js and AWS. Further technical research included implementation of document segmentation, etc. using sensorflow.",
       "dates": {
-        "from": "2020/12",
-        "to": "2021/04"
+        "from": "2021",
+        "to": "2022"
       },
-      "tags": ["Android", "Team Leader", "kotlin"]
-    },
-    {
-      "title": "Medical note android app",
-      "description": "This project porpose is to make andorid application interact with own design system. Require highly concentrated job, and knowledge about clean architecture.",
-      "dates": {
-        "from": "2020/12",
-        "to": "2021/04"
-      },
-      "tags": ["Android", "Team Leader", "kotlin"]
+      "tags": ["Vuejs", "typescript", "AWS"]
     }
   ],
   "languages": [
     {
       "title": "Typescript",
-      "description": "I use typescript in Vue.js and Reactjs for 2+ year. It's more reliable than javascript thanks to it's type system, and I often create Result<L,R> type to pass result and handle error as functional programming. Now typescript has upgraded to v5, I daily check what's feature are included and how to write more effectively by these features."
+      "description": "I have been using typescript for over 2 years with Vue.js and Reactjs and it is one of my favorite languages. The type system makes it more reliable than Javascript, more efficient than traditional try catch, and reduces runtime errors. typescript is using ver4, but I am constantly checking what features have been added in ver5 and how to write more efficiently. I check daily to see what features have been added in v5 and how I can write more efficiently."
     },
     {
       "title": "AWS",
-      "description": "I used to use firebase for my tiny project, but consider of scalability, I switch to use AWS lately. I use mysql or dynamodb for database, use pipeline for CI/CD, apigateway and lambda for handling api calls, s3 for hosting website, ECR for deploy dynamic website, elastic cache for caching database response, ssm for storing secret data, cdk for deploy every aws resources."
+      "description": "I'm good at building serverless architectures using AWS and coding infrastructure using cdk; building APIs using Lambda, API Gateway, and CloudFront; hosting SPAs using S3 and CloudFront; and using DynamoDB to host existing I have experience with RDS table reduction, user authentication using Cognito and authorization combined with API Gateway. The above can be built and managed with CDK."
     },
     {
       "title": "Vue.js",
-      "description": "I love vue.js because it's more easy to learn than reactjs, and after v3, both are alike in that using hooks. "
+      "description": "I specialize in building single page applications using Vue and vue-router. I often combine with webpack and vite as build tools. I always use typescript. I have 2+ years of experience, and work with Vue ver3, but I can handle version upgrades from ver2. As for testing tools, I use vitest for unit tests, vue testing library for UI tests, and cypress for integration tests, but I am sure other libraries can be used. I have no experience with SSR (I am learning).       Translated with www.DeepL.com/Translator (free version)."
     },
     {
-      "title": "kotlin",
-      "description": ""
+      "title": "React",
+      "description": "I have no practical experience with React, but I use it for my own projects, and I try to keep the coding easy to understand while keeping unnecessary re-rendering of React to a minimum.I always use Typescript as well as Vue, and build with webpack or Vite. This site is also built with React."
+    },
+    {
+      "title": "Android",
+      "description": "I have 4+ years experience in Android applications and have developed and maintained many apps such as child watch, memory reduction, home app, health care app, etc. I have even replace an app where all the processing was written in Activity using MVP architecture (frustrating! ) I can also handle android version upgrades and rewrite old apps that deal directly with SQLite. I have been writing in java for 3.5 years but recently switched to kotlin."
+    },
+    {
+      "title": "Golang",
+      "description": "Golang is often used to implement API servers and I have practical experience with it. I often use gin as http library or standard library. I use the standard test library and implement the API according to the TDD."
+    },
+    {
+      "title": "Node.js",
+      "description": "I use Node.js to build API servers and web servers using Express. I have less than 1 year of working experience."
+    },
+    {
+      "title": "CSS+Sass",
+      "description": "I love to write clean, semantic CSS code to build responsible and interactive web UI. Most project I use Sass, and css library like bulma or tailwindcss."
+    },
+    {
+      "title": "docker",
+      "description": "I have no practical experience with docker, but I often use it to build sql servers when testing API servers in a local environment. I can write docker-compose.yml and DockerFile while looking into it."
     }
   ],
   "hobiies": [
