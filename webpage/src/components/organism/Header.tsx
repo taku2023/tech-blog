@@ -78,9 +78,12 @@ const Header = () => {
               <PopupMenu isOpen={menus.contact}>
                 <ul ref={panel}>
                   <li>
-                    <Link className="body text-no-decoration" to={"job-offer"}>
-                      Job Offer
-                    </Link>
+                    <a
+                      href="mailto:chocomintcocktail@gmail.com"
+                      className="body text-no-decoration"
+                    >
+                      Mail me
+                    </a>
                   </li>
                   <li className="mt-2">
                     <a
@@ -137,11 +140,13 @@ const Header = () => {
             </ul>
             <label className="label">Contact</label>
             <ul className="text-indent">
-              <li></li>
               <li>
-                <Link to={"offer-jobs"} className="text-no-decoration body">
-                  Offer Jobs
-                </Link>
+                <a
+                  href="mailto:chocomintcocktail@gmail.com"
+                  className="body text-no-decoration"
+                >
+                  Mail me
+                </a>
               </li>
               <li>
                 <a
@@ -163,4 +168,3 @@ const Header = () => {
 }
 
 export { Header as default }
-

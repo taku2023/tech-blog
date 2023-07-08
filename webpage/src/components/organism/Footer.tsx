@@ -10,12 +10,7 @@ const Footer = () => {
         <div className="contact">
           <p className="body mb-1">Contact</p>
           <label>
-            <Link
-              to={"job-offer"}
-              className="label text-no-decoration is-clickable"
-            >
-              Offer Jobs
-            </Link>
+            <a href="mailto:chocomintcocktail@gmail.com" className="label text-no-decoration">Mail me</a>                  
           </label>
           <label>
             <a
