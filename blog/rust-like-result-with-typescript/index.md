@@ -1,53 +1,354 @@
 ---
-title: Using Rust like Result<L,R> in typescript makes your code clean
+title: Smart error handling you should know about typescript.
 description: Best error handling you should know when using typescript
 date: 2023-07-06T12:23:38+09:00
-categories: [TypeScript,Rust]
-keywords: [error handling]
+categories: [TypeScript]
+keywords: [error handling,typescript]
 ---
 
-## How to handle error
-this is sample page 
+## Introduction
+There is a reason to talk about exception handling.
+
+When I became a college student, the first language I encountered was C++. I was struggling with Microsoft Visual Studio 2008, which was unbelievably difficult to use, while copying the code from the book "Robert's C++" (Believe it or not, "Robert's C++" has 1000 pages. I have never read a longer book before or since).
+
+At that time, I was fully occupied with fixing compilation errors (I don't think there was code completion), and I didn't have the luxury to worry about runtime errors. I ended up sacrificing my first summer vacation as a college student, which was supposed to be enjoyable.
+
+After that, I took a break from programming for a while, but I encountered Java during my first year of graduate school while interning at a company. Coming from the experience of struggling with memory leaks in C++, I remember how easy it was to use Java, which didn't require memory management. I quickly became able to create simple games.
+
+As I started working on more complex applications, I began to struggle with how to handle runtime errors. Repeatedly throwing errors and letting the caller handle them on the spot eventually made the code unmanageable. Now I know more about runtime errors and exceptions than I did back then, and I write better code, but the difficulty of design remains the same.
+
+## Approaches to Exception Handling
+The try-catch syntax is supported in C-based languages and has also been adopted in JavaScript. By separating the normal flow from the exceptional flow (which will now be referred to as the error flow) using code blocks, it is visually clear and allows the programmer to focus on the programming of the expected behavior.
+
+The disadvantage is that error and exception handling can be postponed. Everyone must have had the experience of maintaining code that simply throws the caught exception. If the code becomes large, a try-catch hell awaits! By that time, the code is likely to have become a mess, with no idea which exceptions are being thrown from where. Laziness is not a virtue when it comes to exception handling.
+
+Try-catch syntax is not widely adopted in recent programming languages.
+Let's take a look at an example in Golang. In order to handle both the normal flow and exceptions in the same block, Golang has introduced the concept of multiple return values. The following code is an example of retrieving user information from a database.
+
+```go
+type User struct{
+  Name string `json:"name"`
+}
+
+func FindUser(id string) (User,error){
+  var user User
+  //db setup 
+  if err := db.QueryRaw(`SELECT * FROM users WHERE id = ?`,id).Scan(&user.Name);err!=nil{
+    return err
+  }
+  return user
+}
+
+func SignIn(id string){
+  user, err :=FindUser(id)
+  if err !=nil{
+    //error handling    
+  }else{
+    //do something..
+  }
+}
+
+```
+Exception handling stands out as one of the simple aspects of Golang, doesn't it? It's more readable than try-catch. However, if there are multiple exception handling scenarios, the presence of multiple if statements can make the code harder to follow.
+
+You can achieve similar functionality in TypeScript as well. Although multiple return values are not supported, you can achieve the same result as in Golang by using union types. Here is the TypeScript equivalent
+
+```typescript  
+  type User = {name:string}
+  type UserResult = User｜{error:Error}
+  
+  function findUser(id:string): UserResult{
+    //db connection
+    const user = db.query(`SELECT * FROM users WHERE id = ${id}`)
+    if (!user){
+      return {error:new Error("no user")}
+    }else{
+      return {name:user.name}
+    }
+  }
+
+  function isUser(result:UserResult): result is User{
+   return !(`name` in result)
+  }
+
+  function signIn(id:string){
+    const result = findUser(id)
+    if(!isUser(result)){
+      //error handling
+    }else{
+      //
+    }
+  }
+```
+Is exception handling with if statements easier to understand than try-catch? Which approach is better as an error handling mechanism?
+In my opinion, the advantages and disadvantages of if statements are as follows:
+
+Advantages:
+- The distance between the normal flow and error flow is shorter, making it easier to understand what is being done (what error handling is being performed).
+- By handling the error flow first and returning, you can focus on the normal flow of execution.
+  
+Disadvantages:
+- The error flow cannot be handled within a single code block.
+  
+While the processing steps may be visually clear, the processing itself tends to become more complex. Indeed, the Go code I maintain is basically a series of if statements. It may be "Go-ish," but I can't say it's easy to read. Is there a better solution?
+## What is Result-Type Exception Handling?
+
+Is there a superior approach to exception handling compared to the traditional try-catch and if-else statements?
+
+Summarizing the previous points, we want to consider exception handling that:
+- Handles errors as much as possible in a unified manner
+- Does not separate the error code blocks from the normal code blocks
+- Does not create nested structures like try-catch or if-else statements
+
+Here, the hint is the `filter` function.
+  
+```typescript
+  [...].filter((item)=>..).map(/**handling */)
+```
+The filter function excels in allowing transparent handling of the normal flow.
+Although it does the same thing as an if statement, there are no nested structures, and the processing can be done in the same code block.
+While it doesn't handle exceptions yet, it's a good starting point.
+
+To handle exceptions, let's consider extending the filter function with `filter_or_else`. It would look something like this:
 
 ```typescript
-  const result : Result<L,R>  
-
-  
+const [results,errors] = [...].filter_or_else(item=>).map(/**handling  */)
+if (errors.length !==0) {
+  //Error handling
+}
 ```
 
-Marked - Markdown Parser
-========================
+By returning both the normal flow and the error flow, exception handling becomes possible.
+However, since there is still an if statement, let's modify it as follows:
 
-[Marked] lets you convert [Markdown] into HTML.  Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML.  This demo page will let you type anything you like and see how it gets converted.  Live.  No more waiting around.
+```typescript
+const  [results,errors] = [...].filter_or_else(item=>).mapOk(/**handling */).mapError(/**Error handling */)
+```
 
-How To Use The Demo
--------------------
+This interface looks quite nice!
 
-1. Type in stuff on the left.
-2. See the live updates on the right.
+However, the input and return types are different. With this, you can't stack `.filter().filter()` like the filter function.
+Let's improve it a bit. Just a little more patience.
 
-That's it.  Pretty simple.  There's also a drop-down option above to switch between various views:
+```typescript
+type Result<ERR,OK> = Err | OK
+const results: Result<Error,Ok>[]
+const results_1 = results.filter_result(result=>).mapOk(/** */).mapError(/**handling */)
+const results_2 = results_1.filter_result(result=>).mapOk(/** */).mapError(/**handling */)
+```
+We have made the input and return types the same. Now we can use it transparently like the filter function.
+We just need to make it work with something other than a list. Let's remove the assumption of the `filter_result ` name. Here is the result:
 
-- **Preview:**  A live display of the generated HTML as it would render in a browser.
-- **HTML Source:**  The generated HTML before your browser makes it pretty.
-- **Lexer Data:**  What [marked] uses internally, in case you like gory stuff like this.
-- **Quick Reference:**  A brief run-down of how to format things using markdown.
+```typescript
 
-Why Markdown?
--------------
+class Result<ERR,OK>{
 
-It's easy.  It's not overly bloated, unlike HTML.  Also, as the creator of [markdown] says,
+  //instance are immutable
+  readonly value: {error:ERR} | {ok:OK}
 
-> The overriding design goal for Markdown's
-> formatting syntax is to make it as readable
-> as possible. The idea is that a
-> Markdown-formatted document should be
-> publishable as-is, as plain text, without
-> looking like it's been marked up with tags
-> or formatting instructions.
+  //apply fn only when value is OK
+  mapOk<T>(fn:(value:OK)=>T):Result<ERR,T>{
+    if ('ok' in this.value){
+      return  Result.Ok(fn(this.value.ok))
+    }else{
+      return Result.Err(this.value.error)
+    } 
+  }
 
-Ready to start writing?  Either start changing stuff on the left or
-[clear everything](/demo/?text=) with a simple click.
+  //apply fn only when value is ERR
+  mapError<F>(fn:(value:ERR)=>F):Result<F,OK>{
+    if (`ok` in this.value){
+      return Result.Ok(this.value.ok)
+    }else{
+      return Result.Err(fn(this.value.error))
+    }
+  }
 
-[Marked]: https://github.com/markedjs/marked/
-[Markdown]: http://daringfireball.net/projects/markdown/
+  //OK and ERR can be same type, so which argument defines type of value
+  //and should be private constructor
+  private constructor(value:OK|ERR,which:boolean){
+    if(which){
+      this.value = {ok:value as OK}
+    }else{
+      this.value = {error:value as ERR}
+    }
+  }
+  
+  //use like Result.Ok<string,User>({name:"mori"})
+  static Ok<Err,OK>(value:OK){
+    return new Result<Err,OK>(value,true)
+  }
+  //use like Result.Err<string,User>('no user') 
+  static Err<Err,OK>(value:Err){
+    return new Result<Err,OK>(value,false)
+  }
+}
+```
+
+Although it has become a bit long, I have added comments to each line, so you should be able to understand the meaning.
+While a minimal Result type is powerful enough, in my projects, I define the Result type as follows. It's a bit longer, but you can copy and paste it and use it if you like.
+
+
+```typescript
+ type User = {name:string}
+ findUser(id:string):Result<Error,User>{
+    const user = db.query(`SELECT * FROM users WHERE id = ${id}`)
+    if (!user) {
+      return Result.Err<Error,User>(new Error("no user"));
+    } else {
+      return Result.Ok<Error,User>({name:user.name})
+    }
+ }
+
+ function signIn(id:string){
+    const result = findUser(id)
+    result.mapError(err=>{
+      //error handling
+    }).mapOk(user=>{
+      //something like session update
+    })
+  }
+```
+
+The previous isUser function is no longer necessary, and the return value of findUser can be handled more simply. By chaining functions that accept a `Result` type and return a `Result` type, error handling can be done transparently.
+
+Furthermore, the three points mentioned earlier regarding error handling have been achieved:
+
+- Handling errors as much as possible in a consolidated manner
+- Not separating the error handling code blocks for normal and exceptional cases
+- Avoiding nesting similar to try-catch or if-else structures
+  
+It's wonderful to see that all these points have been addressed.
+
+The `Result` type is included in standard libraries of functional programming languages such as Rust and Haskell, but unfortunately, it is not included in TypeScript. However, even with a minimal `Result` type, it is powerful enough. In my projects, I define the `Result` type as follows. The code might be a bit lengthy, but you can use it by copying and pasting, so please feel free to use it as a reference:
+
+``` typescript
+export type Result<T, F> = Success<T, F> | Failure<T, F>;
+
+interface IResult<T, F> {
+    isSuccess(): this is Success<T, F>;
+    isFailure(): this is Failure<T, F>;
+    readonly value: T | F;
+    map<R, L>(fnL: (f: F) => L, fnR: (t: T) => R): Result<R, L>;
+    mapR<R>(r: (t: T) => R): Result<R, F>;
+    mapL<L>(l: (f: F) => L): Result<T, L>;
+
+    fmap<R, L>(fnL: (f: F) => Result<R, L>, fnR: (t: T) => Result<R, L>): Result<R, L>;
+    fmapR<R>(fnR: (t: T) => Result<R, F>): Result<R, F>;
+    fmapL<L>(fnL: (t: F) => Result<T, L>): Result<T, L>;
+}
+
+export class Success<T, F> implements IResult<T, F> {
+    constructor(value: T) {
+        this.value = value;
+    }
+
+    readonly value: T;
+
+    isSuccess() {
+        return true;
+    }
+
+    isFailure() {
+        return false;
+    }
+
+    fmap<R, L>(fnL: (f: F) => Result<R, L>, fnR: (t: T) => Result<R, L>): Result<R, L> {
+        return fnR(this.value);
+    }
+
+    fmapR<R>(fnR: (t: T) => Result<R, F>): Result<R, F> {
+        return fnR(this.value);
+    }
+
+    fmapL<L>(fnL: (t: F) => Result<T, L>): Result<T, L> {
+        return success<T, L>(this.value);
+    }
+
+    map<R, L>(fnL: (f: F) => L, fnR: (t: T) => R): Result<R, L> {
+        return success<R, L>(fnR(this.value));
+    }
+
+    mapR<R>(fnR: (t: T) => R): Result<R, F> {
+        return success<R, F>(fnR(this.value));
+    }
+
+    mapL<L>(_: (f: F) => L): Result<T, L> {
+        return success<T, L>(this.value);
+    }
+}
+
+export class Failure<T, F> implements IResult<T, F> {
+    constructor(value: F) {
+        this.value = value;
+    }
+
+    readonly value: F;
+
+    isSuccess() {
+        return false;
+    }
+
+    isFailure() {
+        return true;
+    }
+
+    fmap<R, L>(fnL: (f: F) => Result<R, L>, fnR: (t: T) => Result<R, L>): Result<R, L> {
+        return fnL(this.value);
+    }
+
+    fmapR<R>(fnR: (t: T) => Result<R, F>): Result<R, F> {
+        return failure(this.value);
+    }
+
+    fmapL<L>(fnL: (t: F) => Result<T, L>): Result<T, L> {
+        return fnL(this.value);
+    }
+
+    map<R, L>(fnL: (f: F) => L, fnR: (t: T) => R): Result<R, L> {
+        return failure<R, L>(fnL(this.value));
+    }
+
+    mapR<R>(_: (t: T) => R): Result<R, F> {
+        return failure<R, F>(this.value);
+    }
+
+    mapL<L>(fnL: (f: F) => L): Result<T, L> {
+        return failure<T, L>(fnL(this.value));
+    }
+}
+
+export function success<T, F>(value: T) {
+    return new Success<T, F>(value);
+}
+
+export function failure<T, F>(value: F) {
+    return new Failure<T, F>(value);
+}
+
+```
+
+The usage is almost the same as before:
+
+```typescript
+ type User = {name:string}
+
+ findUser(id:string):Result<User,Error>{
+    const user = db.query(`SELECT * FROM users WHERE id = ${id}`)
+    if (!user) {
+      return failure(new Error("no user"));
+    } else {
+      return success({name:user.name})
+    }
+ }
+
+ function signIn(id:string){
+    const result = findUser(id)
+    result.map(user=>{
+      //something like session update
+    },err=>{
+      //error handling
+    })
+ }
+```
+Now you can enjoy a more ergonomic and expressive error handling experience with the Result type. I hope this helps you in your coding journey!
