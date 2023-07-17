@@ -84,10 +84,12 @@ Is exception handling with if statements easier to understand than try-catch? Wh
 In my opinion, the advantages and disadvantages of if statements are as follows:
 
 Advantages:
+
 - The distance between the normal flow and error flow is shorter, making it easier to understand what is being done (what error handling is being performed).
 - By handling the error flow first and returning, you can focus on the normal flow of execution.
   
 Disadvantages:
+
 - The error flow cannot be handled within a single code block.
   
 While the processing steps may be visually clear, the processing itself tends to become more complex. Indeed, the Go code I maintain is basically a series of if statements. It may be "Go-ish," but I can't say it's easy to read. Is there a better solution?
