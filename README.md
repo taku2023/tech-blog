@@ -6,28 +6,10 @@ I started to write teck blog focus on code readability, testability, and how to 
 
 I love to creae web application from zero to one, curious to learn great language and background culture.
 
-### Love lauguage (2023)
-I love languages which has type system !
+### What is this repo ?
+This is repo of my website https://moritakuaki.com
 
-- Typescript
-- Rust
-- Kotlin
-- Haskell (always learning lol)
-
-### My 
-
-
-## What's it ?
-
-
-+------------+--------------+------+-----+---------+-------+
-| Field      | Type         | Null | Key | Default | Extra |
-+------------+--------------+------+-----+---------+-------+
-| title      | varchar(255) | NO   | PRI | NULL    |       |
-| object_key | varchar(255) | NO   |     | NULL    |       |
-| categories | text         | NO   |     | NULL    |       |
-| keywords   | text         | YES  |     | NULL    |       |
-| creat_at   | datetime     | NO   |     | NULL    |       |
-| update_at  | datetime     | YES  |     | NULL    |       |
-| viewer     | int          | NO   |     | 0       |       |
-+------------+--------------+------+-----+---------+-------+
+### Local env
+- `cd webpage/`
+- `npm run dev` for local web server
+- `prism mock server.yaml` for mock api server

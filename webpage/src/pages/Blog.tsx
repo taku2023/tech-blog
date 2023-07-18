@@ -3,6 +3,7 @@ import md from "@/libs/markdown/converter"
 import { LoaderFunction } from "react-router"
 import { useLoaderData } from "react-router-dom"
 import "./Blog.scss"
+import "github-markdown-css"
 
 const getBlogsLoader: LoaderFunction = async ({ params }) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

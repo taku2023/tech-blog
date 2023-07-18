@@ -1,4 +1,5 @@
 import hljs from "highlight.js"
+import "highlight.js/styles/agate.css"
 import MD from "markdown-it"
 import * as anchor from "markdown-it-anchor"
 

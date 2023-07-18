@@ -15,23 +15,17 @@
     width: 100%;
     object-fit: cover;
   }
+}
 
-  /*&-header {
-    background: #eee;
+/**/
+.markdown-body {
+  ol,
+  ul {
+    list-style: inherit;
+  }
 
-    .tags {
-      display: flex;
-      column-gap: 0.25em;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      align-items: center;
-      overflow-wrap: break-word;
-
-      .tag {
-        cursor: pointer;
-        font-size: 0.65em;
-      }
-    }
-  }*/
+  //TODO: fix it
+  .hljs{
+    background-color: #333;
+  }
 }

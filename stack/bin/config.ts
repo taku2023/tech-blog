@@ -40,14 +40,15 @@ export const appContext = (app: Construct): AppProps => {
     accountId,
     cloudflont: {
       priceClass: PriceClass.PRICE_CLASS_100,
-      cachePolicy: mode == 'dev' ? CachePolicy.CACHING_DISABLED: CachePolicy.CACHING_OPTIMIZED
+      cachePolicy: CachePolicy.CACHING_OPTIMIZED
     },
     rds: {
       databaseName: `blog_${mode}`,
       iamAuthentication: mode == 'dev'
     },
     gateway:{
-      allowOrigins: mode == 'dev' ? Cors.ALL_ORIGINS : [domainName]
+      //allowOrigins: mode == 'dev' ? Cors.ALL_ORIGINS : [domainName]
+      allowOrigins: [domainName]
     },
     ssm: {
       htmlBucket: "/tech-blog/buckets/source-bucket",
