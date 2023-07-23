@@ -2,8 +2,8 @@
 title: Mistakes you make when start learning Domain Driven Design.
 description: How and when to use DDD or not.
 date: 2023-07-23T14:00:00+09:00
-categories: [architecture,Kotlin]
-keywords: [architecture,DDD,kotlin]
+categories: [architecture]
+keywords: [architecture,DDD]
 ---
 ## Why you should read this
 Domain Driven Design was proposed by Eric Evans in 2003, and within 20 years DDD has been known among developers.
