@@ -43,12 +43,12 @@ DDD is robust to change but domain should be certain, and it takes much unnecess
 
 
 
-- #### DDD is not for ..
+- #### DDD is not for database oriented projects
 DDD is not for database oriented applications that handle complex sql. Handling everything with complex sql doesn't match the domain model. DDD uses simple sql for fetching and updating domain models (aggregation), deploying it in-memory. Filter by sql is faster compared to filter in-memory, and if you handle big data you can't ignore the difference.
 There are certainly workarounds like cache layer, but DDD is not the best choice.
 
 
-- #### DDD is not for ..
+- #### DDD is not for secondary contract projects
 The benefit of DDD is limited if you cannot talk to customer, so DDD is not for most secondary contract project because your customer is another prime vender. In Japan, multiple subcontracting is major, and sadly it's prohibited to talk directly to customers. Lightweight DDD can be applicable, and may work to some extent, but it does not say you comprehend DDD because it's not pattern, it's modeling.
 
 
