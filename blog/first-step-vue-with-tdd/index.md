@@ -37,7 +37,7 @@ const plusOne = (_: any) => {
 }
 </style>
 ```
-![Counter animation](https://moritakuaki/__blogs__/first-mistakes-when-leaning-ddd/images/vue-counter.gif)
+![Counter animation](https://moritakuaki.com/__blogs__/first-step-vue-with-tdd/images/vue-counter.gif)
 
 
 Type `npm create vue@latest` in terminal, then you are presented several prompts to choose options such as typescript, testing framework, and state library. After you choose all options, CLI automatically prepares Scafforld project.
@@ -892,7 +892,7 @@ Check both server is running on exactly same port. If not, E2E test should faile
 Ready to go ? 
 Type __`npx cypress open`__ to start API server is running, and choose E2E test, and waits a second...
 
-![Cypress recording](https://moritakuaki/__blogs__/first-step-vue-with-tdd/images/cypress-record.mp4)
+![Cypress recording](https://moritakuaki.com/__blogs__/first-step-vue-with-tdd/images/cypress-record.mp4)
 
 All tests are passed !! 
 Of course every unit tests and component tests are passed evenly.
