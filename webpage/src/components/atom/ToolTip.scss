@@ -1,0 +1,43 @@
+@use "@/styles/_variable.scss" as v;
+@use "@/styles/theme.scss" as t;
+
+.tooltip-container {
+  display: inline-block;
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  top: calc(100% + 0.5em);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: v.$z-tooltip;
+  border-radius: 0.25em;
+  padding: 0.5em 0.7em;
+  width: max-content;
+  max-width: 10em;
+  font-size: 0.75rem;
+  @include t.themify {
+    background-color: t.themed("tooltip-background-color");
+    color: t.themed("tooltip-color");
+    &::after {
+      border-color: t.themed("tooltip-background-color");
+    }
+  }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: rotateZ(45deg);
+    z-index: calc(v.$z-tooltip - 100);
+    margin-top: calc(-1 * 0.5em);
+    margin-left: calc(-1 * 0.5em);
+    border-width: 0.5em;
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    pointer-events: none;
+    content: "";
+  }
+}

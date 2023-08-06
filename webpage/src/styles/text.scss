@@ -18,6 +18,11 @@
   }
 }
 
+.headline-sm {
+  @extend .headline;
+  font-size: calc(0.85 * v.$headline);
+}
+
 .title {
   font-weight: 600;
   font-size: 1.25rem;
@@ -58,7 +63,7 @@
 //use with body, when you distinguish them
 .subbody {
   font-weight: 500;
-  font-size: 0.90rem;
+  font-size: 0.9rem;
   line-height: 1.25;
   @include t.themify {
     color: t.themed("subbody-color");

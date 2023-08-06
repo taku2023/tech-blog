@@ -149,7 +149,7 @@ components:
         title: Smart error handling you should know about typescript.
         description: Best error handling you should know when using typescript
         date: 2023-07-06T12:23:38+09:00
-        categories: [TypeScript]
+        categories: [TypeScript,Rust,Result,First learner]
         keywords: [error handling,typescript]
         ---
 

@@ -1,15 +1,15 @@
 import { aws_ec2 } from "aws-cdk-lib";
 import {
+  ISecurityGroup,
   IVpc,
   Instance,
   InstanceClass,
   InstanceSize,
   InstanceType,
   MachineImage,
-  Peer,
-  SecurityGroup,
+  SpotInstanceInterruption,
   SubnetType,
-  UserData,
+  UserData
 } from "aws-cdk-lib/aws-ec2";
 import {
   CfnInstanceProfile,
@@ -17,21 +17,14 @@ import {
   Role,
   ServicePrincipal,
 } from "aws-cdk-lib/aws-iam";
-import { DatabaseInstance } from "aws-cdk-lib/aws-rds";
 import { Construct } from "constructs";
 
 export class BastionHost extends Construct {
   public readonly ec2: Instance;
-  //private readonly vpc: IVpc;
-
-  constructor(scope: Construct, id: string, vpc: IVpc) {
+  
+  constructor(scope: Construct, id: string, props:{vpc: IVpc,securityGroup: ISecurityGroup}) {
     super(scope, id);
-
-    /*const securityGroup = new SecurityGroup(this, "SSM_SecurityGroup", {
-      vpc,
-      allowAllOutbound: true,    
-    });*/
-
+    
     const role = new Role(this, "EC2AccessSSMRole", {
       assumedBy: new ServicePrincipal("ec2.amazonaws.com"),
       managedPolicies: [
@@ -50,12 +43,13 @@ export class BastionHost extends Construct {
       "sudo systemctl status amazon-ssm-agent",
       "sudo systemctl enable amazon-ssm-agent",
       "sudo systemctl start amazon-ssm-agent",
-      "sudo yum install mysql"
+      "sudo yum install -y mysql"
     );
 
     this.ec2 = new Instance(this, "BastionHostEC2", {
       instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
-      vpc,
+      
+      vpc:props.vpc,
       vpcSubnets: {
         subnetType: SubnetType.PRIVATE_ISOLATED,
       },
@@ -64,8 +58,7 @@ export class BastionHost extends Construct {
         userData,
       }),
       role,
+      securityGroup:props.securityGroup 
     });
-
-    //this.vpc = vpc;
   }
 }

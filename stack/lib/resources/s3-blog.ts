@@ -15,7 +15,7 @@ export class NotifyBlogBucket extends Construct {
   constructor(scope: Construct, id: string, props: SharedResources) {
     super(scope, id);
     const s3Bcuket = new Bucket(this, "BlogBucket", {
-      removalPolicy: RemovalPolicy.DESTROY,
+      removalPolicy: RemovalPolicy.DESTROY
     });
 
     s3Bcuket.addObjectCreatedNotification(new LambdaDestination(props.target),{
@@ -25,19 +25,7 @@ export class NotifyBlogBucket extends Construct {
       suffix: "md"
     });
     s3Bcuket.grantRead(props.target)
-    /*this.queue = new Queue(this, "NotifyQueue",{      
-    });
     
-    //creation notify
-    s3Bcuket.addObjectCreatedNotification(
-      new SqsDestination(this.queue),
-    );
-
-    //deletion notify
-    s3Bcuket.addObjectRemovedNotification(
-      new SqsDestination(this.queue),
-    );*/
-
     this.bucket = s3Bcuket;
   }
 }
