@@ -70,6 +70,8 @@ $shadow-light: rgba($--slate-600, 0.2) !default;
 $modal-background-light: rgba($--slate-900, 0.86) !default;
 $tab-active-light: $--slate-800 !default;
 $tab-light: $--slate-500 !default;
+$tooltip-light: $--slate-100 !default;
+$tooltip-background-light: $--slate-800 !default;
 
 $body-dark: $--slate-200 !default;
 $subbody-dark: $--slate-200 !default;
@@ -95,6 +97,8 @@ $shadow-dark: rgba($--slate-400, 0.1) !default;
 $modal-background-dark: rgba($--slate-700, 0.9) !default;
 $tab-active-dark: $--slate-100 !default;
 $tab-dark: $--slate-700 !default;
+$tooltip-dark: $--slate-800 !default;
+$tooltip-background-dark: $--slate-100 !default;
 
 //text size
 $headline: 2.5rem !default;
@@ -137,6 +141,8 @@ $themes: (
     modal-background-color: $modal-background-light,
     tab-color-active: $tab-active-light,
     tab-color: $tab-light,
+    tooltip-color: $tooltip-light,
+    tooltip-background-color: $tooltip-background-light,
   ),
   dark: (
     body-color: $body-dark,
@@ -162,6 +168,8 @@ $themes: (
     modal-background-color: $modal-background-dark,
     tab-color-active: $tab-active-dark,
     tab-color: $tab-dark,
+    tooltip-color: $tooltip-dark,
+    tooltip-background-color: $tooltip-background-dark,
   ),
 ) !default;
 
@@ -205,3 +213,4 @@ $responsive: (
 //z-index
 $z-header: 100;
 $z-modal: 500;
+$z-tooltip: 1000;

@@ -1,3 +1,4 @@
+import { ToolTip } from "@/components/atom/ToolTip"
 import { download } from "@/data/api/blogs"
 import md from "@/libs/markdown/converter"
 import * as dayjs from "dayjs"
@@ -48,7 +49,7 @@ const BlogPage = () => {
     }
   }
 
-  const copyURL: React.MouseEventHandler<HTMLSpanElement> = async (e) => {
+  const copyURL: React.MouseEventHandler<HTMLSpanElement> = async (_) => {
     await window.navigator.clipboard.writeText(window.location.href)
   }
 
@@ -80,12 +81,15 @@ const BlogPage = () => {
           <label className="label">{day}</label>
           <label className="label">・Read {readMinutes}min</label>
           <span className="buttons ml-auto">
-            <span
-              className="material-symbols-outlined icon is-clickable"
-              onMouseDown={copyURL}
-            >
-              link
-            </span>
+            <ToolTip content="URL Copied!">
+              <span
+                className="material-symbols-outlined icon is-clickable"
+                id="copyUrl"
+                onMouseDown={copyURL}
+              >
+                link
+              </span>
+            </ToolTip>
             <span
               className="material-symbols-outlined icon is-clickable"
               onClick={shareBlog}

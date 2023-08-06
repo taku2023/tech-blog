@@ -1,28 +1,41 @@
-import { useEffect, useRef } from "react"
+import { ReactNode, useState } from "react"
 import "./ToolTip.scss"
 
 interface Props {
-  selector: string
+  children: ReactNode
   content: string
 }
 
-export const ToopTip = (props: Props) => {
-  const ref = useRef<HTMLSpanElement>(null)
+export const ToolTip = (props: Props) => {
+  let timeout: NodeJS.Timeout
 
-  useEffect(() => {
-    const parent = document.querySelector(props.selector)
-    if (!parent) return
-    //parent?.insertAdjacentElement('beforebegin',)
+  const [active, setActive] = useState<string>("disactive")
 
-    const l = parent.clientLeft + parent.clientWidth / 2
-    const t = parent.clientTop + parent.clientHeight
-    console.log(l, t)
-    //ref?.current?.style?.setProperty("left","")
-  }, [])
+  const showTip = () => {
+    if (timeout) {
+      clearTimeout(timeout)
+    }
+    setActive((_) => "active")
+    timeout = setTimeout(() => {
+      setActive((_) => "disactive")
+    }, 3000)
+  }
+
+  const listener: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault()
+    showTip()
+  }
 
   return (
-    <span className="tooltip" ref={ref}>
-      {props.content}
-    </span>
+    <div onMouseDown={listener} className="tooltip-container">
+      {props.children}
+      {/^active\w*/.test(active) && (
+        <span
+          className={`tooltip ${active === "active-fade" ? "fade-in" : ""}`}
+        >
+          {props.content}
+        </span>
+      )}
+    </div>
   )
 }
