@@ -3,9 +3,7 @@ import * as cdk from "aws-cdk-lib";
 import { ResourceStack } from "../lib/resource-stack";
 import { VPCStack } from "../lib/vpc-stack";
 
-const app = new cdk.App({
-  autoSynth: true,
-});
+const app = new cdk.App();
 
 const mode = app.node.getContext("mode");
 const stage = new cdk.Stage(app, mode, {

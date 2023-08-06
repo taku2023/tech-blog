@@ -37,7 +37,7 @@ export class ResourceStack extends Stack {
     /**
      * RDS
      */
-    const { proxy, dbSecret, databaseName } = new RDSWithProxy(
+    const { proxy, dbSecret, databaseName ,proxySG} = new RDSWithProxy(
       this,
       "RDSWithProxy",
       {
@@ -64,9 +64,8 @@ export class ResourceStack extends Stack {
     });
 
     //bastion host access rds
-    const { ec2 } = new BastionHost(this, "BastionHost", vpc);
-    //TODO: connect ec2 to rds through subnet groups
-
+    const { ec2 } = new BastionHost(this, "BastionHost", {vpc,securityGroup:proxySG});
+    
     //APIProxy
     const { lambda: apiProxyHandler } = new LambdaAPIProxy(
       this,

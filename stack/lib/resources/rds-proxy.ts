@@ -1,5 +1,6 @@
 import { RemovalPolicy } from "aws-cdk-lib";
 import {
+  ISecurityGroup,
   IVpc,
   InstanceClass,
   InstanceSize,
@@ -15,7 +16,7 @@ import {
   DatabaseInstanceEngine,
   DatabaseProxy,
   DatabaseSecret,
-  MysqlEngineVersion,
+  MysqlEngineVersion
 } from "aws-cdk-lib/aws-rds";
 import { Construct } from "constructs";
 import { appContext } from "../../bin/config";
@@ -29,6 +30,7 @@ export class RDSWithProxy extends Construct {
   public readonly dbSecret: DatabaseSecret;
   public readonly proxy: DatabaseProxy;
   public readonly databaseName: string;
+  public readonly proxySG: ISecurityGroup
 
   constructor(scope: Construct, id: string, props: VpcProps) {
     super(scope, id);
@@ -39,6 +41,7 @@ export class RDSWithProxy extends Construct {
     this.dbSecret = new DatabaseSecret(this, "RDSSecret", {
       username: "admin",      
     });
+
 
     const dbInstance = new DatabaseInstance(this, "rds", {
       engine: DatabaseInstanceEngine.mysql({
@@ -53,14 +56,14 @@ export class RDSWithProxy extends Construct {
       removalPolicy: RemovalPolicy.DESTROY,      
     });
 
-    const proxySG = new SecurityGroup(this, "RDSProxySG", props);
-    proxySG.addIngressRule(Peer.anyIpv4(), Port.tcp(3306));
+    this.proxySG = new SecurityGroup(this, "RDSProxySG", props);
+    this.proxySG.addIngressRule(Peer.anyIpv4(), Port.tcp(3306));
     this.proxy = dbInstance.addProxy("RDSProxy", {
       vpc: props.vpc,
       requireTLS: false, //TODO: true when prod
       vpcSubnets: props.subnets,
       secrets: [this.dbSecret],
-      securityGroups: [proxySG],
+      securityGroups: [this.proxySG],      
       debugLogging: true,
     });
   }
