@@ -18,6 +18,7 @@ const router = createBrowserRouter([
         path: "blogs/:dir",
         loader: getBlogsLoader,
         element: <Blog />,
+        errorElement: <NotFound />,
       },
       {
         path: "about-me",

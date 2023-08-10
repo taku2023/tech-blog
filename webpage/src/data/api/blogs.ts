@@ -1,3 +1,4 @@
+import { HttpStatusCode } from "axios"
 import { client, downloadClient } from "."
 /**
  * article API
@@ -44,7 +45,7 @@ const getCategories: () => Promise<{ categories: string[] }> = async () => {
 const getLatestBlogs: (
   limit?: number
 ) => Promise<{ blogs: Summary[] }> = async (limit = 6) => {
-  const { data, status: _ } = await client.get<{ blogs: Summary[] }>(
+  const { data, status } = await client.get<{ blogs: Summary[] }>(
     `blogs/latest?limit=${limit}`
   )
   return data
@@ -52,10 +53,12 @@ const getLatestBlogs: (
 
 //simple get markdown file from s3(cached by cloudfront)
 const download: (dir: string) => Promise<string> = async (dir) => {
-  const { data, status: _ } = await downloadClient.get<string>(
-    `${dir}/index.md`
-  )
-  return data
+  const { data, status } = await downloadClient.get<string>(`${dir}/index.md`)
+  if (status === HttpStatusCode.Ok) {
+    return data
+  } else {
+    throw new Error("cannot find content")
+  }
 }
 
 export { download, get, getCategories, getLatestBlogs, search, type Summary }
