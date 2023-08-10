@@ -1,7 +1,7 @@
 import { ToolTip } from "@/components/atom/ToolTip"
 import { download } from "@/data/api/blogs"
 import md from "@/libs/markdown/converter"
-import * as dayjs from "dayjs"
+import dayjs from "dayjs"
 import "github-markdown-css"
 import { LoaderFunction } from "react-router"
 import { useLoaderData } from "react-router-dom"
