@@ -29,12 +29,8 @@ export const ToolTip = (props: Props) => {
   return (
     <div onMouseDown={listener} className="tooltip-container">
       {props.children}
-      {/^active\w*/.test(active) && (
-        <span
-          className={`tooltip ${active === "active-fade" ? "fade-in" : ""}`}
-        >
-          {props.content}
-        </span>
+      {/^active$/.test(active) && (
+        <span className="tooltip">{props.content}</span>
       )}
     </div>
   )

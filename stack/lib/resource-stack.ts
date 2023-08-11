@@ -155,5 +155,9 @@ export class ResourceStack extends Stack {
       stringValue: sourceBucket.bucketName,
       parameterName: ssm.htmlBucket,
     });
+    new StringParameter(this,"SSMWebDistibutionID",{
+      stringValue: distribution.distributionId,
+      parameterName: ssm.distribution
+    })
   }
 }

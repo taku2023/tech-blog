@@ -1,5 +1,4 @@
 import { ScopedAws } from "aws-cdk-lib";
-import { Cors } from "aws-cdk-lib/aws-apigateway";
 import { CachePolicy, ICachePolicy, PriceClass } from "aws-cdk-lib/aws-cloudfront";
 import { Construct } from "constructs";
 
@@ -19,6 +18,7 @@ type Stage = {
   ssm: {
     htmlBucket: string;
     blogBucket: string;
+    distribution: string
   };
 };
 
@@ -53,6 +53,7 @@ export const appContext = (app: Construct): AppProps => {
     ssm: {
       htmlBucket: "/tech-blog/buckets/source-bucket",
       blogBucket: "/tech-blog/buckets/blog-bucket",
+      distribution: `/teck-blog/${mode}/distribution`
     },
   };
 };

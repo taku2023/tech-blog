@@ -63,6 +63,11 @@ const BlogPage = () => {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={imgSrc} />
+      <meta property="twitter:card" content="summary_large_image" />
+      <meta property="twitter:site" content="Developer10886475" />
+      <meta property="twitter:title" content={title} />
+      <meta property="twitter:description" content={description} />
+      <meta property="twitter:image" content={imgSrc} />
 
       <article className="article-layout pb-8">
         <img src={imgSrc} alt="image" className="article-image"></img>
