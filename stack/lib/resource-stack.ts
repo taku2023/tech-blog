@@ -64,7 +64,7 @@ export class ResourceStack extends Stack {
     });
 
     //bastion host access rds
-    const { ec2 } = new BastionHost(this, "BastionHost", {vpc,securityGroup:proxySG});
+    //const { ec2 } = new BastionHost(this, "BastionHost", {vpc,securityGroup:proxySG});
     
     //APIProxy
     const { lambda: apiProxyHandler } = new LambdaAPIProxy(

@@ -72,37 +72,7 @@ export class VPCStack extends Stack {
         subnetType: SubnetType.PRIVATE_ISOLATED,
       },
     });
-
-    /**
-     * For EC2 Instance connect to SSM
-     */
-    vpc.addInterfaceEndpoint("SystemManagerEndpoint", {
-      service: InterfaceVpcEndpointAwsService.SSM,
-      subnets: {
-        subnetType: SubnetType.PRIVATE_ISOLATED,
-      },
-    });
-
-    /**
-     * For EC2 transfer data under security by SSM
-     */
-    vpc.addInterfaceEndpoint("SystemManagerMessageEndpoint", {
-      service: InterfaceVpcEndpointAwsService.SSM_MESSAGES,
-      subnets: {
-        subnetType: SubnetType.PRIVATE_ISOLATED,
-      },
-    });
-
-    /**
-     * For SSM agent connect to SSM
-     */
-    vpc.addInterfaceEndpoint("EC2MessagesEndpoint", {
-      service: InterfaceVpcEndpointAwsService.EC2_MESSAGES,
-      subnets: {
-        subnetType: SubnetType.PRIVATE_ISOLATED,
-      },
-    });
-
+    
     /**
      * For S3 access
      */
