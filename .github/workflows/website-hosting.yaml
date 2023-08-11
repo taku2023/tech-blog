@@ -7,7 +7,6 @@ on:
 env:
   AWS_REGION: ap-northeast-1
   GITHUB_ACTION_ROLE_ARN: ${{ secrets.AWS_ASSUME_ROLE_ARN }}
-  CLOUDFRONT_ID: ${{ secrets.DISTRIBUTION_KEY}}
 
 # These permissions are needed to interact with GitHub's OIDC Token endpoint.
 permissions:
@@ -67,4 +66,10 @@ jobs:
         # push to hosting s3 and remove croudfront cache
         run: |
           aws s3 cp dist s3://${{ env.SOURCE_BUCKET }} --recursive
+      - uses: "marvinpinto/action-inject-ssm-secrets@latest"
+        with:
+            ssm_parameter: "/teck-blog/dev/distribution"
+            env_variable_name: "cloudfront_id"
+      - name: delete cache
+        run: |               
           aws cloudfront create-invalidation --distribution-id ${{env.CLOUDFRONT_ID}} --paths "/*"
