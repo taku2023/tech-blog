@@ -3,6 +3,7 @@ import { download } from "@/data/api/blogs"
 import md from "@/libs/markdown/converter"
 import dayjs from "dayjs"
 import "github-markdown-css"
+import { Helmet } from "react-helmet-async"
 import { LoaderFunction } from "react-router"
 import { useLoaderData } from "react-router-dom"
 import "./Blog.scss"
@@ -56,19 +57,20 @@ const BlogPage = () => {
   return (
     <>
       {/**META TAG for social website*/}
-      <meta name="title" content={title}></meta>
-      <meta name="description" content={description}></meta>
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={window.location.href} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={imgSrc} />
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:site" content="Developer10886475" />
-      <meta property="twitter:title" content={title} />
-      <meta property="twitter:description" content={description} />
-      <meta property="twitter:image" content={imgSrc} />
-
+      <Helmet>
+        <meta name="title" content={title}></meta>
+        <meta name="description" content={description}></meta>
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={imgSrc} />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:site" content="Developer10886475" />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content={imgSrc} />
+      </Helmet>
       <article className="article-layout pb-8">
         <img src={imgSrc} alt="image" className="article-image"></img>
         <h1 className="headline-sm mt-4">{title}</h1>
@@ -113,3 +115,4 @@ const BlogPage = () => {
 }
 
 export { BlogPage as default, getBlogsLoader }
+
