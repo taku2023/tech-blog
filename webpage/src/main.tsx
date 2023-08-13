@@ -8,7 +8,7 @@ import { ThemeProvider } from "./hooks/useThemeProvider"
 import "./main.scss"
 import router from "./route"
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById("body") as HTMLElement).render(
   <React.StrictMode>
     <HelmetProvider>
       <ThemeProvider>
