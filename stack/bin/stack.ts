@@ -13,14 +13,14 @@ const stage = new cdk.Stage(app, mode, {
   },
 });
 
-const vpcStack = new VPCStack(stage, "VPCStack", {
+const {vpc} = new VPCStack(stage, "VPCStack", {
   stackName: "VPCStack",
 });
 
 const apiStack = new ResourceStack(
   stage,
   "ResStack",
-  { vpc: vpcStack.vpc },
+  { vpc },
   {
     stackName: "ResourceStack",
   }

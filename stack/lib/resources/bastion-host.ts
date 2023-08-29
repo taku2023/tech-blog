@@ -1,4 +1,3 @@
-import { aws_ec2 } from "aws-cdk-lib";
 import {
   ISecurityGroup,
   IVpc,
@@ -7,7 +6,6 @@ import {
   InstanceSize,
   InstanceType,
   MachineImage,
-  SpotInstanceInterruption,
   SubnetType,
   UserData
 } from "aws-cdk-lib/aws-ec2";
@@ -47,14 +45,13 @@ export class BastionHost extends Construct {
     );
 
     this.ec2 = new Instance(this, "BastionHostEC2", {
-      instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
-      
+      instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),      
       vpc:props.vpc,
+      ssmSessionPermissions: true,
       vpcSubnets: {
-        subnetType: SubnetType.PRIVATE_ISOLATED,
+        subnetType: SubnetType.PUBLIC,
       },
-      machineImage: MachineImage.latestAmazonLinux({
-        generation: aws_ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
+      machineImage: MachineImage.latestAmazonLinux2({
         userData,
       }),
       role,

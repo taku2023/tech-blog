@@ -23,16 +23,20 @@ export class VPCStack extends Stack {
     const context = appContext(this);
     this.vpc = new Vpc(this, "MyVPC", {
       maxAzs: 2,
-      ipAddresses: IpAddresses.cidr("10.1.0.0/16"),
+      ipAddresses: IpAddresses.cidr("10.1.0.0/16"),     
       subnetConfiguration: [
         {
           cidrMask: 24,
           name: "PrivateSubnetGroup",
           subnetType: SubnetType.PRIVATE_ISOLATED,
         },
+        {
+          cidrMask: 24,
+          name: "PublicSubnetGroup",
+          subnetType: SubnetType.PUBLIC,          
+        },
       ],
     });
-
     if (context.mode == "dev") {
       this.enableVPCLog(this.vpc);
     }
@@ -40,14 +44,14 @@ export class VPCStack extends Stack {
     this.addEndpoint(this.vpc);
   }
 
-  private enableVPCLog(pc: Vpc) {
+  private enableVPCLog(vpc: Vpc) {
     const role = new Role(this, "CaptureLogRole", {
       assumedBy: new ServicePrincipal("vpc-flow-logs.amazonaws.com"),
     });
     const logGroup = new LogGroup(this, "VPCLogGroup");
 
     new FlowLog(this, "FlowLog", {
-      resourceType: FlowLogResourceType.fromVpc(this.vpc),
+      resourceType: FlowLogResourceType.fromVpc(vpc),
       destination: FlowLogDestination.toCloudWatchLogs(logGroup, role),
     });
   }
