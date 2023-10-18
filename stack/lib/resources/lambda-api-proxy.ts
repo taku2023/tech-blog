@@ -6,7 +6,7 @@ import * as path from "path";
 export class LambdaAPIProxy extends Construct {
   public readonly lambda: Function;
 
-  constructor(scope: Construct, id: string, vpc: IVpc) {
+  constructor(scope: Construct, id: string) {
     super(scope, id);
     this.lambda = new Function(this, "LambdaApiProxy", {
       runtime: Runtime.GO_1_X,
@@ -26,10 +26,6 @@ export class LambdaAPIProxy extends Construct {
         },
       }),
       handler: "main",
-      vpc,
-      vpcSubnets: {
-        subnetType: SubnetType.PRIVATE_ISOLATED,
-      },
     });
   }
 }

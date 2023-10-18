@@ -17,7 +17,7 @@ import {
 } from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 
-export class BastionHost extends Construct {
+export class EC2Server extends Construct {
   public readonly ec2: Instance;
   
   constructor(scope: Construct, id: string, props:{vpc: IVpc,securityGroup: ISecurityGroup}) {

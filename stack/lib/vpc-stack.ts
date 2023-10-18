@@ -42,6 +42,8 @@ export class VPCStack extends Stack {
     }
 
     this.addEndpoint(this.vpc);
+
+    //this.exportValue()
   }
 
   private enableVPCLog(vpc: Vpc) {

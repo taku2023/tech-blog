@@ -9,12 +9,12 @@ import { Bucket } from "aws-cdk-lib/aws-s3";
 import { StringParameter } from "aws-cdk-lib/aws-ssm";
 import { Construct } from "constructs";
 import { appContext } from "../bin/config";
-import { BastionHost } from "./resources/bastion-host";
 import { LambdaExtractProcess } from "./resources/extract-blog";
 import { LambdaAPIProxy } from "./resources/lambda-api-proxy";
 import { RDSWithProxy } from "./resources/rds-proxy";
 import { NotifyBlogBucket } from "./resources/s3-blog";
 import { WebFront } from "./resources/webfront";
+import { EC2Server } from "./resources/ec2-server";
 
 interface ShareResourceProps {
   vpc: IVpc;
@@ -62,21 +62,19 @@ export class ResourceStack extends Stack {
       actions: ["secretsmanager:GetSecretValue"],
       resources: [dbSecret.secretArn],
     });
-
     //bastion host access rds
-    const { ec2 } = new BastionHost(this, "BastionHost", {vpc,securityGroup:proxySG});
+
+    const { ec2 } = new EC2Server(this, "EC2Server", {vpc,securityGroup:proxySG});
     
     //APIProxy
     const { lambda: apiProxyHandler } = new LambdaAPIProxy(
       this,
       "APIProxy",
-      vpc
     );
 
     const { lambda: extractHandler } = new LambdaExtractProcess(
       this,
       "ExtractProcess",
-      vpc
     );
 
     const restApi = new LambdaRestApi(this, "BlogRestApi", {

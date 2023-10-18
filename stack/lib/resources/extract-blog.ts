@@ -8,16 +8,12 @@ import * as path from "path";
 export class LambdaExtractProcess extends Construct {
   public readonly lambda: Function;
 
-  constructor(scope: Construct, id: string, vpc: IVpc) {
+  constructor(scope: Construct, id: string) {
     super(scope, id);
 
     this.lambda = new Function(this, "LambdaExtract", {
       handler: "main",
       runtime: Runtime.GO_1_X,
-      vpc,
-      vpcSubnets: {
-        subnetType: SubnetType.PRIVATE_ISOLATED,
-      },
       code: Code.fromAsset(path.join(__dirname, "../../../lambda/notification"), {
         bundling: {
           image: Runtime.GO_1_X.bundlingImage,
