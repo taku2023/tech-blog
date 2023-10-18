@@ -4,7 +4,6 @@ import {
   FlowLogDestination,
   FlowLogResourceType,
   GatewayVpcEndpointAwsService,
-  InterfaceVpcEndpointAwsService,
   IpAddresses,
   SubnetType,
   Vpc,
@@ -58,27 +57,7 @@ export class VPCStack extends Stack {
     });
   }
 
-  private addEndpoint(vpc: Vpc) {
-    /**
-     * For access APIGateway from  aws services(lambda) within private subnet.
-     */
-    vpc.addInterfaceEndpoint("APIGatewayEndpoint", {
-      service: InterfaceVpcEndpointAwsService.APIGATEWAY,
-      subnets: {
-        subnetType: SubnetType.PRIVATE_ISOLATED,
-      },
-    });
-
-    /**
-     * For access Secret data from aws services(lambda,ec2,etc..)
-     */
-    vpc.addInterfaceEndpoint("SecretManagerEndpoint", {
-      service: InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
-      subnets: {
-        subnetType: SubnetType.PRIVATE_ISOLATED,
-      },
-    });
-    
+  private addEndpoint(vpc: Vpc) { 
     /**
      * For S3 access
      */

@@ -42,9 +42,6 @@ export class ResourceStack extends Stack {
       "RDSWithProxy",
       {
         vpc,
-        subnets: vpc.selectSubnets({
-          subnetType: SubnetType.PRIVATE_ISOLATED,
-        }),
       }
     );
 
@@ -64,7 +61,7 @@ export class ResourceStack extends Stack {
     });
     //bastion host access rds
 
-    const { ec2 } = new EC2Server(this, "EC2Server", {vpc,securityGroup:proxySG});
+    //const { ec2 } = new EC2Server(this, "EC2Server", {vpc,securityGroup:proxySG});
     
     //APIProxy
     const { lambda: apiProxyHandler } = new LambdaAPIProxy(

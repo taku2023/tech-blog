@@ -9,6 +9,7 @@ import {
   Port,
   SecurityGroup,
   SubnetSelection,
+  SubnetType,
 } from "aws-cdk-lib/aws-ec2";
 import {
   Credentials,
@@ -23,7 +24,6 @@ import { appContext } from "../../bin/config";
 
 interface VpcProps {
   vpc: IVpc;
-  subnets: SubnetSelection;
 }
 
 export class RDSWithProxy extends Construct {
@@ -50,7 +50,9 @@ export class RDSWithProxy extends Construct {
       credentials: Credentials.fromSecret(this.dbSecret),
       vpc: props.vpc,
       databaseName: this.databaseName,
-      vpcSubnets: props.subnets,
+      vpcSubnets: {
+        subnetType: SubnetType.PRIVATE_ISOLATED 
+      },
       instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MICRO),
       iamAuthentication: rds.iamAuthentication,
       removalPolicy: RemovalPolicy.DESTROY,      
@@ -58,10 +60,12 @@ export class RDSWithProxy extends Construct {
 
     this.proxySG = new SecurityGroup(this, "RDSProxySG", props);
     this.proxySG.addIngressRule(Peer.anyIpv4(), Port.tcp(3306));
-    this.proxy = dbInstance.addProxy("RDSProxy", {
+    this.proxy = dbInstance.addProxy("MyRDSProxy", {
       vpc: props.vpc,
       requireTLS: false, //TODO: true when prod
-      vpcSubnets: props.subnets,
+      vpcSubnets: {
+        subnetType: SubnetType.PUBLIC
+      },
       secrets: [this.dbSecret],
       securityGroups: [this.proxySG],      
       debugLogging: true,
