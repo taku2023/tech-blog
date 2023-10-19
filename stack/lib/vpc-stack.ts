@@ -6,7 +6,7 @@ import {
   GatewayVpcEndpointAwsService,
   IpAddresses,
   SubnetType,
-  Vpc,
+  Vpc
 } from "aws-cdk-lib/aws-ec2";
 import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { LogGroup } from "aws-cdk-lib/aws-logs";
@@ -41,8 +41,9 @@ export class VPCStack extends Stack {
     }
 
     this.addEndpoint(this.vpc);
-
-    //this.exportValue()
+    
+    this.vpc.publicSubnets.forEach(subnet=>this.exportValue(subnet.subnetId))
+    this.vpc.privateSubnets.forEach(subnet=>this.exportValue(subnet.subnetId))
   }
 
   private enableVPCLog(vpc: Vpc) {
