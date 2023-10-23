@@ -60,11 +60,11 @@ export class RDSWithProxy extends Construct {
 
     this.proxySG = new SecurityGroup(this, "RDSProxySG", props);
     this.proxySG.addIngressRule(Peer.anyIpv4(), Port.tcp(3306));
-    this.proxy = dbInstance.addProxy("MyRDSProxy", {
+    this.proxy = dbInstance.addProxy("RDSProxy", {
       vpc: props.vpc,
       requireTLS: false, //TODO: true when prod
       vpcSubnets: {
-        subnetType: SubnetType.PUBLIC
+        subnetType: SubnetType.PRIVATE_ISOLATED
       },
       secrets: [this.dbSecret],
       securityGroups: [this.proxySG],      

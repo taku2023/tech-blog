@@ -1,20 +1,18 @@
 import { RemovalPolicy, Stack, StackProps } from "aws-cdk-lib";
 import { EndpointType, LambdaRestApi } from "aws-cdk-lib/aws-apigateway";
-import { IVpc, SubnetType } from "aws-cdk-lib/aws-ec2";
+import { IVpc } from "aws-cdk-lib/aws-ec2";
 //import { GoFunction } from "aws-cdk-lib/aws-lambda";
-import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { ARecord, HostedZone, RecordTarget } from "aws-cdk-lib/aws-route53";
 import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
 import { Bucket } from "aws-cdk-lib/aws-s3";
 import { StringParameter } from "aws-cdk-lib/aws-ssm";
 import { Construct } from "constructs";
 import { appContext } from "../bin/config";
+import { AthenaDatabase } from "./resources/athena-db";
 import { LambdaExtractProcess } from "./resources/extract-blog";
 import { LambdaAPIProxy } from "./resources/lambda-api-proxy";
-import { RDSWithProxy } from "./resources/rds-proxy";
 import { NotifyBlogBucket } from "./resources/s3-blog";
 import { WebFront } from "./resources/webfront";
-import { EC2Server } from "./resources/ec2-server";
 
 interface ShareResourceProps {
   vpc: IVpc;
@@ -23,46 +21,18 @@ interface ShareResourceProps {
 export class ResourceStack extends Stack {
   //public readonly restApi: RestApi;
   //public readonly proxy: DatabaseProxy;
-  //public readonly lambda: Function;
+  //public readonly lambda: Fu
 
   constructor(
     scope: Construct,
     id: string,
-    { vpc }: ShareResourceProps,
     props?: StackProps
   ) {
     super(scope, id, props);
     const { domainName, ssm,gateway } = appContext(this);
 
-    /**
-     * RDS
-     */
-    const { proxy, dbSecret, databaseName ,proxySG} = new RDSWithProxy(
-      this,
-      "RDSWithProxy",
-      {
-        vpc,
-      }
-    );
+    const {dataBucket,outputBucket,workgroup,table} = new AthenaDatabase(this,"AthenaDatabase")
 
-    /**
-     * ReadWrite RDS policy
-     */
-    const readWriteRDSPolicy = new PolicyStatement({
-      actions: ["rds-db:connect"],
-      resources: [proxy.dbProxyArn],
-    });
-    /**
-     * Read SSM
-     */
-    const readSSMPolicy = new PolicyStatement({
-      actions: ["secretsmanager:GetSecretValue"],
-      resources: [dbSecret.secretArn],
-    });
-    //bastion host access rds
-
-    //const { ec2 } = new EC2Server(this, "EC2Server", {vpc,securityGroup:proxySG});
-    
     //APIProxy
     const { lambda: apiProxyHandler } = new LambdaAPIProxy(
       this,
@@ -103,7 +73,7 @@ export class ResourceStack extends Stack {
     });
 
     //set proxy endpoint env for lambda connection
-    proxy.grantConnect(apiProxyHandler);
+    /*proxy.grantConnect(apiProxyHandler);
     apiProxyHandler.addToRolePolicy(readWriteRDSPolicy);
     apiProxyHandler.addToRolePolicy(readSSMPolicy);
     apiProxyHandler.addEnvironment("endpoint", proxy.endpoint);
@@ -118,7 +88,7 @@ export class ResourceStack extends Stack {
     extractHandler.addEnvironment("secret", dbSecret.secretName);
     extractHandler.addEnvironment("username", "admin");
     extractHandler.addEnvironment("dbname", databaseName);
-
+    */
     //WEB
     const hostedZone = HostedZone.fromLookup(this, "HostZone", {
       domainName: domainName,

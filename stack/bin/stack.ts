@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import * as cdk from "aws-cdk-lib";
 import { ResourceStack } from "../lib/resource-stack";
-import { VPCStack } from "../lib/vpc-stack";
 
 const app = new cdk.App();
 
@@ -13,14 +12,9 @@ const stage = new cdk.Stage(app, mode, {
   },
 });
 
-const {vpc} = new VPCStack(stage, "VPCStack", {
-  stackName: "VPCStack",
-});
-
-const apiStack = new ResourceStack(
+new ResourceStack(
   stage,
   "ResStack",
-  { vpc },
   {
     stackName: "ResourceStack",
   }

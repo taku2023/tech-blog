@@ -19,7 +19,12 @@ type Stage = {
     htmlBucket: string;
     blogBucket: string;
     distribution: string
-  };
+  },
+  athena:{
+    tableName: string;
+    databaseName:string
+    workGroup:string
+  }
 };
 
 type AppProps = {
@@ -55,5 +60,10 @@ export const appContext = (app: Construct): AppProps => {
       blogBucket: "/tech-blog/buckets/blog-bucket",
       distribution: `/teck-blog/${mode}/distribution`
     },
+    athena:{
+      tableName: `blog_${mode}`,
+      databaseName: `blog_${mode}_db`,
+      workGroup: `blog`,
+    }
   };
 };
