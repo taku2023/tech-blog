@@ -1,6 +1,6 @@
 ---
 title: CDK best practice to deploy multi stages with each configuration.
-description: Best way to split resources and handle configuration. 
+description: Best way to split resources and handle configuration.
 date: 2023-07-25T01:05:00+09:00
 categories: [AWS,CDK,Typescript]
 keywords: [cdk,deploy]
