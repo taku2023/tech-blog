@@ -23,13 +23,13 @@ export class MyTable extends Construct{
       writeCapacity: 1,
       
     })
-    table.addLocalSecondaryIndex({
+    /*table.addLocalSecondaryIndex({
       sortKey:{
         name: 'LSI1SK',
         type: AttributeType.STRING
       },
       indexName: 'LSI1'
-    })
+    })*/
     this.table = table
   }
 }

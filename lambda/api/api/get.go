@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"time"
-
+	
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
@@ -39,16 +38,16 @@ func (client *DynamoClient) GetBlog(c *gin.Context) (*Blog, *HTTPError) {
 	return &blog, nil
 }
 
-// blogs?start="YYYY-MM-DD"&&end="YYYY-MM-DD&&limit=10"
+// blogs?limit=10"
 func (client *DynamoClient) GetBlogs(c *gin.Context) ([]Blog, *HTTPError) {
 	var err error
 
 	var params struct {
-		Start time.Time
-		End   time.Time
+		//Start time.Time
+		//End   time.Time
 		Limit int
 	}
-	if start, exists := c.GetQuery("start"); exists {
+	/*if start, exists := c.GetQuery("start"); exists {
 		if params.Start, err = time.Parse(start, time.RFC3339); err != nil {
 			return nil, &HTTPError{error: err, Code: http.StatusBadRequest}
 		}
@@ -61,7 +60,7 @@ func (client *DynamoClient) GetBlogs(c *gin.Context) ([]Blog, *HTTPError) {
 		}
 	} else {
 		params.End, _ = time.Parse(time.RFC3339, "2999-12-31")
-	}
+	}*/
 	if limit, exists := c.GetQuery("limit"); exists {
 		if params.Limit, err = strconv.Atoi(limit); err != nil {
 			return nil, &HTTPError{error: err, Code: http.StatusBadRequest}
@@ -71,17 +70,10 @@ func (client *DynamoClient) GetBlogs(c *gin.Context) ([]Blog, *HTTPError) {
 		TableName: &client.TableName,
 		ExpressionAttributeValues: map[string]types.AttributeValue{
 			":pk": &types.AttributeValueMemberS{
-				Value: "TYPE#Blogs",
-			},
-			":start": &types.AttributeValueMemberS{
-				Value: params.Start.Format(time.RFC3339),
-			},
-			":end": &types.AttributeValueMemberS{
-				Value: params.Start.Format(time.RFC3339),
+				Value: "TYPE#Blog",
 			},
 		},
-		IndexName:              aws.String("LIS1"),
-		KeyConditionExpression: aws.String("PK = :pk_name AND LSI1SK BETWEEN :start AND :end"),
+		KeyConditionExpression: aws.String("PK = :pk"),
 		Limit:                  aws.Int32(int32(params.Limit)),
 	})
 	if err != nil {

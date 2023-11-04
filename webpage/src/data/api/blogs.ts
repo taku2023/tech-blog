@@ -45,7 +45,7 @@ const getCategories: () => Promise<{ categories: string[] }> = async () => {
 const getBlogs: (limit?: number) => Promise<{ blogs: Summary[] }> = async (
   limit
 ) => {
-  const url = "blogs" + limit ? `?limit=${limit}` : ""
+  const url = "blogs" + (limit ? `?limit=${limit}` : "")
   const { data, status } = await client.get<{ blogs: Summary[] }>(url)
   return data
 }
