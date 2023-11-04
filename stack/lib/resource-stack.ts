@@ -1,28 +1,19 @@
 import { RemovalPolicy, Stack, StackProps } from "aws-cdk-lib";
 import { EndpointType, LambdaRestApi } from "aws-cdk-lib/aws-apigateway";
-import { IVpc } from "aws-cdk-lib/aws-ec2";
-//import { GoFunction } from "aws-cdk-lib/aws-lambda";
 import { ARecord, HostedZone, RecordTarget } from "aws-cdk-lib/aws-route53";
 import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
 import { Bucket } from "aws-cdk-lib/aws-s3";
 import { StringParameter } from "aws-cdk-lib/aws-ssm";
 import { Construct } from "constructs";
 import { appContext } from "../bin/config";
-import { AthenaDatabase } from "./resources/athena-db";
 import { LambdaExtractProcess } from "./resources/extract-blog";
 import { LambdaAPIProxy } from "./resources/lambda-api-proxy";
 import { NotifyBlogBucket } from "./resources/s3-blog";
 import { WebFront } from "./resources/webfront";
-
-interface ShareResourceProps {
-  vpc: IVpc;
-}
+import {MyTable} from "./resources/dynamo"
 
 export class ResourceStack extends Stack {
-  //public readonly restApi: RestApi;
-  //public readonly proxy: DatabaseProxy;
-  //public readonly lambda: Fu
-
+  
   constructor(
     scope: Construct,
     id: string,
@@ -31,14 +22,16 @@ export class ResourceStack extends Stack {
     super(scope, id, props);
     const { domainName, ssm,gateway } = appContext(this);
 
-    const {dataBucket,outputBucket,workgroup,table} = new AthenaDatabase(this,"AthenaDatabase")
-
+    //const athena = new AthenaDatabase(this,"AthenaDatabase")
+    const {table} = new MyTable(this,"DynamoDBTable")
+    
     //APIProxy
     const { lambda: apiProxyHandler } = new LambdaAPIProxy(
       this,
       "APIProxy",
     );
 
+    //extract blog info from sourcebucket
     const { lambda: extractHandler } = new LambdaExtractProcess(
       this,
       "ExtractProcess",
@@ -72,23 +65,11 @@ export class ResourceStack extends Stack {
       target: extractHandler,
     });
 
-    //set proxy endpoint env for lambda connection
-    /*proxy.grantConnect(apiProxyHandler);
-    apiProxyHandler.addToRolePolicy(readWriteRDSPolicy);
-    apiProxyHandler.addToRolePolicy(readSSMPolicy);
-    apiProxyHandler.addEnvironment("endpoint", proxy.endpoint);
-    apiProxyHandler.addEnvironment("secret", dbSecret.secretName);
-    apiProxyHandler.addEnvironment("username", "admin");
-    apiProxyHandler.addEnvironment("dbname", databaseName);
-    //set proxy endpoint env for lambda connection
-    proxy.grantConnect(extractHandler);
-    extractHandler.addToRolePolicy(readWriteRDSPolicy);
-    extractHandler.addToRolePolicy(readSSMPolicy);
-    extractHandler.addEnvironment("endpoint", proxy.endpoint);
-    extractHandler.addEnvironment("secret", dbSecret.secretName);
-    extractHandler.addEnvironment("username", "admin");
-    extractHandler.addEnvironment("dbname", databaseName);
-    */
+    extractHandler.addEnvironment('tablename',table.tableName)
+    table.grantReadWriteData(extractHandler)
+    apiProxyHandler.addEnvironment("tablename",table.tableName)
+    table.grantReadData(apiProxyHandler)
+
     //WEB
     const hostedZone = HostedZone.fromLookup(this, "HostZone", {
       domainName: domainName,

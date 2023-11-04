@@ -22,7 +22,6 @@ type Stage = {
   },
   athena:{
     tableName: string;
-    databaseName:string
     workGroup:string
   }
 };
@@ -61,9 +60,8 @@ export const appContext = (app: Construct): AppProps => {
       distribution: `/teck-blog/${mode}/distribution`
     },
     athena:{
-      tableName: `blog_${mode}`,
-      databaseName: `blog_${mode}_db`,
-      workGroup: `blog`,
+      tableName: "blogs",
+      workGroup: "blog",
     }
   };
 };

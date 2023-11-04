@@ -27,7 +27,7 @@ const Header = () => {
     contact: false,
   })
 
-  const [showModal, setShowModal] = useState(false)
+  //const [showModal, setShowModal] = useState(false)
 
   /**
    * detect click outside of toggleIcon
@@ -97,14 +97,14 @@ const Header = () => {
               </PopupMenu>
             </span>
           </span>
-          <span
+          {/*<span
             className="icon material-symbols-outlined is-clickable ml-auto"
             onClick={() => setShowModal(true)}
           >
             search
-          </span>
+              </span>*/}
           <span
-            className="icon material-symbols-outlined is-clickable"
+            className="icon material-symbols-outlined is-clickable ml-auto"
             onClick={(_) => changeTheme()}
           >{`${theme}_mode`}</span>
           <span
@@ -160,9 +160,10 @@ const Header = () => {
           </div>
         </section>
       </header>
-      <ModalLayout state={[showModal, setShowModal]}>
+      {/*<ModalLayout state={[showModal, setShowModal]}>
         <SearchBox></SearchBox>
       </ModalLayout>
+              */}
     </>
   )
 }

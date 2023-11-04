@@ -1,6 +1,6 @@
 import { Avatar } from "@/components/atom/Avatar"
 import Thumbnail from "@/components/organism/Thumbnail"
-import { Summary, getLatestBlogs } from "@/data/api/blogs"
+import { Summary, getBlogs } from "@/data/api/blogs"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import "./Top.scss"
@@ -9,7 +9,7 @@ const Top = () => {
   const [blogs, setBlogs] = useState<Summary[]>([])
 
   useEffect(() => {
-    getLatestBlogs().then(({ blogs }) => {
+    getBlogs().then(({ blogs }) => {
       setBlogs((_) => blogs)
     })
   }, [])

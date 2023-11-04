@@ -42,12 +42,11 @@ const getCategories: () => Promise<{ categories: string[] }> = async () => {
   return data
 }
 
-const getLatestBlogs: (
-  limit?: number
-) => Promise<{ blogs: Summary[] }> = async (limit = 6) => {
-  const { data, status } = await client.get<{ blogs: Summary[] }>(
-    `blogs/latest?limit=${limit}`
-  )
+const getBlogs: (limit?: number) => Promise<{ blogs: Summary[] }> = async (
+  limit
+) => {
+  const url = "blogs" + limit ? `?limit=${limit}` : ""
+  const { data, status } = await client.get<{ blogs: Summary[] }>(url)
   return data
 }
 
@@ -61,4 +60,4 @@ const download: (dir: string) => Promise<string> = async (dir) => {
   }
 }
 
-export { download, get, getCategories, getLatestBlogs, search, type Summary }
+export { download, get, getCategories, getBlogs, search, type Summary }

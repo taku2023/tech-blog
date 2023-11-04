@@ -3,27 +3,45 @@ package main
 import (
 	"context"
 	"log"
+	"net/http"
+	"os"
+	"techblog/api-proxy/api"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-gonic/gin"
-	"github.com/taku2023/tech-blog/api"
 )
 
 var ginLambda *ginadapter.GinLambda
+var client *api.DynamoClient = api.NewDynamoClient(os.Getenv("tablename"))
 
-func ginRouter(client api.Api) *gin.Engine {
+
+func ginRouter() *gin.Engine {
 	r := gin.Default()
-	//blogs title is unique(it should be)
-	r.GET("/blogs/:dir", client.GetBlog)
-	r.GET("/blogs", client.SearchBlogs)
-	r.GET("/blogs/latest",client.GetLatestBlogs)
-	r.GET("/categories", client.GetCategories)
-	r.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "hello",
-		})
+
+	r.GET("/blogs/:dir", func(ctx *gin.Context) {
+		if blog, err := client.GetBlog(ctx); err != nil {
+			ctx.JSON(err.Code, gin.H{
+				"error": err.Error(),
+			})
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{
+				"blog": blog,
+			})
+		}
+	})
+
+	r.GET("/blogs", func(ctx *gin.Context) {
+		if blogs, err := client.GetBlogs(ctx); err != nil {
+			ctx.JSON(err.Code,gin.H{
+				"error": err.Error(),
+			})
+		}else{
+			ctx.JSON(http.StatusOK,gin.H{
+				"blogs": blogs,
+			})
+		}
 	})
 	return r
 }
@@ -31,7 +49,7 @@ func ginRouter(client api.Api) *gin.Engine {
 func init() {
 	// stdout and stderr are sent to AWS CloudWatch Logs
 	log.Printf("Gin cold start")
-	r := ginRouter(api.NewClient())
+	r := ginRouter()
 	ginLambda = ginadapter.New(r)
 }
 

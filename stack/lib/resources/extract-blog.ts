@@ -23,7 +23,7 @@ export class LambdaExtractProcess extends Construct {
             "-c",
             [
               "cd /asset-input",
-              "go build -o main main.go",
+              "GOOS=linux GOARCH=amd64 go build -o main main.go",
               "mv /asset-input/main /asset-output",
             ].join(" && "),
           ],
