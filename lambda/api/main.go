@@ -19,19 +19,6 @@ var client *api.DynamoClient = api.NewDynamoClient(os.Getenv("tablename"))
 
 func ginRouter() *gin.Engine {
 	r := gin.Default()
-
-	r.GET("/blogs/:dir", func(ctx *gin.Context) {
-		if blog, err := client.GetBlog(ctx); err != nil {
-			ctx.JSON(err.Code, gin.H{
-				"error": err.Error(),
-			})
-		} else {
-			ctx.JSON(http.StatusOK, gin.H{
-				"blog": blog,
-			})
-		}
-	})
-
 	r.GET("/blogs", func(ctx *gin.Context) {
 		if blogs, err := client.GetBlogs(ctx); err != nil {
 			ctx.JSON(err.Code,gin.H{
@@ -40,6 +27,17 @@ func ginRouter() *gin.Engine {
 		}else{
 			ctx.JSON(http.StatusOK,gin.H{
 				"blogs": blogs,
+			})
+		}
+	})
+	r.GET("/blogs/:dir", func(ctx *gin.Context) {
+		if blog, err := client.GetBlog(ctx); err != nil {
+			ctx.JSON(err.Code, gin.H{
+				"error": err.Error(),
+			})
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{
+				"blog": blog,
 			})
 		}
 	})

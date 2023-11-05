@@ -4,8 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strconv"
-	
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
@@ -41,47 +39,24 @@ func (client *DynamoClient) GetBlog(c *gin.Context) (*Blog, *HTTPError) {
 // blogs?limit=10"
 func (client *DynamoClient) GetBlogs(c *gin.Context) ([]Blog, *HTTPError) {
 	var err error
-
-	var params struct {
-		//Start time.Time
-		//End   time.Time
-		Limit int
-	}
-	/*if start, exists := c.GetQuery("start"); exists {
-		if params.Start, err = time.Parse(start, time.RFC3339); err != nil {
-			return nil, &HTTPError{error: err, Code: http.StatusBadRequest}
-		}
-	} else {
-		params.Start, _ = time.Parse(time.RFC3339, "2023-06-01")
-	}
-	if end, exists := c.GetQuery("end"); exists {
-		if params.End, err = time.Parse(end, time.RFC3339); err != nil {
-			return nil, &HTTPError{error: err, Code: http.StatusBadRequest}
-		}
-	} else {
-		params.End, _ = time.Parse(time.RFC3339, "2999-12-31")
-	}*/
-	if limit, exists := c.GetQuery("limit"); exists {
-		if params.Limit, err = strconv.Atoi(limit); err != nil {
-			return nil, &HTTPError{error: err, Code: http.StatusBadRequest}
-		}
-	}
 	results, err := client.Query(context.TODO(), &dynamodb.QueryInput{
 		TableName: &client.TableName,
 		ExpressionAttributeValues: map[string]types.AttributeValue{
 			":pk": &types.AttributeValueMemberS{
 				Value: "TYPE#Blog",
 			},
+			":sk": &types.AttributeValueMemberS{
+				Value: "DIR#",
+			},
 		},
-		KeyConditionExpression: aws.String("PK = :pk"),
-		Limit:                  aws.Int32(int32(params.Limit)),
+		KeyConditionExpression: aws.String("PK = :pk AND begins_with( SK , :sk )"),
 	})
 	if err != nil {
 		return nil, &HTTPError{error: err, Code: http.StatusInternalServerError}
 	}
 	var blogs []Blog
 	if err := attributevalue.UnmarshalListOfMaps(results.Items, &blogs); err != nil {
-		fmt.Printf("error unmarshal: %v\n", err)
+		fmt.Printf("error unmarshal: %v\n", err      )
 		return nil, &HTTPError{error: err, Code: http.StatusInternalServerError}
 	}
 	return blogs, nil
