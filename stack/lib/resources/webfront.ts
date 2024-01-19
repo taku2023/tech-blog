@@ -124,7 +124,7 @@ export class WebFront extends Construct {
           origin: new RestApiOrigin(restApi),
           compress: true,
           allowedMethods: AllowedMethods.ALLOW_ALL,
-          originRequestPolicy: OriginRequestPolicy.ALL_VIEWER,
+          originRequestPolicy: OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
           cachePolicy: CachePolicy.CACHING_DISABLED, //recommended for api gateway
           edgeLambdas: [
             {

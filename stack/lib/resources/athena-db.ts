@@ -7,7 +7,7 @@ import { Bucket, IBucket } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
 import { appContext } from "../../bin/config";
 
-
+//@depricated
 export class AthenaDatabase extends Construct{
 
   public readonly database: glue_alpha.Database

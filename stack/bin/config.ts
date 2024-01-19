@@ -35,7 +35,7 @@ type AppProps = {
 export const appContext = (app: Construct): AppProps => {
   const mode = app.node.getContext("mode") as 'dev'|'prod';
   const { accountId, region } = new ScopedAws(app);
-  const domainName = 'moritakuaki.com'
+  const domainName = 'mori-taku.com'
 
   return {
     mode,

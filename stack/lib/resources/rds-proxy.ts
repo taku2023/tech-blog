@@ -26,6 +26,7 @@ interface VpcProps {
   vpc: IVpc;
 }
 
+//@depricated
 export class RDSWithProxy extends Construct {
   public readonly dbSecret: DatabaseSecret;
   public readonly proxy: DatabaseProxy;
