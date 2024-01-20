@@ -35,6 +35,14 @@
         "to": "2022"
       },
       "tags": ["Vuejs", "typescript", "AWS"]
+    },
+    {
+      "title": "Chef developer of legal service",
+      "description": "I was charged for main developer of legal service named Legaledge. In 2023 I focus on upgrade service level, tolerance, and making project rules. I also changed log system from batch to stream like, using fluentbit as forwarder to kinesis, s3, and elasticsearch.",
+      "dates":{
+        "from":"2023",
+        "to": "current"
+      }
     }
   ],
   "languages": [
