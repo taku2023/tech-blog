@@ -2,7 +2,9 @@ name: website-hosting
 run-name: Build+Test ./webpage and push to S3 (static hosting)
 on:
   push:
-    branches: ["develop"]
+    branches: ["main"]
+    paths:
+      - "webpage/**"
 
 env:
   AWS_REGION: ap-northeast-1
