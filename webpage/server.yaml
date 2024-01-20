@@ -101,7 +101,7 @@ paths:
                 $ref: "#/components/schemas/Blog"
 
 servers:
-  - url: https://moritakuaki.com/__api__
+  - url: https://mori-taku.com/__api__
     description: Stage Server
   - url: https://localhost:4010/
     description: Mock server

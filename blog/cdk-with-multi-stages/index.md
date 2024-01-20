@@ -18,7 +18,7 @@ For people not familiar with CDK, here's my sample code representing an EC2 inst
 
 
 
-![AWS Resources image](https://moritakuaki.com/__blogs__/cdk-with-multi-stages/images/cdk-sample.png)
+![AWS Resources image](https://mori-taku.com/__blogs__/cdk-with-multi-stages/images/cdk-sample.png)
 
 
 ```typescript

@@ -7,7 +7,7 @@ I started to write teck blog focus on code readability, testability, and how to 
 I love to creae web application from zero to one, curious to learn great language and background culture.
 
 ### What is this repo ?
-This is repo of my website https://moritakuaki.com
+This is repo of my website https://mori-taku.com
 
 ### Local env
 - `cd webpage/`

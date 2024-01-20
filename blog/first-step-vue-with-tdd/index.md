@@ -37,7 +37,7 @@ const plusOne = (_: any) => {
 }
 </style>
 ```
-![Counter animation](https://moritakuaki.com/__blogs__/first-step-vue-with-tdd/images/vue-counter.gif)
+![Counter animation](https://mori-taku.com/__blogs__/first-step-vue-with-tdd/images/vue-counter.gif)
 
 
 Type `npm create vue@latest` in terminal, then you are presented several prompts to choose options such as typescript, testing framework, and state library. After you choose all options, CLI automatically prepares Scafforld project.
@@ -79,7 +79,7 @@ Look at the image below, I consider very simple login form meets the condition t
 6. Server checks whether user exists and show `user not found` if doesn't.
 
 The Final Image we'll make is here :) Very simple! 
-![Login form](https://moritakuaki.com/__blogs__/first-step-vue-with-tdd/images/login-form.png)
+![Login form](https://mori-taku.com/__blogs__/first-step-vue-with-tdd/images/login-form.png)
 
 ## 2. How to test Vue.js
 You know there are different test types and categories. I don't explain further, and simply list 3 categories of tests and how to do it.
@@ -181,7 +181,7 @@ describe("Email", () => {
 
 Running 1st test and failed, with output <font color="red">`ReferenceError: EmailAddress is not defined`</font>. Of course we don't have `EmailAddrss.ts`! Using vscode and plugin installed, you may see below.
 
-![Vitest failed](https://moritakuaki.com/__blogs__/first-step-vue-with-tdd/images/first-test-failed.png)
+![Vitest failed](https://mori-taku.com/__blogs__/first-step-vue-with-tdd/images/first-test-failed.png)
 
 
 ### 4. Pass the first unit test.
@@ -639,7 +639,7 @@ I use [__Cypress__](https://docs.cypress.io/guides/overview/why-cypress) for E2E
 
 I don't explain cypress APIs, but it's so simple and intuitive like this.
 
-![Cypress Instruction](https://moritakuaki.com/__blogs__/first-step-vue-with-tdd/images/cypress-starter.png)
+![Cypress Instruction](https://mori-taku.com/__blogs__/first-step-vue-with-tdd/images/cypress-starter.png)
 
 #### Specitications
 Now you should remember what to test for E2E, and we discussed on chapter 8 titled "Login Page test". I listed below.
@@ -892,7 +892,7 @@ Check both server is running on exactly same port. If not, E2E test should faile
 Ready to go ? 
 Type __`npx cypress open`__ to start API server is running, and choose E2E test, and waits a second...
 
-![Cypress recording](https://moritakuaki.com/__blogs__/first-step-vue-with-tdd/images/cypress-record.mp4)
+![Cypress recording](https://mori-taku.com/__blogs__/first-step-vue-with-tdd/images/cypress-record.mp4)
 
 All tests are passed !! 
 Of course every unit tests and component tests are passed evenly.
