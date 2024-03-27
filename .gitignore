@@ -2,10 +2,6 @@
 *.log
 npm-debug.log*
 
-#npm
-node_modules
-dist
-
 #local
 *.local
 
