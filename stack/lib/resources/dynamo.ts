@@ -1,5 +1,5 @@
 import { RemovalPolicy } from "aws-cdk-lib";
-import { AttributeType, Table, TableClass, ITableV2 } from "aws-cdk-lib/aws-dynamodb";
+import { AttributeType, Table, TableClass, ITableV2, BillingMode } from "aws-cdk-lib/aws-dynamodb";
 import { Construct } from "constructs";
 
 export class MyTable extends Construct{
@@ -19,17 +19,8 @@ export class MyTable extends Construct{
         type: AttributeType.STRING
       },  
       removalPolicy: RemovalPolicy.DESTROY,
-      readCapacity: 2,
-      writeCapacity: 1,
-      
+      billingMode: BillingMode.PAY_PER_REQUEST
     })
-    /*table.addLocalSecondaryIndex({
-      sortKey:{
-        name: 'LSI1SK',
-        type: AttributeType.STRING
-      },
-      indexName: 'LSI1'
-    })*/
     this.table = table
   }
 }
