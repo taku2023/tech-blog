@@ -47,6 +47,8 @@ const getBlogs: (limit?: number) => Promise<{ blogs: Summary[] }> = async (
 ) => {
   const url = "blogs" + (limit ? `?limit=${limit}` : "")
   const { data, status } = await client.get<{ blogs: Summary[] }>(url)
+  //TODO: sort by create_at with time type
+  data.blogs.sort((a, b) => (a.create_at > b.create_at ? -1 : 1))
   return data
 }
 

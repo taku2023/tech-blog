@@ -8,12 +8,6 @@ paths:
     get:
       summary: Get a list of blogs
       tags: [Blogs]
-      parameters:
-        - name: search
-          in: query
-          required: true
-          schema:
-            type: string
       responses:
         "200":
           description:
@@ -26,6 +20,19 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Summary"
+                    example:
+                      - s3_dir: Rust-like-result-in-typescript
+                        title: Smart error handling
+                        categories: [test]
+                        keywords: [architecture, andorid]
+                        createAt: 2022-08-24T00:00:00+09:00
+                        viewer: 0
+                      - s3_dir: Hello new project
+                        title: If you don't know what to do, start a new project
+                        categories: [test]
+                        keywords: [beginner]
+                        createAt: 2022-08-20T00:00:00+09:00
+                        viewer: 0
 
   /__api__/blogs/latest:
     get:
